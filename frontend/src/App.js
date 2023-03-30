@@ -15,6 +15,7 @@ import Dashboard from './pages/admin/Dashboard';
 
 import NotFound from './pages/NotFound';
 import Rewards from './pages/client/Rewards';
+import Leaderboards from './pages/client/Leaderboards';
 
 
 function App() {
@@ -31,7 +32,8 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/about' element={<About />} />
         <Route path='/reward-category' element={<RewardCategory />} />
-        <Route path='/rewards/:id' element={<Rewards />} />
+        <Route path='/rewards' element={<Rewards />} />
+        <Route path='/leaderboards' element={<Leaderboards />} />
       </Route>
 
       {/* Admin Page 
