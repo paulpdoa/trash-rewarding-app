@@ -9,13 +9,15 @@ import Login from './pages/client/Login';
 import Profile from './pages/client/Profile';
 import Register from './pages/client/Register';
 import RewardCategory from './pages/client/RewardCategory';
+import Rewards from './pages/client/Rewards';
+import Leaderboards from './pages/client/Leaderboards';
+import History from './pages/client/History';
 
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard';
 
 import NotFound from './pages/NotFound';
-import Rewards from './pages/client/Rewards';
-import Leaderboards from './pages/client/Leaderboards';
+
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
         <Route path='/reward-category' element={<RewardCategory />} />
         <Route path='/rewards' element={<Rewards />} />
         <Route path='/leaderboards' element={<Leaderboards />} />
+        <Route path='/history' element={<History />} />
       </Route>
 
       {/* Admin Page 

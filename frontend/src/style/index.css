@@ -20,3 +20,14 @@
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
 }
+
+/* Leaderboards */
+.leaderboard__bg {
+  background: rgb(166,215,149);
+  background: linear-gradient(180deg, rgba(166,215,149,1) 0%, rgba(132,221,79,1) 12%, rgba(214,250,232,1) 90%);
+}
+
+/* To change qr box scanner */
+.qr-box > section > div {
+  box-shadow: white 0px 0px 0px 3px inset !important;
+}

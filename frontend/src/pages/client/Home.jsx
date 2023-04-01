@@ -6,22 +6,33 @@ import { AiOutlineDollarCircle,AiOutlineClockCircle } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { RiRecycleLine } from 'react-icons/ri'
 
-
 const Home = () => {
 
     const [points,setPoints] = useState(11220);
-    const [user,setUser] = useState('paul')
+    const [user,setUser] = useState('paul');
+
+    const [showMenu,setShowMenu] = useState(false);
 
     //Formatting of number
     let pointFormat = new Intl.NumberFormat().format(points);
     //Formatting of user first letter to be capital letter
     let usernameFormat = user[0].toUpperCase() + user.slice(1,user.length);
 
+    const logoutUser = () => {
+        console.log('Logging off user')
+    }
+
     return (
         <div className="h-screen w-full home__bg">
-            <div className="flex items-center text-white text-2xl gap-2 p-2">
-                <RiRecycleLine />
+            <div className="flex items-center relative text-white text-2xl gap-2 p-2">
+                <RiRecycleLine onClick={() => setShowMenu(!showMenu)} />
                 <Link to='/profile' className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</Link>
+                {/* Show this menu when button is clicked */}
+                { showMenu &&  
+                    <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800">
+                        <li onClick={logoutUser} className="w-full p-2">Logout</li>
+                    </ul> 
+                }
             </div>
             <div className="text-gray-100 flex items-center gap-2 mt-10 flex-col justify-center">
                 <span className="text-sm">Trash Points</span>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import provinces from '../../json/refprovince.json';
 import barangays from '../../json/refbrgy.json';
 import cities from '../../json/refcitymun.json';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
@@ -25,20 +25,28 @@ const Register = () => {
     const [provCode,setProvCode] = useState('');  
     const [cityCode,setCityCode] = useState('');
 
+    const navigate = useNavigate();
 
-    const registerUser = (e) => {
+    const registerUser = async (e) => {
         e.preventDefault();
 
         if(email === '') {
             alert('Email cannot be null')
         } else {
-            // try {
-            //     const data = axios.post('/',{  })
-            // } 
-            // catch(err) {
-
-            // }
-            console.log('Registered Successfully!');
+            try {
+                const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, region, province, city, barangay }
+                const postUser = await axios.post('http://localhost:8000/user',data);
+                if(postUser.status === 200) {
+                    alert(postUser.data.mssg);
+                    navigate('/');
+                } else {
+                    alert('User is not registered successfully');
+                }
+            } 
+            catch(err) {
+                console.log(err);
+                alert(err.response.data.mssg);
+            }
         }
     }
 
@@ -68,6 +76,8 @@ const Register = () => {
     const validateFirstStep = () => {
         if(fn === '') {
             alert('First name cannot be null');
+        } else if(fn.length < 1) {
+            alert('First name cannot be less than 1 character');
         } else if(ln === '') {
             alert('Last name cannot be null');
         } else if(mn === '') {
