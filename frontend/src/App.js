@@ -15,8 +15,11 @@ import History from './pages/client/History';
 
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard';
+import AdminLogin from './pages/admin/AdminLogin'
 
 import NotFound from './pages/NotFound';
+import AdminLeaderboard from './pages/admin/AdminLeaderboard';
+import PointsRewards from './pages/admin/PointsRewards';
 
 
 
@@ -26,6 +29,8 @@ function App() {
     <Routes>
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
+
+      <Route path='/admin-login' element={<AdminLogin />} />
 
       {/* User Page
       NOTE: Mobile View only for Users */}
@@ -42,7 +47,9 @@ function App() {
       {/* Admin Page 
       NOTE: Mobile View and Desktop View */}
       <Route element={<AdminLayout />}>
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/admin/dashboard' element={<Dashboard/>} />
+        <Route path='/admin/leaderboard' element={<AdminLeaderboard />} />
+        <Route path='/admin/give-points-rewards' element={<PointsRewards />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />
