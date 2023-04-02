@@ -18,10 +18,10 @@ const PointsRewards = () => {
 
         if(points !== '') {
             setShowQr(true);
-            console.log('true');
         }
     }
 
+    // Create function to hide qr when input box is empty
     const handlePointChange = (point) => {
         setPoints(point)
 

@@ -23,22 +23,24 @@ module.exports.user_get = async (req,res) => {
     }
 }
 
-module.exports.user_post = async (req,res) => {
+module.exports.user_post = (req,res) => {
 
     const { firstName,lastName,middleName,dateOfBirth, password, email, region, province, barangay, city } = req.body;
     const code = Math.floor(Math.random() * 100000);
     const userType = 'user';
-    try {
-        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, region, province, barangay, city, code, userType});
-        res.status(200).json({mssg: `${newUser.firstName} ${newUser.lastName} has been registered`, redirect: '/login'});
-    } 
-    catch(err) {
+
+    User.create({ firstName,lastName,middleName,dateOfBirth, password, email, region, province, barangay, city, code, userType })
+    .then((user) => {
+        res.status(200).json({mssg: 'User has been successfully registered!', redirect: '/login'})
+    })
+    .catch((err) => {
         if(err.code === 11000) {
-            res.status(400).json({ mssg: 'Email is already in use, please choose another' })
+            res.status(400).json({mssg: 'This email is already in use, please choose another email'});
         }
-    }
+    })
+
 }
 
 module.exports.user_login = async (req,res) => {
-
+    
 }
