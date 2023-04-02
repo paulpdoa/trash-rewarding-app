@@ -25,11 +25,11 @@ module.exports.user_get = async (req,res) => {
 
 module.exports.user_post = async (req,res) => {
 
-    const user = req.body;
+    const { firstName,lastName,middleName,dateOfBirth, password, email, region, province, barangay, city } = req.body;
     const code = Math.floor(Math.random() * 100000);
-   
+    const userType = 'user';
     try {
-        const newUser = await User.create(user);
+        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, region, province, barangay, city, code, userType});
         res.status(200).json({mssg: `${newUser.firstName} ${newUser.lastName} has been registered`, redirect: '/login'});
     } 
     catch(err) {

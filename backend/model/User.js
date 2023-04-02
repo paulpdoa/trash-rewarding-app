@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
     },
     code: {
         type: Number
+    },
+    userType: {
+        required: true,
+        type: String
     }
 }, { timestamps: true })
 

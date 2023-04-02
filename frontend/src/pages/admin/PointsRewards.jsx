@@ -14,10 +14,18 @@ const PointsRewards = () => {
                 setErrMssg('')
             },1000)
             setShowQr(false)
-        } else {
+        } 
+
+        if(points !== '') {
             setShowQr(true);
+            console.log('true');
         }
-        
+    }
+
+    const handlePointChange = (point) => {
+        setPoints(point)
+
+        point === '' && setShowQr(false);
     }
 
     return (
@@ -26,9 +34,9 @@ const PointsRewards = () => {
                 <h1 className="font-semibold text-green-600 text-2xl text-center">Give Points/Rewards</h1>
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
-                    <input className="text-sm p-2 border-gray-400 border-2 rounded w-3/4 outline-none" type="text" onChange={(e) => setPoints(e.target.value)} placeholder="Enter points" />
+                    <input className="text-sm p-2 border-gray-400 border-2 rounded w-3/4 outline-none" type="text" onChange={(e) => handlePointChange(e.target.value)} placeholder="Enter points" />
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && points && <QrCode className="border-2 border-gray-900" value={points} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={points} /> }
                     <button onClick={generateQrCode} className="bg-gray-300 p-2 w-3/4 rounded text-lg cursor-pointer">Generate QR Code</button>
                 </div>
             </div>

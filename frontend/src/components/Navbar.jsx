@@ -9,7 +9,8 @@ const Navbar = () => {
 
     const [showQr,setShowQr] = useState(false);
     const [delay] = useState(100);
-    const [result,setResult] = useState('No QR Code is being scanned')  ;
+    const [result,setResult] = useState('No QR Code is being scanned');
+    const [mssg,setMssg] = useState('');
 
     const previewStyle = {
         height: '100%',
@@ -17,8 +18,13 @@ const Navbar = () => {
     }
 
     const handleScan = (data) => {
-        if(data) {
-            setResult(data)
+
+        if(data === null) {
+            setMssg('Nothing to be scanned')
+        } else {
+            setResult(data);    
+            alert('Your point is already posted to your account');
+            setShowQr(false);
         }
     }
 
@@ -39,7 +45,8 @@ const Navbar = () => {
                </Link>
                <button onClick={() => setShowQr(!showQr)} className="absolute -top-8 rounded-full border-white border-8 w-20 h-20 text-2xl flex justify-center items-center text-gray-100 p-2 qr__icon z-50"><MdQrCodeScanner /></button>
                 { showQr && 
-                    <div className="h-screen fixed top-0 w-full flex items-center justify-center">
+                    <div className="h-screen fixed top-0 w-full flex flex-col items-center justify-center">
+                        <p className="absolute top-44 bg-red-500 text-gray-100 p-2 rounded font-semibold">{mssg}</p>
                         <QrReader 
                             className="qr-box flex items-center justify-center"
                             facingMode={'environment'} 
