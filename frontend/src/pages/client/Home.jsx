@@ -25,11 +25,12 @@ const Home = () => {
     return (
         <div className="h-screen w-full home__bg">
             <div className="flex items-center relative text-white text-2xl gap-2 p-2">
-                <RiRecycleLine onClick={() => setShowMenu(!showMenu)} />
-                <Link to='/profile' className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</Link>
+                <RiRecycleLine className="cursor-pointer" onClick={() => setShowMenu(!showMenu)} />
+                <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</h1>
                 {/* Show this menu when button is clicked */}
                 { showMenu &&  
-                    <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800">
+                    <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800 rounded">
+                        <li className="w-full p-2"><Link to='/profile'>View Profile</Link></li>
                         <li onClick={logoutUser} className="w-full p-2">Logout</li>
                     </ul> 
                 }

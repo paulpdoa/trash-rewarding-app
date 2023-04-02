@@ -1,14 +1,11 @@
 require('dotenv').config();
 
 const express = require('express');
-const mainRoute = require('./routes/mainRoute');
 const app = express();
-const mongoose = require('mongoose');
 const cors = require('cors');
-
 app.use(cors());
-app.use(express.json());
-
+const mongoose = require('mongoose');
+const mainRoute = require('./routes/mainRoute');    
 const port = 8000 || process.env.PORT;
 
 // Connect to MongoDB
@@ -25,8 +22,8 @@ const connectToDB = async () => {
         console.log(err);
     }
 }
+
 connectToDB();
 
+app.use(express.json());
 app.use(mainRoute);
-
-

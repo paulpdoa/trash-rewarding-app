@@ -29,25 +29,23 @@ const Register = () => {
 
     const registerUser = async (e) => {
         e.preventDefault();
-
-        if(email === '') {
-            alert('Email cannot be null')
-        } else {
-            try {
-                const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, region, province, city, barangay }
-                const postUser = await axios.post('http://localhost:8000/user',data);
-                if(postUser.status === 200) {
-                    alert(postUser.data.mssg);
-                    navigate('/');
-                } else {
-                    alert('User is not registered successfully');
-                }
-            } 
-            catch(err) {
-                console.log(err);
-                alert(err.response.data.mssg);
+        
+        try {
+            const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, region, province, city, barangay }
+            const postUser = await axios.post('/user',data);
+            console.log(postUser);
+            
+            if(postUser.status === 200) {
+                alert(postUser.data.mssg);
+                navigate(postUser.data.redirect);
+            } else {
+                alert('User is not registered successfully');
             }
-        }
+        } 
+        catch(err) {
+            console.log(err);
+            alert(err.response.data.mssg);
+        }   
     }
 
     const selectProvince = (provName) => {

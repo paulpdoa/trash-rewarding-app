@@ -41,8 +41,31 @@ const userSchema = new mongoose.Schema({
     barangay: {
         required: true,
         type: String
+    },
+    code: {
+        type: Number
     }
 }, { timestamps: true })
+
+// fire a function before saving to database
+userSchema.pre('save', async function(next) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password,salt);
+    next();
+})
+
+// create static login method for user
+userSchema.statics.login = async function(email,password) {
+    const user = await this.findOne({ email });
+    if(email) {
+        const auth = await bcrypt.compare(password,user.password);
+        if(auth) {
+            return user;
+        }
+        throw Error('Incorrect password');
+    }
+    throw Error('This username doesn\'t exist');
+}
 
 const UserModel = mongoose.model('user',userSchema);
 module.exports = UserModel;
