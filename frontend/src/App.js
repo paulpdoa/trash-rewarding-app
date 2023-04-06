@@ -37,7 +37,7 @@ function App() {
       NOTE: Mobile View only for Users */}
       <Route element={<UserLayout />}>
         <Route path='/' element={<Home />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/:id' element={<Profile />} />
         <Route path='/about' element={<About />} />
         <Route path='/reward-category' element={<RewardCategory />} />
         <Route path='/rewards' element={<Rewards />} />

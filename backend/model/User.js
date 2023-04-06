@@ -27,10 +27,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    region: {
-        required: true,
-        type: String
-    },
     province: {
         required: true,
         type: String
@@ -49,6 +45,20 @@ const userSchema = new mongoose.Schema({
     userType: {
         required: true,
         type: String
+    },
+    status: {
+        required: true,
+        type: Boolean
+    },
+    collectedPoints: {
+        type: Number
+    },
+    ranking: {
+        type: Number
+    },
+    profilePicture: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 

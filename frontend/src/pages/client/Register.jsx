@@ -15,10 +15,10 @@ const Register = () => {
     const [pass,setPass] = useState('');
     const [confPass,setConfPass] = useState('');
     const [email,setEmail] = useState('');
-    const [region,setRegion] = useState('');
     const [province,setProvince] = useState('');
     const [city,setCity] = useState('');
     const [barangay,setBarangay] = useState('');
+    const [avatar,setAvatar] = useState('');
 
     const [next,setNext] = useState(0);
 
@@ -31,9 +31,8 @@ const Register = () => {
         e.preventDefault();
         
         try {
-            const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, region, province, city, barangay }
+            const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, province, city, barangay, avatar }
             const postUser = await axios.post('/user',data);
-            console.log(postUser);
             
             if(postUser.status === 200) {
                 alert(postUser.data.mssg);
@@ -93,6 +92,10 @@ const Register = () => {
         }
     }
 
+    const getProfilePicture = (e) => {
+        setAvatar(e.target.files[0]);
+    }
+
     return (
         <div className="flex justify-center items-center flex-col bg-gray-100 h-screen">
             <div className="flex flex-col w-4/5 mb-5">
@@ -113,9 +116,7 @@ const Register = () => {
                     </> 
                         : 
                     <>
-                        <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />
-                        <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Region" type="text" onChange={(e) => setRegion(e.target.value)} /> 
-                    
+                        <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />                    
                         <select value={province.toUpperCase()} onChange={(e) => selectProvince(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
                             <option hidden>Select your province</option>
                             { provinces.RECORDS.map((province) => (
@@ -136,6 +137,9 @@ const Register = () => {
                                 <option key={barangay.id} value={ barangay.brgyDesc }>{ barangay.brgyDesc }</option>
                             )) }
                         </select> }
+                        <div className="p-2 rounded border-none outline-none shadow-sm bg-white">
+                            <input onChange={getProfilePicture} accept='image/*' type="file" name="avatar" />
+                        </div>
                     </>
                 }
                 

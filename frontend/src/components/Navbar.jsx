@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
 import { RiQuestionnaireLine } from 'react-icons/ri';
 import QrReader from 'modern-react-qr-reader';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 
 const Navbar = () => {
 
@@ -41,7 +42,7 @@ const Navbar = () => {
                         <AiOutlineHome className="text-3xl"/>
                         <li className="text-xs">Home</li>
                     </Link>
-                    <Link className="flex flex-col items-center text-green-600" to='/profile'>
+                    <Link className="flex flex-col items-center text-green-600" to={`/profile/${localStorage.getItem('userId')}`}>
                         <CgProfile className="text-3xl"/>
                         <li className="text-xs">Profile</li>
                     </Link>

@@ -16,6 +16,9 @@ const Login = () => {
 
         try {
             const data = await axios.post('/userlogin',{ email,password });
+            localStorage.setItem('nameOfUser',data.data.name);
+            localStorage.setItem('userEmail',data.data.email);
+            localStorage.setItem('userId', data.data.id);
             alert(data.data.mssg);
             navigate(data.data.redirect);
         } catch(err) {

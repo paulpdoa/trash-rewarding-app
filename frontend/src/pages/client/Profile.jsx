@@ -1,14 +1,49 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Navigator from '../../components/Navigator';
+import { useParams } from 'react-router-dom';
+import DateFormatter from '../../components/DateFormatter';
 
 const Profile = () => {
-    
-    const [firstName,setFirstName] = useState('Paul');
-    const [middleName,setMiddleName] = useState('De Ocampo');
-    const [lastName,setLastName] = useState('Andres');
-    const [address,setAddress] = useState('Santol Tanza');
+
+    const [firstName,setFirstName] = useState('');
+    const [middleName,setMiddleName] = useState('');
+    const [lastName,setLastName] = useState('');
+    const [province,setProvince] = useState('');
+    const [city,setCity] = useState('');
+    const [barangay,setBarangay] = useState('');
+    const [joinedDate,setJoinedDate] = useState('');
+    const [points,setPoints] = useState(0);
     const [status,setStatus] = useState(true);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        const abortCont = new AbortController();
+
+        const fetchUser = async () => {
+            try {
+                const data = await axios.get(`/userdetailget/${id}`);
+                const joinDate = data.data?.createdAt.split('T')[0];
+
+                setFirstName(data.data?.firstName);
+                setMiddleName(data.data?.middleName);
+                setLastName(data.data?.lastName);
+                setProvince(data.data?.province);
+                setCity(data.data?.city);
+                setBarangay(data.data?.barangay);
+                setJoinedDate(joinDate);
+
+            } catch(err) {
+                console.log(err);
+            }
+
+           
+        }
+        fetchUser();
+
+        return () => abortCont.abort();
+    })
 
     return (
         <div className="h-full relative">
@@ -17,25 +52,25 @@ const Profile = () => {
                 <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-bg"> 
                     <img className="rounded-full w-32 h-32 border-white border-8 mt-24" src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg" alt="profile pic" />
                     <p className="text-gray-500">Personal Information</p>
-                    <h1>{firstName} {middleName[0].toUpperCase()}. {lastName}</h1>
+                    <h1>{firstName} {middleName[0]?.toUpperCase()}. {lastName}</h1>
                     <h2 className="bg-green-300 font-bold p-2">{ status ? 'ACTIVE' : 'INACTIVE'}</h2>
                 </div>
 
                 <div className="w-full text-center h-full"> 
                     <div className="shadow-md mt-5 rounded w-full p-3 border border-gray-100">
                         <h1 className="font-normal">Address</h1>
-                        <p className="text-gray-400 font-normal">Heart Foundation Phase 1-A Purok 7, Barangay Santol, Tanza, Cavite</p>
+                        <p className="text-gray-400 font-normal">{`${barangay} ${city} ${province}`}</p>
                     </div>
                     <div className="shadow-md rounded mt-5 w-full p-3 border border-gray-100">
                         <h1 className="font-normal">Joined Date</h1>
-                        <p className="text-gray-400 font-normal">May 23, 2023</p>
+                        <DateFormatter date={joinedDate} />
                     </div>
 
                     <h2 className="font-bold mt-5 text-xl">Over View</h2>
                 
                     <div className="shadow-md rounded mt-5 w-full p-3 border border-gray-100">
                         <h1 className="font-normal">Collected Points</h1>
-                        <p className="text-gray-400 font-normal">123,446</p>
+                        <p className="text-gray-400 font-normal">{ points }</p>
                     </div>
                     <div className="shadow-md rounded mt-5 w-full p-3 border border-gray-100">
                         <h1 className="text-gray-900 font-semibold">Collected Rewards</h1>

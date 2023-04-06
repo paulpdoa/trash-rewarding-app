@@ -11,7 +11,7 @@ import axios from 'axios';
 const Home = () => {
 
     const [points,setPoints] = useState(11220);
-    const [user,setUser] = useState('paul');
+    const [user,setUser] = useState(localStorage.getItem('nameOfUser'));
 
     const [showMenu,setShowMenu] = useState(false);
 
@@ -20,11 +20,14 @@ const Home = () => {
     //Formatting of number
     let pointFormat = new Intl.NumberFormat().format(points);
     //Formatting of user first letter to be capital letter
-    let usernameFormat = user[0].toUpperCase() + user.slice(1,user.length);
+    // Get user first name only
+    let getFirstName = user.split(" ")[0];
+    let usernameFormat = getFirstName[0].toUpperCase() + getFirstName.slice(1,getFirstName.length).toLowerCase();
 
     const logoutUser = async () => {
         const data = await axios.get('/userlogout');
         navigate(data.data.redirect);
+        localStorage.removeItem('nameOfUser');
     }
 
     return (
