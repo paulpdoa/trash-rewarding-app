@@ -3,8 +3,10 @@ import { CgProfile } from 'react-icons/cg';
 import { TbGiftCard } from 'react-icons/tb';
 import { MdOutlineLeaderboard } from 'react-icons/md';
 import { AiOutlineDollarCircle,AiOutlineClockCircle } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { RiRecycleLine } from 'react-icons/ri'
+import axios from 'axios';
+
 
 const Home = () => {
 
@@ -13,13 +15,16 @@ const Home = () => {
 
     const [showMenu,setShowMenu] = useState(false);
 
+    const navigate = useNavigate();
+
     //Formatting of number
     let pointFormat = new Intl.NumberFormat().format(points);
     //Formatting of user first letter to be capital letter
     let usernameFormat = user[0].toUpperCase() + user.slice(1,user.length);
 
-    const logoutUser = () => {
-        console.log('Logging off user')
+    const logoutUser = async () => {
+        const data = await axios.get('/userlogout');
+        navigate(data.data.redirect);
     }
 
     return (
@@ -30,7 +35,6 @@ const Home = () => {
                 {/* Show this menu when button is clicked */}
                 { showMenu &&  
                     <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800 rounded">
-                        <li className="w-full p-2"><Link to='/profile'>View Profile</Link></li>
                         <li onClick={logoutUser} className="w-full p-2">Logout</li>
                     </ul> 
                 }

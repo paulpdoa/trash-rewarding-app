@@ -46,3 +46,9 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+/* Profile Background for photo */
+.profile-bg {
+  background-image: url('../assets/Rectangle_44.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}

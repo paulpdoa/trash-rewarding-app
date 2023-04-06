@@ -3,6 +3,25 @@ const jwt = require('jsonwebtoken');
 
 const User = require("../model/User");
 
+const maxAge = 3 * 24 * 24 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.SECRET, {
+        expiresIn: maxAge
+    })
+}
+
+const handleErrors = (err) => {
+    let errors = { email: '', password: '' };
+
+    if(err.message === 'Incorrect password') {
+       errors.password = 'Password is incorrect';
+    }
+    if(err.message === 'This email doesn\'t exist') {
+        errors.email = 'Email is incorrect';
+    }
+
+    return errors;
+}
 
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -38,9 +57,22 @@ module.exports.user_post = (req,res) => {
             res.status(400).json({mssg: 'This email is already in use, please choose another email'});
         }
     })
-
 }
 
-module.exports.user_login = async (req,res) => {
-    
+module.exports.user_login = (req,res) => {
+    const { email, password } = req.body;
+
+    User.login(email,password)
+    .then((user) => {
+        const token = createToken(user._id);
+        res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/' });
+    })
+    .catch((err) => {
+        const errors = handleErrors(err);
+        res.status(400).json(errors);
+    })
+}
+
+module.exports.user_logout = (req,res) => {
+    res.cookie('userJwt','',{ maxAge: 1 }).json({ redirect: '/login' });
 }

@@ -62,14 +62,14 @@ userSchema.pre('save', async function(next) {
 // create static login method for user
 userSchema.statics.login = async function(email,password) {
     const user = await this.findOne({ email });
-    if(email) {
+    if(user) {
         const auth = await bcrypt.compare(password,user.password);
         if(auth) {
             return user;
         }
         throw Error('Incorrect password');
-    }
-    throw Error('This username doesn\'t exist');
+    } 
+    throw Error('This email doesn\'t exist');
 }
 
 const UserModel = mongoose.model('user',userSchema);

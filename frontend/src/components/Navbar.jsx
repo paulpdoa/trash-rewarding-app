@@ -2,6 +2,7 @@ import { AiOutlineHome,AiOutlineExclamationCircle } from 'react-icons/ai';
 import { MdQrCodeScanner } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
+import { RiQuestionnaireLine } from 'react-icons/ri';
 import QrReader from 'modern-react-qr-reader';
 import { useState } from 'react';
 
@@ -35,17 +36,31 @@ const Navbar = () => {
     return (
         <nav className="fixed bottom-0 w-full">
             <ul className="flex relative bg-gray-100 p-3 justify-around">
-                <Link className="flex flex-col items-center text-green-600" to='/'>
-                    <AiOutlineHome className="text-3xl"/>
-                    <li className="text-xs">Home</li>
-                </Link>
-               <Link className="flex flex-col items-center text-green-600" to='/about'>
-                    <AiOutlineExclamationCircle className="text-3xl" />
-                    <li className="text-xs">About</li>
-               </Link>
-               <button onClick={() => setShowQr(!showQr)} className="absolute -top-8 rounded-full border-white border-8 w-20 h-20 text-2xl flex justify-center items-center text-gray-100 p-2 qr__icon z-50"><MdQrCodeScanner /></button>
+                <div className="flex justify-around items-center w-full">
+                    <Link className="flex flex-col items-center text-green-600" to='/'>
+                        <AiOutlineHome className="text-3xl"/>
+                        <li className="text-xs">Home</li>
+                    </Link>
+                    <Link className="flex flex-col items-center text-green-600" to='/profile'>
+                        <CgProfile className="text-3xl"/>
+                        <li className="text-xs">Profile</li>
+                    </Link>
+                </div>
+                <button onClick={() => setShowQr(!showQr)} className="rounded-full fixed bottom-8 border-white border-8 w-16 h-16 text-2xl flex justify-center items-center text-gray-100 qr__icon z-50"><MdQrCodeScanner /></button>
+                <div className="flex justify-around items-center w-full">
+                    <Link className="flex flex-col items-center text-green-600" to='/about'>
+                        <AiOutlineExclamationCircle className="text-3xl" />
+                        <li className="text-xs">About</li>
+                    </Link>
+                    <Link className="flex flex-col items-center text-green-600" to='/support-us'>
+                        <RiQuestionnaireLine className="text-3xl"/>
+                        <li className="text-xs">Support us</li>
+                    </Link>
+                </div>
+               
+               {/* Use Qr Scanner Here */}
                 { showQr && 
-                    <div className="h-screen fixed top-0 w-full flex flex-col items-center justify-center">
+                    <div className="h-screen bg-black fixed top-0 w-full flex flex-col items-center justify-center">
                         <p className="absolute top-44 bg-red-500 text-gray-100 p-2 rounded font-semibold">{mssg}</p>
                         <QrReader 
                             className="qr-box flex items-center justify-center"
