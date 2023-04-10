@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import AlertMssg from '../../components/AlertMssg';
+// import AlertMssg from '../../components/AlertMssg';
 import axios from 'axios';
 import provinces from '../../json/refprovince.json';
 import barangays from '../../json/refbrgy.json';
 import cities from '../../json/refcitymun.json';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import AlertMssg from '../../components/AlertMssg';
 
 const Register = () => {
 
@@ -25,18 +26,32 @@ const Register = () => {
     const [provCode,setProvCode] = useState('');  
     const [cityCode,setCityCode] = useState('');
 
-    const navigate = useNavigate();
+    const [openAlert,setOpenAlert] = useState(false);
+    const [alertMssg,setAlertMssg] = useState('');
+    const [redirect,setRedirect] = useState('');
 
     const registerUser = async (e) => {
         e.preventDefault();
         
         try {
-            const data = { firstName: fn, lastName: ln, middleName: mn, dateOfBirth: dob, password: pass, email, province, city, barangay, avatar }
-            const postUser = await axios.post('/user',data);
+            const data = new FormData();
+            data.append('firstName',fn);
+            data.append('lastName',ln);
+            data.append('middleName',mn);
+            data.append('dateOfBirth',dob);
+            data.append('email',email);
+            data.append('password',pass);
+            data.append('province',province);
+            data.append('barangay',barangay);
+            data.append('city',city);
+            data.append('avatar',avatar);
+    
+            const postUser = await axios.post('/user', data);
             
-            if(postUser.status === 200) {
-                alert(postUser.data.mssg);
-                navigate(postUser.data.redirect);
+            if(postUser.status === 201) {
+                setOpenAlert(true);
+                setAlertMssg(postUser.data.mssg);
+                postUser.data.redirect && setRedirect(postUser.data.redirect);
             } else {
                 alert('User is not registered successfully');
             }
@@ -97,13 +112,13 @@ const Register = () => {
     }
 
     return (
-        <div className="flex justify-center items-center flex-col bg-gray-100 h-screen">
+        <div className="flex justify-center items-center flex-col bg-gray-100 h-screen relative">
             <div className="flex flex-col w-4/5 mb-5">
                 <h1 className="text-3xl font-bold">Register!</h1>
                 <p className="text-green-500 font-semibold text-xs">Already have an account? <Link className="text-gray-800" to='/login'>Login</Link></p>
                 <span>Personal Information</span>
             </div>
-            <form onSubmit={registerUser} className="flex justify-center flex-col w-4/5 gap-2">
+            <form onSubmit={registerUser} encType='multipart/form-data' className="flex justify-center flex-col w-4/5 gap-2">
                 {/* For changing view of form */}
                 { next < 1 ? 
                     <>  
@@ -111,7 +126,7 @@ const Register = () => {
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Last Name" type="text" onChange={(e) => setLn(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Middle Name" type="text" onChange={(e) => setMn(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm w-full" type="date" onChange={(e) => setDob(e.target.value)} />
-                        <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Password" type="password" onChange={(e) => setPass(e.target.value)} />
+                        <input className="p-2 rounded border-none outline-none shadow-sm" autoComplete='new-password' placeholder="Password" type="password" onChange={(e) => setPass(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Confirm Password" type="password" onChange={(e) => setConfPass(e.target.value)} />
                     </> 
                         : 
@@ -150,7 +165,7 @@ const Register = () => {
                 <p onClick={validateFirstStep} className="p-2 shadow-sm w-1/2 text-center self-center bg-white rounded font-semibold" role="button">NEXT</p>
                 }
             </form>
-            
+            { openAlert && <AlertMssg message={alertMssg} redirect={redirect} /> }
         </div>
     )
 }

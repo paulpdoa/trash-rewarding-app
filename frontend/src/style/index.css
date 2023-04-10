@@ -52,3 +52,9 @@ tr:nth-child(even) {
   background-position: start;
   background-repeat: no-repeat;
 }
+/* leaderboard bg */
+.leaderboard-bg {
+  background-image: url('../assets/Rectangle_72.png');
+  background-position: start;
+  background-repeat: no-repeat;
+}

@@ -53,12 +53,8 @@ const userSchema = new mongoose.Schema({
     collectedPoints: {
         type: Number
     },
-    ranking: {
-        type: Number
-    },
     profilePicture: {
-        type: String,
-        required: true
+        type: String
     }
 }, { timestamps: true })
 

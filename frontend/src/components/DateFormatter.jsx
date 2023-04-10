@@ -7,7 +7,7 @@ const DateFormatter = ({ date }) => {
     const day = date.split('-')[2];
 
     return (
-        <span className="text-gray-400 font-normal">{ monthList[parseInt(month,10)] } { day }, { year } </span>
+        <span className="text-gray-400 font-normal">{ monthList[parseInt(month,10) - 1] } { day }, { year } </span>
     )
 }
 

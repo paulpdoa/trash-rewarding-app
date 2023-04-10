@@ -3,6 +3,8 @@ import { useState,useEffect } from 'react';
 import Navigator from '../../components/Navigator';
 import { useParams } from 'react-router-dom';
 import DateFormatter from '../../components/DateFormatter';
+import NumberFormat from '../../components/NumberFormat';
+import Avatar from '../../components/Avatar';
 
 const Profile = () => {
 
@@ -15,6 +17,8 @@ const Profile = () => {
     const [joinedDate,setJoinedDate] = useState('');
     const [points,setPoints] = useState(0);
     const [status,setStatus] = useState(true);
+    const [avatar,setAvatar] = useState('');
+    const httpServer = "http://localhost:8000/images/";
 
     const { id } = useParams();
 
@@ -25,6 +29,7 @@ const Profile = () => {
             try {
                 const data = await axios.get(`/userdetailget/${id}`);
                 const joinDate = data.data?.createdAt.split('T')[0];
+                
 
                 setFirstName(data.data?.firstName);
                 setMiddleName(data.data?.middleName);
@@ -33,6 +38,8 @@ const Profile = () => {
                 setCity(data.data?.city);
                 setBarangay(data.data?.barangay);
                 setJoinedDate(joinDate);
+                setAvatar(data.data?.profilePicture);
+                setPoints(data.data?.collectedPoints);
 
             } catch(err) {
                 console.log(err);
@@ -50,7 +57,7 @@ const Profile = () => {
             <Navigator currentPage='Profile' />
             <div className="h-full px-10 py-24 w-full">
                 <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-bg"> 
-                    <img className="rounded-full w-32 h-32 border-white border-8 mt-24" src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg" alt="profile pic" />
+                    <Avatar style="rounded-full w-32 h-32 border-white border-8 mt-24" avatar={avatar} />
                     <p className="text-gray-500">Personal Information</p>
                     <h1>{firstName} {middleName[0]?.toUpperCase()}. {lastName}</h1>
                     <h2 className="bg-green-300 font-bold p-2">{ status ? 'ACTIVE' : 'INACTIVE'}</h2>
@@ -70,7 +77,7 @@ const Profile = () => {
                 
                     <div className="shadow-md rounded mt-5 w-full p-3 border border-gray-100">
                         <h1 className="font-normal">Collected Points</h1>
-                        <p className="text-gray-400 font-normal">{ points }</p>
+                        <p className="text-gray-400 font-normal"><NumberFormat points={points} /></p>
                     </div>
                     <div className="shadow-md rounded mt-5 w-full p-3 border border-gray-100">
                         <h1 className="text-gray-900 font-semibold">Collected Rewards</h1>

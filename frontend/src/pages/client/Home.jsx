@@ -1,40 +1,58 @@
-import { useState } from 'react';
-import { CgProfile } from 'react-icons/cg';
+import { useState,useEffect } from 'react';
 import { TbGiftCard } from 'react-icons/tb';
 import { MdOutlineLeaderboard } from 'react-icons/md';
 import { AiOutlineDollarCircle,AiOutlineClockCircle } from 'react-icons/ai';
 import { Link,useNavigate } from 'react-router-dom';
 import { RiRecycleLine } from 'react-icons/ri'
 import axios from 'axios';
+import NumberFormat from '../../components/NumberFormat';
 
 
 const Home = () => {
 
     const [points,setPoints] = useState(11220);
-    const [user,setUser] = useState(localStorage.getItem('nameOfUser'));
+    const [user,setUser] = useState({});
 
     const [showMenu,setShowMenu] = useState(false);
 
     const navigate = useNavigate();
 
-    //Formatting of number
-    let pointFormat = new Intl.NumberFormat().format(points);
+    useEffect(() => {
+        const abortCont = new AbortController();
+
+        const fetchUser = async () => {
+            try {
+                const data = await axios.get(`/userdetailget/${localStorage.getItem('userId')}`);
+                setUser(data.data);
+                setPoints(data.data.collectedPoints);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
+        fetchUser();
+        return () => abortCont.abort();
+    },[])
+    
     //Formatting of user first letter to be capital letter
     // Get user first name only
-    let getFirstName = user.split(" ")[0];
-    let usernameFormat = getFirstName[0].toUpperCase() + getFirstName.slice(1,getFirstName.length).toLowerCase();
+    let getFirstName = `${user?.firstName} ${user?.middleName} ${user?.lastName}`.split(' ')[0];
+    let usernameFormat = getFirstName!== undefined ? getFirstName[0].toUpperCase() + getFirstName?.slice(1,getFirstName.length).toLowerCase() : '';
 
     const logoutUser = async () => {
         const data = await axios.get('/userlogout');
-        navigate(data.data.redirect);
+        navigate(data.data?.redirect);
         localStorage.removeItem('nameOfUser');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userAvatar');
     }
 
     return (
         <div className="h-screen w-full home__bg">
             <div className="flex items-center relative text-white text-2xl gap-2 p-2">
                 <RiRecycleLine className="cursor-pointer" onClick={() => setShowMenu(!showMenu)} />
-                <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</h1>
+                <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}</h1>
                 {/* Show this menu when button is clicked */}
                 { showMenu &&  
                     <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800 rounded">
@@ -44,7 +62,7 @@ const Home = () => {
             </div>
             <div className="text-gray-100 flex items-center gap-2 mt-10 flex-col justify-center">
                 <span className="text-sm">Trash Points</span>
-                <h2 className="text-5xl font-semibold">{pointFormat}</h2>
+                <h2 className="text-5xl font-semibold"><NumberFormat points={points} /></h2>
             </div>
 
             <div className="bg-white h-full mt-20 home__contents relative">
