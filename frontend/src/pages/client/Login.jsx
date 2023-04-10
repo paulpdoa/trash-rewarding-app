@@ -17,7 +17,8 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const data = await axios.post('http://localhost:8000/userlogin',{ email,password });
+            const data = await axios.post('/userlogin',{ email,password });
+            console.log(data);
             localStorage.setItem('nameOfUser',data.data.name);
             localStorage.setItem('userEmail',data.data.email);
             localStorage.setItem('userId', data.data.id);
