@@ -68,7 +68,6 @@ const SupportUs = () => {
                      comments?.map((comment) => (
                         <div className="grid grid-cols-5 gap-2 p-3 border-b border-gray-400">
                             <Avatar style="rounded-full col-span-1 w-10 h-10" avatar={comment?.user_id?.profilePicture} />
-                            {console.log(comment)}
                             <div className="flex flex-col col-span-3">  
                                 <h1 className="font-normal text-gray-900">{comment?.user_id?.firstName }</h1>
                                 <p className="text-gray-400 text-sm">{comment?.comment}</p>

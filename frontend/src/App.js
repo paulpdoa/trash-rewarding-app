@@ -21,6 +21,7 @@ import NotFound from './pages/NotFound';
 import AdminLeaderboard from './pages/admin/AdminLeaderboard';
 import PointsRewards from './pages/admin/PointsRewards';
 import SupportUs from './pages/client/SupportUs';
+import EarnPoints from './pages/client/EarnPoints';
 
 
 
@@ -44,6 +45,7 @@ function App() {
         <Route path='/leaderboards' element={<Leaderboards />} />
         <Route path='/history' element={<History />} />
         <Route path='/support-us' element={<SupportUs />} />
+        <Route path='/earn-points' element={<EarnPoints />} />
       </Route>
 
       {/* Admin Page 

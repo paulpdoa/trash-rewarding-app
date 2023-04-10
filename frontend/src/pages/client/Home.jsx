@@ -7,7 +7,6 @@ import { RiRecycleLine } from 'react-icons/ri'
 import axios from 'axios';
 import NumberFormat from '../../components/NumberFormat';
 
-
 const Home = () => {
 
     const [points,setPoints] = useState(11220);
@@ -30,7 +29,7 @@ const Home = () => {
             }
         }
 
-        fetchUser();
+        localStorage.getItem('userId') !== undefined && fetchUser();
         return () => abortCont.abort();
     },[])
     
@@ -77,7 +76,7 @@ const Home = () => {
                         <MdOutlineLeaderboard className="text-3xl"/>
                         <li className="text-xs">L-Boards</li>
                     </Link>
-                    <Link className="flex flex-col items-center text-green-600" to='/points'>
+                    <Link className="flex flex-col items-center text-green-600" to='/earn-points'>
                         <AiOutlineDollarCircle className="text-3xl"/>
                         <li className="text-xs">E-Points</li>
                     </Link>

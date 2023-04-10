@@ -54,6 +54,7 @@ const userSchema = new mongoose.Schema({
         type: Number
     },
     profilePicture: {
+        required: true,
         type: String
     }
 }, { timestamps: true })

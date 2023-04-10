@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const cors = require('cors');
-app.use(cors());
+
 const mongoose = require('mongoose');
 const mainRoute = require('./routes/mainRoute');    
 const port = 8000 || process.env.PORT;
@@ -27,6 +27,7 @@ const connectToDB = async () => {
 
 connectToDB();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));  
 app.use(bodyParser.urlencoded({ extended: false }));

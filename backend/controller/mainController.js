@@ -47,7 +47,6 @@ module.exports.user_post = (req,res) => {
 
     const { firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city } = req.body;
     const { filename } = req.file;
-    console.log(dateOfBirth);
 
     const code = Math.floor(Math.random() * 100000);
     const userType = 'user';
@@ -69,14 +68,13 @@ module.exports.user_post = (req,res) => {
     }   
 }
 
-module.exports.user_login = (req,res) => {
+module.exports.user_login = async (req,res) => {
     const { email, password } = req.body;
     let firstName = '';
     let middleName = '';
     let lastName = '';
     let id = ''
     let profilePicture = '';
-    
 
     User.findOne({email})
     .then((name) => {
