@@ -4,7 +4,8 @@ const { upload } = require('../middleware/uploadMiddleware');
 
 const {user_get, user_post, user_login, user_logout, user_detail_get, 
    user_verify, comment_get, comment_post, user_resend_verification, user_forgot_password,
-   user_update_password} = require('../controller/mainController');
+   user_update_password,
+   admin_approve_user, admin_reject_user, admin_delete_user} = require('../controller/mainController');
 
 // User Routes
 route.get('/user', user_get);
@@ -21,5 +22,8 @@ route.patch('/userupdatepassword/:id',user_update_password)
 route.get('/comment',comment_get);
 route.post('/comment',comment_post);
 
-
+// Admin Routes
+route.post('/adminrejectuser',admin_reject_user);
+route.patch('/adminapproveuser/:id',admin_approve_user);
+route.delete('/admindeleteuser/:id',admin_delete_user);
 module.exports = route;

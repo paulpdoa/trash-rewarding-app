@@ -89,24 +89,32 @@ module.exports.user_login = async (req,res) => {
 
     User.findOne({email})
     .then((name) => {
-        if(name.status && name.adminApproved) {
-            User.login(email,password)
-            .then((user) => {
-                const token = createToken(user._id);
-                res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture });
-            })
-            .catch((err) => {
-                const errors = handleErrors(err);
-                res.status(400).json(errors);
-            })  
-        } else {
-            if(!name.status) {
-                res.status(400).json({ mssg: `${email} is not yet verified, click here to verify email`, verify: `/verify/${name._id}`, adminApprovedStatus: true });
+       if(name) {
+        if(name.userType === 'user') {
+            if(name.status && name.adminApproved) {
+                User.login(email,password)
+                .then((user) => {
+                    const token = createToken(user._id);
+                    res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture });
+                })
+                .catch((err) => {
+                    const errors = handleErrors(err);
+                    res.status(400).json(errors);
+                })  
             } else {
-                res.status(400).json({ mssg: `${email} is not yet verified, please contact administrator`, adminApprovedStatus: false });
+                if(!name.status) {
+                    res.status(400).json({ mssg: `${email} is not yet verified, click here to verify email`, verify: `/verify/${name._id}`, adminApprovedStatus: true });
+                } else {
+                    res.status(400).json({ mssg: `${email} is not yet verified, please contact administrator`, adminApprovedStatus: false });
+                }
+                
             }
-            
-        }
+           } else {
+            res.status(400).json({ mssg: `${email} is an admin, cannot login to this page` });
+           } 
+       } else {
+        res.status(400).json({ mssg: `${email} is not an existing account, please check email` });
+       }
     })
     .catch(err => console.log(err));
     
@@ -232,3 +240,72 @@ module.exports.comment_post = (req,res) => {
     }) 
 }
 
+module.exports.admin_approve_user = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        const userFind = await User.findById(id);
+        const data = await User.updateOne({ _id: id }, { adminApproved: true });
+        const info = await transporter.sendMail({
+            from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+            to: `${userFind.email}`,
+            subject: 'Account Approved | Trash Reward App',
+            html:  `
+            <h1>Hello ${userFind.firstName} ${userFind.lastName}</h1>
+            <p>This is to notify you that you have been approved by the admin</p>
+        
+            <p>You can now login to your account, thank you.</p>
+            `
+        });
+        res.status(200).json({ mssg: `${userFind.firstName} has been approved, email has been sento to user`, redirect:'/admin/dashboard' });
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.admin_reject_user = async (req,res) => {
+    
+    const { id } = req.body;
+
+    try {
+        const userFind = await User.findById(id);
+        const info = await transporter.sendMail({
+            from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+            to: `${userFind.email}`,
+            subject: 'Account Rejected | Trash Reward App',
+            html:  `
+            <h1>Hello ${userFind.firstName} ${userFind.lastName}</h1>
+            <p>This is to notify you that you have been rejected by the admin</p>
+        
+            <p>Please contact your administrator for more information, thank you.</p>
+            `
+        });
+        res.status(200).json({ mssg: `${userFind.firstName} has been rejected!`, redirect:'/admin/dashboard' });
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.admin_delete_user = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        const userFind = await User.findById(id); 
+        const data = await User.deleteOne({ _id: id });
+        const comment = await Comment.deleteOne({ user_id: id });
+        const info = await transporter.sendMail({
+            from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+            to: `${userFind.email}`,
+            subject: 'Account Deleted | Trash Reward App',
+            html:  `
+            <h1>Hello ${userFind.firstName} ${userFind.lastName}</h1>
+            <p>This is to notify you that your account has been deleted due to inactivity</p>
+        
+            <p>Please contact your administrator for more information, thank you.</p>
+            `
+        });
+        res.status(200).json({ mssg: `${userFind.firstName} account was deleted`, redirect:'/admin/dashboard' });
+    } catch(err) { 
+        console.log(err);
+    }
+}

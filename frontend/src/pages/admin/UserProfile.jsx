@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useState,useEffect } from 'react';
-import Navigator from '../../components/Navigator';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import DateFormatter from '../../components/DateFormatter';
 import NumberFormat from '../../components/NumberFormat';
 import Avatar from '../../components/Avatar';
 
-const Profile = () => {
+const UserProfile = () => {
 
     const [firstName,setFirstName] = useState('');
     const [middleName,setMiddleName] = useState('');
@@ -40,12 +39,9 @@ const Profile = () => {
                 setAvatar(data.data?.profilePicture);
                 setPoints(data.data?.collectedPoints);
                 setEmail(data.data?.email);
-
             } catch(err) {
                 console.log(err);
             }
-
-           
         }
         fetchUser();
 
@@ -53,9 +49,9 @@ const Profile = () => {
     })
 
     return (
-        <div className="h-full relative">
-            <Navigator currentPage='Profile' />
-            <div className="h-full px-10 py-24 w-full">
+        <div className="h-full relative w-full">
+            <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Accounts</button>
+            <div className="h-full px-10 py-10 w-full">
                 <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-bg"> 
                     <Avatar style="rounded-full w-32 h-32 border-white border-8 mt-24" avatar={avatar} />
                     <p className="text-gray-500">Personal Information</p>
@@ -101,4 +97,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default UserProfile;

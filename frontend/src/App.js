@@ -28,6 +28,8 @@ import NotFound from './pages/NotFound';
 import AdminLeaderboard from './pages/admin/AdminLeaderboard';
 import Messages from './pages/admin/Messages';
 import CollectionRecords from './pages/admin/CollectionRecords';
+import Accounts from './pages/admin/Accounts';
+import UserProfile from './pages/admin/UserProfile';
 
 
 
@@ -67,6 +69,8 @@ function App() {
         <Route path='/admin/give-points-rewards' element={<PointsRewards />} />
         <Route path='/admin/messages' element={<Messages />} />
         <Route path='/admin/collection-records' element={<CollectionRecords />} />
+        <Route path='/admin/accounts' element={<Accounts />} />
+        <Route path='/admin/userprofile/:id' element={<UserProfile />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />
