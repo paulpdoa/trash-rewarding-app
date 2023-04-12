@@ -9,7 +9,7 @@ import NumberFormat from '../../components/NumberFormat';
 
 const Home = () => {
 
-    const [points,setPoints] = useState(11220);
+    const [points,setPoints] = useState(0);
     const [user,setUser] = useState({});
 
     const [showMenu,setShowMenu] = useState(false);
@@ -80,9 +80,9 @@ const Home = () => {
                         <AiOutlineDollarCircle className="text-3xl"/>
                         <li className="text-xs">E-Points</li>
                     </Link>
-                    <Link className="flex flex-col items-center text-green-600" to='/history'>
+                    <Link className="flex flex-col items-center text-green-600" to='/earn-rewards'>
                         <AiOutlineClockCircle className="text-3xl"/>
-                        <li className="text-xs">History</li>
+                        <li className="text-xs">E-Rewards</li>
                     </Link>
                 </ul>
             </nav>

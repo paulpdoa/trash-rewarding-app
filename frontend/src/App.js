@@ -11,7 +11,14 @@ import Register from './pages/client/Register';
 import RewardCategory from './pages/client/RewardCategory';
 import Rewards from './pages/client/Rewards';
 import Leaderboards from './pages/client/Leaderboards';
-import History from './pages/client/History';
+import EarnRewards from './pages/client/EarnRewards';
+import PointsRewards from './pages/admin/PointsRewards';
+import SupportUs from './pages/client/SupportUs';
+import EarnPoints from './pages/client/EarnPoints';
+import Verify from './pages/client/Verify';
+import ForgotPassword from './pages/client/ForgotPassword';
+import PasswordVerify from './pages/client/PasswordVerify';
+import ChangePassword from './pages/client/ChangePassword';
 
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard';
@@ -19,9 +26,9 @@ import AdminLogin from './pages/admin/AdminLogin'
 
 import NotFound from './pages/NotFound';
 import AdminLeaderboard from './pages/admin/AdminLeaderboard';
-import PointsRewards from './pages/admin/PointsRewards';
-import SupportUs from './pages/client/SupportUs';
-import EarnPoints from './pages/client/EarnPoints';
+import Messages from './pages/admin/Messages';
+import CollectionRecords from './pages/admin/CollectionRecords';
+
 
 
 
@@ -31,8 +38,12 @@ function App() {
     <Routes>
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
-
+      <Route path='/verify/:id' element={<Verify />} />
+      <Route path='/forgot-password' element={<ForgotPassword />} />
+      <Route path='/password-verify/:id' element={<PasswordVerify />} />
       <Route path='/admin-login' element={<AdminLogin />} />
+      <Route path='/change-password/:id' element={<ChangePassword />} />
+
 
       {/* User Page
       NOTE: Mobile View only for Users */}
@@ -43,7 +54,7 @@ function App() {
         <Route path='/reward-category' element={<RewardCategory />} />
         <Route path='/rewards' element={<Rewards />} />
         <Route path='/leaderboards' element={<Leaderboards />} />
-        <Route path='/history' element={<History />} />
+        <Route path='/earn-rewards' element={<EarnRewards />} />
         <Route path='/support-us' element={<SupportUs />} />
         <Route path='/earn-points' element={<EarnPoints />} />
       </Route>
@@ -54,6 +65,8 @@ function App() {
         <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/leaderboard' element={<AdminLeaderboard />} />
         <Route path='/admin/give-points-rewards' element={<PointsRewards />} />
+        <Route path='/admin/messages' element={<Messages />} />
+        <Route path='/admin/collection-records' element={<CollectionRecords />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

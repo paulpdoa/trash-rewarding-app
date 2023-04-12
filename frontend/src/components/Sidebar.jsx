@@ -1,19 +1,23 @@
-import { RxCross1 } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
-
+import { GoDashboard } from 'react-icons/go';
+import { MdOutlineManageAccounts,MdOutlineLeaderboard } from 'react-icons/md';
+import { BsXDiamondFill } from 'react-icons/bs';
+import { IoMedalOutline } from 'react-icons/io5';
+import { BsExclamationCircle } from 'react-icons/bs';
+ 
 const Sidebar = ({ showSidebar,setShowSidebar }) => {
 
     return (
-        <nav className={`${showSidebar ? 'fixed' : 'hidden'} left-0 top-0 h-full bg-gray-200 w-1/2 z-50 md:w-1/3`}>
+        <nav className={`${showSidebar ? 'absolute' : 'hidden'} left-0 top-0 h-screen bg-gray-900 w-full z-50 md:w-1/3`}>
             <div className="relative">
-                <button onClick={() => setShowSidebar(!showSidebar)} className="absolute right-4 top-6 text-xl font-bold text-red-500"><RxCross1 /></button>
                 <ul>
-                    <li className="px-3 py-5 border-b-2 border-green-600"><h1 className="text-xl font-semibold text-green-600">Hello Admin!</h1></li>
-                    <li className="px-3 py-5 border-b-2 border-green-600 text-green-600 font-semibold text-sm">Accounts</li>
-                    <li className="px-3 py-5 border-b-2 border-green-600 text-green-600 font-semibold text-sm">Collection Records</li>
-                    <li className="px-3 py-5 border-b-2 border-green-600 text-green-600 font-semibold text-sm"><Link onClick={() => setShowSidebar(false)} to='/admin/leaderboard'>View Leaderboards</Link></li>
-                    <li className="px-3 py-5 border-b-2 border-green-600 text-green-600 font-semibold text-sm"><Link onClick={() => setShowSidebar(false)} to='/admin/give-points-rewards'>Give Points/Rewards</Link></li>
-                    <li className="px-3 py-5 border-b-2 border-green-600 text-green-600 font-semibold text-sm">Generate Reports/Rewards</li>
+                    <li className="px-3 py-5"><h1 className="text-normal text-gray-100">GENERAL</h1></li>
+                    <Link onClick={() => setShowSidebar(false)} to='/admin/dashboard'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><GoDashboard />Dashboard</li></Link>
+                    <li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><MdOutlineManageAccounts />Accounts</li>
+                    <Link onClick={() => setShowSidebar(false)} to='/admin/collection-records'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsXDiamondFill />Collection Records</li></Link>
+                    <Link onClick={() => setShowSidebar(false)} to='/admin/leaderboard'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><MdOutlineLeaderboard />View Leaderboards</li></Link>
+                    <Link onClick={() => setShowSidebar(false)} to='/admin/give-points-rewards'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><IoMedalOutline />Rewarding System</li></Link>
+                    <li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsExclamationCircle />Generate Reports</li>
                 </ul>
             </div>
         </nav>

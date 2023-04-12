@@ -50,6 +50,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         type: Boolean
     },
+    adminApproved: {
+        required: true,
+        type: Boolean
+    },
     collectedPoints: {
         type: Number
     },

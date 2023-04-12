@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const User = require("../model/User");
 const Comment = require("../model/Comment");
@@ -43,7 +44,7 @@ module.exports.user_get = async (req,res) => {
     }
 }
 
-module.exports.user_post = (req,res) => {
+module.exports.user_post = async (req,res) => {
 
     const { firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city } = req.body;
     const { filename } = req.file;
@@ -51,15 +52,30 @@ module.exports.user_post = (req,res) => {
     const code = Math.floor(Math.random() * 100000);
     const userType = 'user';
     const status = false;
+    const adminApproved = false;
+
+    const htmlContent = `
+    <h1>Hello ${firstName} ${lastName}</h1>
+    <p>Here is you code: <b>${code}</b></p>
+
+    <p>Thank you for registering!</p>
+    `;
 
     try {
-        const newUser = User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: filename });
+        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: filename,adminApproved });
         
-        if(newUser) {
-            res.status(201).json({mssg: 'User has been successfully registered!', redirect: '/login'})
-        } else {
-            res.status(201).json({mssg: 'Cannot register this user, please contact administrator'})
-        }
+        const info = await transporter.sendMail({
+            from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+            to: `${email}`,
+            subject: 'Account verification',
+            html: htmlContent
+        });
+        
+        console.log(info.response);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        
+        res.status(201).json({mssg: 'Please check your email for verification, thank you.', redirect: `/verify/${newUser._id}`})
+       
        
     } catch(err) {
         if(err.code === 11000) {
@@ -70,31 +86,30 @@ module.exports.user_post = (req,res) => {
 
 module.exports.user_login = async (req,res) => {
     const { email, password } = req.body;
-    let firstName = '';
-    let middleName = '';
-    let lastName = '';
-    let id = ''
-    let profilePicture = '';
 
     User.findOne({email})
     .then((name) => {
-        firstName = name.firstName;
-        middleName = name.middleName;
-        lastName = name.lastName;
-        id = name._id
-        profilePicture = name.profilePicture;
-    }).
-    catch(err => console.log(err));
-
-    User.login(email,password)
-    .then((user) => {
-        const token = createToken(user._id);
-        res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${firstName} ${middleName} ${lastName}`, email: email,id: id, profilePicture });
+        if(name.status && name.adminApproved) {
+            User.login(email,password)
+            .then((user) => {
+                const token = createToken(user._id);
+                res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture });
+            })
+            .catch((err) => {
+                const errors = handleErrors(err);
+                res.status(400).json(errors);
+            })  
+        } else {
+            if(!name.status) {
+                res.status(400).json({ mssg: `${email} is not yet verified, click here to verify email`, verify: `/verify/${name._id}`, adminApprovedStatus: true });
+            } else {
+                res.status(400).json({ mssg: `${email} is not yet verified, please contact administrator`, adminApprovedStatus: false });
+            }
+            
+        }
     })
-    .catch((err) => {
-        const errors = handleErrors(err);
-        res.status(400).json(errors);
-    })
+    .catch(err => console.log(err));
+    
 }
 
 module.exports.user_logout = (req,res) => {
@@ -109,6 +124,89 @@ module.exports.user_detail_get = (req,res) => {
         res.json(user);
     })
     .catch(err => console.log(err));
+}
+
+module.exports.user_verify = async (req,res) => {
+    const id = req.params.id;
+    const { status } = req.body;
+    
+    try {
+        const verifyUser = await User.updateOne({ _id: id }, { status });
+        res.status(200).json({ mssg: 'Email has been verified, thank you.', redirect: '/login' })
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_resend_verification = async (req,res) => {
+    const { email } = req.body;
+    const id = req.params.id;
+
+    try {
+        const data = await User.findById(id);
+        const info = await transporter.sendMail({
+            from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+            to: `${email}`,
+            subject: 'Account verification',
+            html:  `
+            <h1>Hello ${data.firstName} ${data.lastName}</h1>
+            <p>Here is you code: <b>${data.code}</b></p>
+        
+            <p>Thank you for registering!</p>
+            `
+        });
+        
+        console.log(info.response);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        res.status(200).json({ redirect: `/verify/${id}` })
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_forgot_password = async (req,res) => {
+    const { email } = req.body;
+    const code = Math.floor(Math.random() * 100000);
+
+    try {
+        const data = await User.findOne({ email });
+        if(data) {
+            const userCode = await User.updateOne({ _id: data._id },{ code });
+            const info = await transporter.sendMail({
+                from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
+                to: `${data.email}`,
+                subject: 'Forgot Password',
+                html:  `
+                <h1>Hello ${data.firstName} ${data.lastName}</h1>
+                <p>Here is you code: <b>${code}</b></p>
+            
+                <p>Thank you for registering!</p>
+                `
+            });
+            res.status(200).json({ redirect: `/password-verify/${data._id}`, mssg: 'Email has been found, redirecting to verification page. Please check your email' })
+        } else {
+            res.status(400).json({ mssg: 'No existing email, please check input' });
+        }
+       
+       
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_update_password = async (req,res) => {
+    const id = req.params.id;
+    const { password } = req.body;
+
+    try {
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(password,salt);
+       
+        const data = await User.updateOne({ _id: id },{ password:hashedPassword });
+        res.status(200).json({ mssg: 'Password has been updated, you can use your new password', redirect: '/login' });
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 module.exports.comment_get = (req,res) => {
@@ -127,7 +225,7 @@ module.exports.comment_post = (req,res) => {
 
     Comment.create({ comment, user_id: userId, email: emailOfUser })
     .then((com) => {
-        res.status(201).json({ mssg: 'Comment has been posted'});
+        res.status(201).json({ mssg: 'Thank you for commenting on our application!'});
     })
     .catch(err => {
         console.log(err);

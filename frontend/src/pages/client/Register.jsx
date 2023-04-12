@@ -6,6 +6,7 @@ import barangays from '../../json/refbrgy.json';
 import cities from '../../json/refcitymun.json';
 import { Link } from 'react-router-dom';
 import AlertMssg from '../../components/AlertMssg';
+import { BiLoaderAlt } from 'react-icons/bi';
 
 const Register = () => {
 
@@ -29,10 +30,11 @@ const Register = () => {
     const [openAlert,setOpenAlert] = useState(false);
     const [alertMssg,setAlertMssg] = useState('');
     const [redirect,setRedirect] = useState('');
+    const [isLoading,setIsLoading] = useState(false);
 
     const registerUser = async (e) => {
         e.preventDefault();
-        
+        setIsLoading(true);
         try {
             const data = new FormData();
             data.append('firstName',fn);
@@ -49,6 +51,7 @@ const Register = () => {
             const postUser = await axios.post('/user', data);
             
             if(postUser.status === 201) {
+                setIsLoading(false);
                 setOpenAlert(true);
                 setAlertMssg(postUser.data.mssg);
                 postUser.data.redirect && setRedirect(postUser.data.redirect);
@@ -58,7 +61,7 @@ const Register = () => {
         } 
         catch(err) {
             console.log(err);
-            alert(err.response.data.mssg);
+            //alert(err.response.data.mssg);
         }   
     }
 
@@ -117,6 +120,7 @@ const Register = () => {
                 <h1 className="text-3xl font-bold">Register!</h1>
                 <p className="text-green-500 font-semibold text-xs">Already have an account? <Link className="text-gray-800" to='/login'>Login</Link></p>
                 <span>Personal Information</span>
+                { isLoading && <span className="animate-pulse text-md text-green-500 flex items-center gap-2 text-sm"><BiLoaderAlt className="animate-spin" />Please wait for response, do not leave the page</span> }
             </div>
             <form onSubmit={registerUser} encType='multipart/form-data' className="flex justify-center flex-col w-4/5 gap-2">
                 {/* For changing view of form */}

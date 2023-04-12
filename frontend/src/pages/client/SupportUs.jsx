@@ -65,14 +65,15 @@ const SupportUs = () => {
                         <h1 className="text-sm text-gray-400 animate-pulse">No comments yet for this user</h1>
                     </div>
                     :
-                     comments?.map((comment) => (
-                        <div className="grid grid-cols-5 gap-2 p-3 border-b border-gray-400">
+                     comments?.map((comment,pos) => (
+                        <div key={pos} className="grid grid-cols-5 gap-2 p-3 border-b border-gray-400">
                             <Avatar style="rounded-full col-span-1 w-10 h-10" avatar={comment?.user_id?.profilePicture} />
                             <div className="flex flex-col col-span-3">  
                                 <h1 className="font-normal text-gray-900">{comment?.user_id?.firstName }</h1>
                                 <p className="text-gray-400 text-sm">{comment?.comment}</p>
                             </div>
-                            <span className="text-gray-400 col-span-1 text-sm">{moment().startOf('hour').fromNow()}</span>
+                            <span className="text-gray-400 col-span-1 text-sm">{moment.utc(`${comment?.createdAt.split('.')[0].split('T')[0]} ${comment?.createdAt.split('.')[0].split('T')[1]}`).local().startOf('seconds').fromNow()}</span>
+                            {}
                         </div>
                     )) 
                 }

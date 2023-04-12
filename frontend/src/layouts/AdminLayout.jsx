@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { useState } from 'react';
+import AdminNavbar from '../components/AdminNavbar';
 
 const AdminLayout = () => {
 
@@ -9,9 +9,11 @@ const AdminLayout = () => {
 
     return (
         <main className="h-full relative">
-            <button onClick={() => setShowSidebar(!showSidebar)} className="absolute py-5 px-2 text-3xl text-green-600"><RxHamburgerMenu /></button>
-            <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-            <Outlet />
+            <AdminNavbar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+            <div className={`flex relative`}>
+                <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+                <Outlet />
+            </div>
         </main>
     )
 }

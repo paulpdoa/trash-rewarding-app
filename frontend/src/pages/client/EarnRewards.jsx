@@ -1,13 +1,12 @@
-import { IoArrowBackCircleOutline } from 'react-icons/io5';
 import Navigator from '../../components/Navigator';
 
-const History = () => {
+const EarnRewards = () => {
 
     return (
         <div className="h-full relative">
-            <Navigator currentPage='History' />
+            <Navigator currentPage='E-Rewards' />
             <div className="h-full px-10 py-24">
-                <h1 className="font-normal text-center text-xl px-10 py-2 rounded">History</h1>    
+                <h1 className="font-normal text-center text-xl px-10 py-2 rounded">E-Rewards</h1>    
 
                 <div className="w-full p-2 gap-2 rounded mt-5 flex justify-between border-b border-gray-400">
                     <div className="text-left">
@@ -99,4 +98,4 @@ const History = () => {
     )
 }
 
-export default History;
+export default EarnRewards;

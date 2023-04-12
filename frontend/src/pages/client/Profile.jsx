@@ -30,7 +30,6 @@ const Profile = () => {
                 const data = await axios.get(`/userdetailget/${id}`);
                 const joinDate = data.data?.createdAt.split('T')[0];
                 
-
                 setFirstName(data.data?.firstName);
                 setMiddleName(data.data?.middleName);
                 setLastName(data.data?.lastName);
