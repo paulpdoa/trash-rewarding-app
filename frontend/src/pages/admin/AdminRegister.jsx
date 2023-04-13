@@ -9,7 +9,7 @@ import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { HiOutlineUpload } from 'react-icons/hi';
 
-const Register = () => {
+const AdminRegister = () => {
 
     const [fn,setFn] = useState('');
     const [ln,setLn] = useState('');
@@ -186,4 +186,4 @@ const Register = () => {
     )
 }
 
-export default Register;
+export default AdminRegister;

@@ -8,8 +8,8 @@ import { BsExclamationCircle } from 'react-icons/bs';
 const Sidebar = ({ showSidebar,setShowSidebar }) => {
 
     return (
-        <nav className={`${showSidebar ? 'absolute' : 'hidden'} left-0 top-0 h-screen bg-gray-900 w-full z-50 md:w-1/3`}>
-            <div className="relative">
+        <nav className={`${showSidebar ? 'absolute' : 'hidden'} left-0 top-0 h-screen bg-gray-900 bg-opacity-80 w-full z-50 md:w-full`}>
+            <div className="relative bg-gray-900 w-2/3 md:w-1/3 h-full">
                 <ul>
                     <li className="px-3 py-5"><h1 className="text-normal text-gray-100">GENERAL</h1></li>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/dashboard'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><GoDashboard />Dashboard</li></Link>

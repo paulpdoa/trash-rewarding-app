@@ -30,9 +30,7 @@ import Messages from './pages/admin/Messages';
 import CollectionRecords from './pages/admin/CollectionRecords';
 import Accounts from './pages/admin/Accounts';
 import UserProfile from './pages/admin/UserProfile';
-
-
-
+import AdminRegister from './pages/admin/AdminRegister';
 
 function App() {
   return (
@@ -43,9 +41,10 @@ function App() {
       <Route path='/verify/:id' element={<Verify />} />
       <Route path='/forgot-password' element={<ForgotPassword />} />
       <Route path='/password-verify/:id' element={<PasswordVerify />} />
-      <Route path='/admin-login' element={<AdminLogin />} />
       <Route path='/change-password/:id' element={<ChangePassword />} />
 
+      <Route path='/admin-login' element={<AdminLogin />} />
+      <Route path='/admin-register' element={<AdminRegister />} />
 
       {/* User Page
       NOTE: Mobile View only for Users */}

@@ -47,7 +47,9 @@ module.exports.user_get = async (req,res) => {
 module.exports.user_post = async (req,res) => {
 
     const { firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city } = req.body;
-    const { filename } = req.file;
+    //const { filename } = req.files;
+    const avatar = req.files['avatar'][0].filename;
+    const idCard = req.files['idCard'][0].filename;
 
     const code = Math.floor(Math.random() * 100000);
     const userType = 'user';
@@ -56,14 +58,13 @@ module.exports.user_post = async (req,res) => {
 
     const htmlContent = `
     <h1>Hello ${firstName} ${lastName}</h1>
-    <p>Here is you code: <b>${code}</b></p>
+    <p>Here is your code: <b>${code}</b></p>
 
     <p>Thank you for registering!</p>
     `;
 
     try {
-        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: filename,adminApproved });
-        
+        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: avatar,adminApproved,idCard });
         const info = await transporter.sendMail({
             from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
             to: `${email}`,

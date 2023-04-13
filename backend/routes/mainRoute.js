@@ -12,7 +12,7 @@ route.get('/user', user_get);
 route.get('/userlogout',user_logout);
 route.get('/userdetailget/:id',user_detail_get);
 route.post('/forgotpassword',user_forgot_password);
-route.post('/user', upload.single('avatar'), user_post);
+route.post('/user', upload.fields([{ name: 'avatar' ,maxCount: 1 }, { name: 'idCard', maxCount: 1 }]), user_post);
 route.post('/userlogin',user_login);
 route.post('/userresendverification/:id',user_resend_verification);
 route.patch('/userverify/:id',user_verify);

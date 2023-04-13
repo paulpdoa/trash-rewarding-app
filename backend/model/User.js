@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema({
     profilePicture: {
         required: true,
         type: String
+    },
+    idCard: {
+        required:true,
+        type: String
     }
 }, { timestamps: true })
 

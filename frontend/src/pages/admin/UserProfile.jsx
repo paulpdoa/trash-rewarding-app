@@ -16,7 +16,7 @@ const UserProfile = () => {
     const [barangay,setBarangay] = useState('');
     const [joinedDate,setJoinedDate] = useState('');
     const [points,setPoints] = useState(0);
-    const [status,setStatus] = useState(true);
+    const [status] = useState(true);
     const [avatar,setAvatar] = useState('');
 
     const { id } = useParams();
@@ -50,7 +50,7 @@ const UserProfile = () => {
 
     return (
         <div className="h-full relative w-full">
-            <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Accounts</button>
+            <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/accounts'>Home</Link> / Accounts</button>
             <div className="h-full px-10 py-10 w-full">
                 <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-bg"> 
                     <Avatar style="rounded-full w-32 h-32 border-white border-8 mt-24" avatar={avatar} />

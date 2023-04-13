@@ -64,10 +64,15 @@ const Accounts = () => {
     }
 
     const deactivateUser = async (id) => {
-        
+        setIsLoading(true);
+        setLoadMssg('Deleting user');
         try {
             const data = await axios.delete(`/admindeleteuser/${id}`);
-
+            setLoadMssg('');
+            setIsLoading(false);
+            setOpenAlert(true);
+            setMssg(data.data.mssg);
+            setRedirect(data.data.redirect);
         } catch(err) {
             console.log(err);
         }
