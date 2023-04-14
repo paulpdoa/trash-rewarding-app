@@ -65,4 +65,5 @@ tr:nth-child(even) {
 }
 .swiper-wrapper {
   display:flex;
+  z-index: 0;
 }

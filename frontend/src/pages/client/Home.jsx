@@ -103,6 +103,7 @@ const Home = () => {
                 slidesPerView={1}
                 modules={[Navigation,Thumbs]}
                 grabCursor={true}
+                className="z-10"
                 >
                     <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
                         <img className="w-fit col-span-1" src="/image/plastic_bottle_1.png" alt="Plastic Bottle" />

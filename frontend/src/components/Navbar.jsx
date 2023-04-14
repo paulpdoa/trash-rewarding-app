@@ -19,7 +19,7 @@ const Navbar = () => {
         width: '100%',
     }
 
-    const handleScan = (data) => {
+    const handleScan = async (data) => {
 
         if(data === null) {
             setMssg('Nothing to be scanned')
@@ -27,6 +27,12 @@ const Navbar = () => {
             setResult(data);    
             alert('Your point is already posted to your account');
             setShowQr(false);
+        }
+
+        try {
+            const res = await axios.patch('/receivepoint', {  });
+        } catch(err) {
+            console.log(err);
         }
     }
 

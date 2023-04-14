@@ -12,8 +12,10 @@ const PointsRewards = () => {
     
     const [categories,setCategories] = useState('');
     const [category,setCategory] = useState('');
+    const [measurement,setMeasurement] = useState('kilo');
 
     const [kilo,setKilo] = useState(0);
+    const [pieces,setPieces] = useState(0);
     const [rewardId,setRewardId] = useState('');
 
     useEffect(() => {
@@ -34,17 +36,58 @@ const PointsRewards = () => {
     },[])
 
     const generateQrCode = () => {
-        if(points === '') {
-            setErrMssg('Please enter a point');
+        // Pointing system is here
+        // 1. Check what category is selected
+        // 2. Depending on the input of the user, find the kilogram on the array, then get the point value per kilo/pcs
+        // 3. Generate QR code based on the value fetch from the array based on category and measurement
+        const kiloFmt = kilo+'kg';
+        const pcsFmt = pieces+'pcs';
+
+        let calculatedPoint = '';
+
+        if(kilo === 0 && pieces === 0) {
+            setErrMssg('Please enter something');
             setTimeout(() => {
                 setErrMssg('')
             },1000)
             setShowQr(false)
         } 
 
-        if(points !== '') {
+        if(kilo !== 0 || pieces !== 0) {
             setShowQr(true);
         }
+        const chosenCateg = categories.filter(categ => categ.category === category)[0];
+
+        if(category === 'Plastic Bottles') {
+             //get position of kilo array
+            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+            //get all points array
+            const pointKilo = Object.values(chosenCateg.points[0])
+            calculatedPoint = pointKilo[positionKilo];
+        }
+
+        if(category === 'Cartons') {     
+            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+            //get all points array
+            const pointKilo = Object.values(chosenCateg.points[0])    
+            calculatedPoint = pointKilo[positionKilo];
+        }
+
+        if(category === 'Cans') {  
+            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+            //get all points array
+            const pointKilo = Object.values(chosenCateg.points[0])    
+            calculatedPoint = pointKilo[positionKilo];
+        }
+
+        if(category === 'Glass Bottles') { 
+            const positionPcs = Object.keys(chosenCateg.points[0]).indexOf(pcsFmt)
+            //get all points array
+            const pointPcs = Object.values(chosenCateg.points[0]) 
+            calculatedPoint = pointPcs[positionPcs];
+        }
+        
+        setPoints(calculatedPoint.toString()); 
     }
 
     // Create function to hide qr when input box is empty
@@ -54,11 +97,16 @@ const PointsRewards = () => {
         point === '' && setShowQr(false);
     }
 
-    const calculatePoints = () => {
+    const getCategory = (categoryInfo) => {
         // 1. Select category
         // 2. If category has a measurement of kilo, then for kilo, else for pcs
         // 3. If Kilo, input a kilo, generate the qr code
-        console.log()
+        // 4. 
+        const measure = categoryInfo.split('-')[0];
+        const categoryType = categoryInfo.split('-')[1];
+
+        setMeasurement(measure);
+        setCategory(categoryType);
     }
 
     return (
@@ -74,16 +122,48 @@ const PointsRewards = () => {
                 <>
                 <div className="flex gap-2 items-center mt-5">
                     <span className='bg-gray-200 text-sm text-gray-500 p-2'>Category:</span>
-                    <select onChange={(e) => setCategory(e.target.value)} className='bg-gray-200 text-sm text-gray-500 p-2'>
+                    <select onChange={(e) => getCategory(e.target.value)} className='bg-gray-200 text-sm text-gray-500 p-2'>
+                        <option hidden>Select Category</option>
                         { categories && categories.map((category,pos) => (
-                            <option key={pos} value={category.category}>{category.category}</option>
+                            <option key={pos} value={`${category.measurement}-${category.category}`}>{category.category}</option>
                         )) }
                     </select>
                 </div>
+                { measurement === 'kilo' ? 
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-500'>Kilo:</span>
-                    <input onChange={(e) => handlePointChange(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" type="number" />
+                    <select onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
+                        <option hidden>Select kilo</option>
+                        <option value="1">1kg</option>
+                        <option value="2">2kg</option>
+                        <option value="3">3kg</option>
+                        <option value="4">4kg</option>
+                        <option value="5">5kg</option>
+                        <option value="6">6kg</option>
+                        <option value="7">7kg</option>
+                        <option value="8">8kg</option>
+                        <option value="9">9kg</option>
+                        <option value="10">10kg</option>
+                    </select>
+                </div>    
+                :
+                <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
+                    <span className='bg-gray-200 text-sm text-gray-500'>Pieces:</span>
+                    <select onChange={(e) => setPieces(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
+                        <option hidden>Select pieces</option>
+                        <option value="1">1pc</option>
+                        <option value="2">2pcs</option>
+                        <option value="3">3pcs</option>
+                        <option value="4">4pcs</option>
+                        <option value="5">5pcs</option>
+                        <option value="6">6pcs</option>
+                        <option value="7">7pcs</option>
+                        <option value="8">8pcs</option>
+                        <option value="9">9pcs</option>
+                        <option value="10">10pcs</option>
+                    </select>
                 </div>
+                }
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>

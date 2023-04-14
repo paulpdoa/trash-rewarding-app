@@ -8,17 +8,7 @@ const categorySchema = new mongoose.Schema({
     measurement: {
         required: true,
         type:String
-    },
-    perKilo: [{
-        weight: {
-            type: Number,
-            required: true
-        },
-        points: {
-            type:Number,
-            required: true
-        }
-    }]
+    }
 }, { timestamps: true })
 
 const CategoryModel = mongoose.model('category',categorySchema);
