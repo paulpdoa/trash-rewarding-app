@@ -9,11 +9,11 @@ const UserLayout = () => {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if(existingCookie === undefined) {
-    //         navigate('/login');
-    //     }
-    // },[existingCookie,navigate])
+    useEffect(() => {
+        if(existingCookie === undefined) {
+            navigate('/login');
+        }
+    },[existingCookie,navigate])
 
     return (
         <main className="h-full">

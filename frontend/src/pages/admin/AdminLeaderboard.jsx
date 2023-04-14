@@ -4,6 +4,7 @@ import axios from 'axios';
 import Avatar from '../../components/Avatar';
 import NumberFormat from '../../components/NumberFormat';
 import { TfiCrown } from 'react-icons/tfi';
+import { baseUrl } from '../../baseUrl';
 
 const AdminLeaderboard = () => {
     const [users,setUsers] = useState([]);
@@ -13,7 +14,7 @@ const AdminLeaderboard = () => {
 
         const fetchUsers = async () => {
             try {
-                const data = await axios.get('/user');
+                const data = await axios.get(`${baseUrl()}/user`);
                 setUsers(data.data);
             } catch(err) {
                 console.log(err);

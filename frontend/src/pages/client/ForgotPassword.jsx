@@ -2,6 +2,7 @@ import AlertMssg from "../../components/AlertMssg";
 import { useState } from 'react';
 import axios from 'axios';
 import { BiLoaderAlt } from 'react-icons/bi';
+import { baseUrl } from "../../baseUrl";
 
 const ForgotPassword = () => {
 
@@ -24,7 +25,7 @@ const ForgotPassword = () => {
             setWaitMssg('Please wait for server response, thank you');
             setErrEmailMssg('');
             try {
-                const data = await axios.post(`/forgotpassword`,{ email });
+                const data = await axios.post(`${baseUrl()}/forgotpassword`,{ email });
                 setRedirect(data.data.redirect);
                 setOpenAlert(true);
                 setMssg(data.data.mssg)

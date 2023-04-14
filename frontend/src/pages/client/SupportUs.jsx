@@ -5,6 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Avatar from "../../components/Avatar";
 import AlertMssg from "../../components/AlertMssg";
+import { baseUrl } from "../../baseUrl";
 
 const SupportUs = () => {
 
@@ -18,7 +19,7 @@ const SupportUs = () => {
     const postComment = (e) => {
         e.preventDefault();
         
-        axios.post('/comment', { comment, userId, userEmail })
+        axios.post(`${baseUrl()}/comment`, { comment, userId, userEmail })
         .then((data) => {
             setComments(comment => [...comments,comment[0]])
             setAlertMssg(data.data.mssg)
@@ -34,7 +35,7 @@ const SupportUs = () => {
 
         const fetchComment = async () => {
             try {
-                const data = await axios.get('/comment');
+                const data = await axios.get(`${baseUrl()}/comment`);
                 setComments(data.data);
             } catch(err) {
                 console.log(err);

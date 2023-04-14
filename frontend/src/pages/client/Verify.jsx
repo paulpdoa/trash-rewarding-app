@@ -2,6 +2,7 @@ import AlertMssg from "../../components/AlertMssg";
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { baseUrl } from "../../baseUrl";
 
 const Verify = () => {
 
@@ -20,7 +21,7 @@ const Verify = () => {
         
         if(Number(code) === userCode) {
             try {
-                const verify = await axios.patch(`/userverify/${id}`, { status: true });
+                const verify = await axios.patch(`${baseUrl()}/userverify/${id}`, { status: true });
                 setOpenAlert(true);
                 setPassMssg(verify.data.mssg);
                 setRedirect(verify.data.redirect);
@@ -37,7 +38,7 @@ const Verify = () => {
 
         const fetchUser = async () => {
             try {   
-                const data = await axios.get(`/userdetailget/${id}`);
+                const data = await axios.get(`${baseUrl()}/userdetailget/${id}`);
                 setUserCode(data.data.code);
             } catch(err) {
                 console.log(err);

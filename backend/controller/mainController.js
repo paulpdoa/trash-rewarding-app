@@ -223,6 +223,14 @@ module.exports.user_update_password = async (req,res) => {
     }
 }
 
+module.exports.user_receive_points = async (req,res) => {
+    const id = req.params.id;
+
+    const userId = id.split('-')[0];
+    const collectedPoints = id.split('0')[1];
+    console.log(userId,collectedPoints);
+}
+
 module.exports.comment_get = (req,res) => {
 
     Comment.find({}).populate('user_id')

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { HiOutlineUpload } from 'react-icons/hi';
+import { baseUrl } from '../../baseUrl';
 
 const Register = () => {
 
@@ -51,7 +52,7 @@ const Register = () => {
             data.append('avatar',avatar);
             data.append('idCard',idCard);
     
-            const postUser = await axios.post('/user', data);
+            const postUser = await axios.post(`${baseUrl()}/user`, data);
             
             if(postUser.status === 201) {
                 setIsLoading(false);

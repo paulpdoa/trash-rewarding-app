@@ -4,6 +4,7 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { Link,useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { baseUrl } from '../baseUrl';
 
 const AdminNavbar = ({setShowSidebar,showSidebar}) => {
 
@@ -14,7 +15,7 @@ const AdminNavbar = ({setShowSidebar,showSidebar}) => {
 
     const handleLogout = async () => {
         try {
-            const data = await axios.get('/adminlogout');
+            const data = await axios.get(`${baseUrl()}/adminlogout`);
             localStorage.removeItem('adminUsername');
             localStorage.removeItem('adminId');
             navigate(data.data.redirect);

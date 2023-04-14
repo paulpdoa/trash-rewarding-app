@@ -1,6 +1,7 @@
 import AlertMssg from "../../components/AlertMssg"
 import { useState } from 'react';
 import axios from 'axios';
+import { baseUrl } from "../../baseUrl";
 
 const AdminLogin = () => {
 
@@ -17,7 +18,7 @@ const AdminLogin = () => {
         e.preventDefault();
 
         try {
-            const data = await axios.post('/adminlogin',{ username,password });
+            const data = await axios.post(`${baseUrl()}/adminlogin`,{ username,password });
             localStorage.setItem('adminUsername', username);
             localStorage.setItem('adminId',data.data.adminId);
             setMssg(data.data.mssg);

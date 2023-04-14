@@ -4,6 +4,7 @@ import { useParams,Link } from 'react-router-dom';
 import DateFormatter from '../../components/DateFormatter';
 import NumberFormat from '../../components/NumberFormat';
 import Avatar from '../../components/Avatar';
+import { baseUrl } from '../../baseUrl';
 
 const UserProfile = () => {
 
@@ -26,7 +27,7 @@ const UserProfile = () => {
 
         const fetchUser = async () => {
             try {
-                const data = await axios.get(`/userdetailget/${id}`);
+                const data = await axios.get(`${baseUrl()}/userdetailget/${id}`);
                 const joinDate = data.data?.createdAt.split('T')[0];
                 
                 setFirstName(data.data?.firstName);

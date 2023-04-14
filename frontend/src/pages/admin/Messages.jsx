@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '../../components/Avatar';
 import moment from 'moment';
+import { baseUrl } from '../../baseUrl';
 
 const Messages = () => {
 
@@ -13,7 +14,7 @@ const Messages = () => {
 
         const fetchComments = async() => {
             try {
-                const data = await axios.get('/comment');
+                const data = await axios.get(`${baseUrl()}/comment`);
                 setComments(data.data);
             } catch(err) {
                 console.log(err);

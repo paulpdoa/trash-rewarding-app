@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
 import { useNavigate,Link } from 'react-router-dom';
 import Navigator from '../../components/Navigator';
+import { baseUrl } from '../../baseUrl';
 
 const RewardCategory = () => {
 
@@ -14,7 +15,7 @@ const RewardCategory = () => {
 
         const fetchUserBarangay = async () => {
             try {
-                const data = await axios.get(`/userdetailget/${userId}`);
+                const data = await axios.get(`${baseUrl()}/userdetailget/${userId}`);
                 setBarangay(data.data.barangay);
             } catch(err) {
 

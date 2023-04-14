@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
+import { baseUrl } from '../../baseUrl';
 
 const Login = () => {
 
@@ -40,7 +41,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const data = await axios.post('/userlogin',{ email,password });
+            const data = await axios.post(`${baseUrl()}/userlogin`,{ email,password });
             localStorage.setItem('nameOfUser',data.data.name);
             localStorage.setItem('userEmail',data.data.email);
             localStorage.setItem('userId', data.data.id);

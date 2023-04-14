@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
 import { RiQuestionnaireLine } from 'react-icons/ri';
 import QrReader from 'modern-react-qr-reader';
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import { baseUrl } from '../baseUrl';
 
 const Navbar = () => {
+
+    const userId = localStorage.getItem('userId');
 
     const [showQr,setShowQr] = useState(false);
     const [delay] = useState(100);
@@ -30,7 +33,7 @@ const Navbar = () => {
         }
 
         try {
-            const res = await axios.patch('/receivepoint', {  });
+            const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
         } catch(err) {
             console.log(err);
         }

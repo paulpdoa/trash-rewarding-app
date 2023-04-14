@@ -10,6 +10,7 @@ import { MdOutlineSwipeRight } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs } from 'swiper'; 
 import 'swiper/swiper.min.css';
+import { baseUrl } from '../../baseUrl';
 
 const Home = () => {
 
@@ -25,7 +26,7 @@ const Home = () => {
 
         const fetchUser = async () => {
             try {
-                const data = await axios.get(`/userdetailget/${localStorage.getItem('userId')}`);
+                const data = await axios.get(`${baseUrl()}/userdetailget/${localStorage.getItem('userId')}`);
                 setUser(data.data);
                 setPoints(data.data.collectedPoints);
             } catch(err) {
@@ -43,7 +44,7 @@ const Home = () => {
     let usernameFormat = getFirstName!== undefined ? getFirstName[0].toUpperCase() + getFirstName?.slice(1,getFirstName.length).toLowerCase() : '';
 
     const logoutUser = async () => {
-        const data = await axios.get('/userlogout');
+        const data = await axios.get(`${baseUrl()}/userlogout`);
         navigate(data.data?.redirect);
         localStorage.removeItem('nameOfUser');
         localStorage.removeItem('userId');

@@ -5,6 +5,7 @@ import DateFormatter from '../../components/DateFormatter';
 import AlertMssg from '../../components/AlertMssg';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import UserDetails from '../../components/UserDetails';
+import { baseUrl } from '../../baseUrl';
 
 const Accounts = () => {
 
@@ -25,7 +26,7 @@ const Accounts = () => {
 
         const fetchUsers = async () => {
             try {
-                const data = await axios.get('/user',{ signal });
+                const data = await axios.get(`${baseUrl()}/user`,{ signal });
                 setUsers(data.data);
             } catch(err) {
                 console.log(err);
@@ -38,7 +39,7 @@ const Accounts = () => {
         setIsLoading(true)
         setLoadMssg('Approving user');
         try {
-            const data = await axios.patch(`/adminapproveuser/${id + '-' + adminId}`);
+            const data = await axios.patch(`${baseUrl()}/adminapproveuser/${id + '-' + adminId}`);
             setLoadMssg('');
             setIsLoading(false);
             setOpenAlert(true);
@@ -53,7 +54,7 @@ const Accounts = () => {
         setIsLoading(true);
         setLoadMssg('Rejecting user');
         try {
-            const data = await axios.post(`/adminrejectuser`,{id});
+            const data = await axios.post(`${baseUrl()}/adminrejectuser`,{id});
             setLoadMssg('');
             setIsLoading(false);
             setOpenAlert(true);
@@ -68,7 +69,7 @@ const Accounts = () => {
         setIsLoading(true);
         setLoadMssg('Deleting user');
         try {
-            const data = await axios.delete(`/admindeleteuser/${id}`);
+            const data = await axios.delete(`${baseUrl()}/admindeleteuser/${id}`);
             setLoadMssg('');
             setIsLoading(false);
             setOpenAlert(true);

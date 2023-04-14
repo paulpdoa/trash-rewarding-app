@@ -2,6 +2,7 @@ import AlertMssg from "../../components/AlertMssg";
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { baseUrl } from "../../baseUrl";
 
 const PasswordVerify = () => {
 
@@ -18,7 +19,7 @@ const PasswordVerify = () => {
 
         if(userCode === Number(code)) {
             setPassMssg('Code matched, please update your password');
-            setRedirect(`/change-password/${id}`);
+            setRedirect(`${baseUrl()}/change-password/${id}`);
             setOpenAlert(true)
         } else {
             setErrCodeMssg('Please check code provided in your email');
@@ -31,7 +32,7 @@ const PasswordVerify = () => {
 
         const fetchUser = async () => {
             try {   
-                const data = await axios.get(`/userdetailget/${id}`);
+                const data = await axios.get(`${baseUrl()}/userdetailget/${id}`);
                 setUserCode(data.data.code);
             } catch(err) {
                 console.log(err);

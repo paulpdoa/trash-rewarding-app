@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AlertMssg from '../../components/AlertMssg'; 
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { baseUrl } from '../../baseUrl';
 
 const ChangePassword = () => {
 
@@ -25,7 +26,7 @@ const ChangePassword = () => {
                 setPassErr('');
                 setConfPassErr('');
                 try {
-                    const data = await axios.patch(`/userupdatepassword/${id}`,{ password });
+                    const data = await axios.patch(`${baseUrl()}/userupdatepassword/${id}`,{ password });
                     setOpenAlert(true);
                     setPassMssg(data.data.mssg);
                     setRedirect(data.data.redirect);

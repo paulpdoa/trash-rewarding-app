@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import DateFormatter from './DateFormatter';
 import IdCard from './IdCard';
+import { baseUrl } from '../baseUrl';
 
 const UserDetails = ({ userId,closeDetails }) => {
 
@@ -16,7 +17,7 @@ const UserDetails = ({ userId,closeDetails }) => {
         const fetchUser = async () => {
             setShowUser(false);
             try {
-                const data = await axios.get(`/userdetailget/${userId}`,{ signal });
+                const data = await axios.get(`${baseUrl()}/userdetailget/${userId}`,{ signal });
                 setShowUser(true);
                 setUser(data.data);
             } catch(err) {

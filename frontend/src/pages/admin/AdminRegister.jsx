@@ -7,6 +7,7 @@ import cities from '../../json/refcitymun.json';
 import { Link } from 'react-router-dom';
 import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
+import { baseUrl } from '../../baseUrl';
 
 const AdminRegister = () => {
 
@@ -35,7 +36,7 @@ const AdminRegister = () => {
             if(pass === confPass) {
                 setPassErr('');
                 try {
-                    const data = await axios.post('/admin',{ username,password: pass,province,city,barangay });
+                    const data = await axios.post(`${baseUrl()}/admin`,{ username,password: pass,province,city,barangay });
                     setIsLoading(false);
                     setOpenAlert(true);
                     setAlertMssg(data.data.mssg);

@@ -2,6 +2,7 @@ import QrCode from 'react-qr-code';
 import { useState,useEffect } from 'react'; 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { baseUrl } from '../../baseUrl';
 
 const PointsRewards = () => {
 
@@ -24,7 +25,7 @@ const PointsRewards = () => {
 
         const fetchCategories = async () => {
             try {
-                const data = await axios.get('/category',{ signal });
+                const data = await axios.get(`${baseUrl()}/category`,{ signal });
                 setCategories(data.data);
             } catch(err) {
                 console.log(err);
