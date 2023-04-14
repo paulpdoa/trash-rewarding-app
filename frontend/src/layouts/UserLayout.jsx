@@ -1,12 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { useNavigate,Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import Cookie from 'js-cookie';
 
 const UserLayout = () => {
 
-    const cookie = document.cookie.split('=');
-    const existingCookie = cookie[1];   
+    const existingCookie = Cookie.get('userJwt');   
 
     const navigate = useNavigate();
 
@@ -14,7 +13,7 @@ const UserLayout = () => {
         if(existingCookie === undefined) {
             navigate('/login');
         }
-    },[])
+    },[existingCookie,navigate])
 
     return (
         <main className="h-full">

@@ -64,6 +64,10 @@ const userSchema = new mongoose.Schema({
     idCard: {
         required:true,
         type: String
+    },
+    approvedBy: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'admin'
     }
 }, { timestamps: true })
 

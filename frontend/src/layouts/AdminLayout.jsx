@@ -1,11 +1,23 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const AdminLayout = () => {
-
+    
+    const existingCookie = Cookies.get('adminJwt');
+    
     const [showSidebar,setShowSidebar] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(existingCookie === undefined) {
+            navigate('/admin-login');
+        }
+    },[existingCookie,navigate])
 
     return (
         <main className="h-full relative">

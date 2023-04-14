@@ -17,6 +17,7 @@ const Accounts = () => {
     const [showDetails,setShowDetails] = useState(false);
     const [currentPage,setCurrentPage] = useState('Member Accounts');
     const [userId,setUserId] = useState('');
+    const adminId = localStorage.getItem('adminId');
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -37,7 +38,7 @@ const Accounts = () => {
         setIsLoading(true)
         setLoadMssg('Approving user');
         try {
-            const data = await axios.patch(`/adminapproveuser/${id}`);
+            const data = await axios.patch(`/adminapproveuser/${id + '-' + adminId}`);
             setLoadMssg('');
             setIsLoading(false);
             setOpenAlert(true);

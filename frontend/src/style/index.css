@@ -58,3 +58,11 @@ tr:nth-child(even) {
   background-position: start;
   background-repeat: no-repeat;
 }
+
+.swiper-slide {
+  display:grid !important;
+  height: 190px !important;
+}
+.swiper-wrapper {
+  display:flex;
+}

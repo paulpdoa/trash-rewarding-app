@@ -31,6 +31,7 @@ import CollectionRecords from './pages/admin/CollectionRecords';
 import Accounts from './pages/admin/Accounts';
 import UserProfile from './pages/admin/UserProfile';
 import AdminRegister from './pages/admin/AdminRegister';
+import GenerateReports from './pages/admin/GenerateReports';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
         <Route path='/admin/collection-records' element={<CollectionRecords />} />
         <Route path='/admin/accounts' element={<Accounts />} />
         <Route path='/admin/userprofile/:id' element={<UserProfile />} />
+        <Route path='/admin/reports' element={<GenerateReports />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

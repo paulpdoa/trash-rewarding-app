@@ -6,6 +6,10 @@ import { Link,useNavigate } from 'react-router-dom';
 import { RiRecycleLine } from 'react-icons/ri'
 import axios from 'axios';
 import NumberFormat from '../../components/NumberFormat';
+import { MdOutlineSwipeRight } from 'react-icons/md';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Thumbs } from 'swiper'; 
+import 'swiper/swiper.min.css';
 
 const Home = () => {
 
@@ -46,7 +50,7 @@ const Home = () => {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userAvatar');
     }
-
+    
     return (
         <div className="h-screen w-full home__bg">
             <div className="flex items-center relative text-white text-2xl gap-2 p-2">
@@ -88,24 +92,59 @@ const Home = () => {
             </nav>
 
             <div className="px-10 py-20 h-full">
-                <h1 className="text-green-600 font-semibold">Task!</h1>
-                {/* For Task */}
-                <div className="flex h-auto gap-3 w-full">
-                    <div className="w-3/5 h-full flex justify-center items-center rounded-md p-2 bg-gray-100">
-                        <img src="" alt="" />
-                        <div className="text-center">
-                            <h1 className="text-green-600 font-bold">Plastic Bottle</h1>
-                            <p className="text-xs">A plastic bottle is a bottle constructed from high-density or low-density plastic</p>
-                        </div>
-                    </div>
-                    <div className="w-3/5 h-full flex justify-center items-center rounded-md p-2 bg-gray-100">
-                        <img src="" alt="" />
-                        <div className="text-center">
-                            <h1 className="text-green-600 font-bold">Plastic Bottle</h1>
-                            <p className="text-xs">A plastic bottle is a bottle constructed from high-density or low-density plastic</p>
-                        </div>
-                    </div>
+                <div className="flex justify-between items-center pb-2">
+                    <h1 className="text-green-600 font-semibold">Task!</h1>
+                    <h2 className="text-green-600 font-semibold flex gap-2 items-center">Swipe <MdOutlineSwipeRight /></h2>
                 </div>
+                {/* For Task */}
+                <Swiper 
+                loop={true}
+                spaceBetween={10}
+                slidesPerView={1}
+                modules={[Navigation,Thumbs]}
+                grabCursor={true}
+                >
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                        <img className="w-fit col-span-1" src="/image/plastic_bottle_1.png" alt="Plastic Bottle" />
+                        <div className="text-center col-span-2">
+                            <h1 className="text-green-600 font-bold">Plastic Bottle</h1>
+                            <p className="text-xs font-semibold text-gray-400">A plastic bottle is a bottle constructed from high-density or low-density plastic</p>
+                        </div>
+                        <div className="absolute bottom-0 p-1 border-t border-green-200 left-0 w-full px-1">
+                            <p className="text-xs text-gray-400">Collect 1kg plastic bottle to earn 5,000 points</p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                        <img className="w-fit col-span-1" src="/image/can_1.png" alt="Can" />
+                        <div className="text-center col-span-2">
+                            <h1 className="text-green-600 font-bold">Can</h1>
+                            <p className="text-xs font-semibold text-gray-400">A container, typically made of glass or plastic and with a narrow neck, used for storing drinks or other liquids.</p>
+                        </div>
+                        <div className="absolute bottom-0 p-1 border-t border-green-200 left-0 w-full px-1">
+                            <p className="text-xs text-gray-400">Collect 1kg can bottle to earn 10,000 points</p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                        <img className="w-fit col-span-1" src="/image/empty-glass-bottle-beer.png" alt="Glass Bottle" />
+                        <div className="text-center col-span-2">
+                            <h1 className="text-green-600 font-bold">Glass Bottle</h1>
+                            <p className="text-xs font-semibold text-gray-400">Common uses for glass bottles include food condiments, soda, liquor, cosmetics, pickling and preservatives.</p>
+                        </div>
+                        <div className="absolute bottom-0 p-1 border-t border-green-200 left-0 w-full px-1">
+                            <p className="text-xs text-gray-400">Collect 1 glass bottle to earn 50 points</p>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                        <img className="w-fit col-span-1" src="/image/recycling_1.png" alt="Cartons" />
+                        <div className="text-center col-span-2">
+                            <h1 className="text-green-600 font-bold">Cartons</h1>
+                            <p className="text-xs font-semibold text-gray-400">Used cartons are a form of packaging waste. They can easily be recycled because they're made from a combination of paper, plastic, and aluminum</p>
+                        </div>
+                        <div className="absolute bottom-0 p-1 border-t border-green-200 left-0 w-full px-1">
+                            <p className="text-xs text-gray-400">Collect 1 kl of cartons to earn 3000 points</p>
+                        </div>
+                    </SwiperSlide>
+                </Swiper>
 
                 {/* Learn */}
                 <div className="mt-5">

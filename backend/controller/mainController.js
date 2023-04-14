@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 
 const User = require("../model/User");
 const Comment = require("../model/Comment");
+const Admin = require('../model/Admin');
+const Category = require('../model/Category');
 
 const maxAge = 3 * 24 * 24 * 60;
 const createToken = (id) => {
@@ -13,13 +15,16 @@ const createToken = (id) => {
 }
 
 const handleErrors = (err) => {
-    let errors = { email: '', password: '' };
+    let errors = { email: '', password: '',username: '' };
 
     if(err.message === 'Incorrect password') {
        errors.password = 'Password is incorrect';
     }
     if(err.message === 'This email doesn\'t exist') {
         errors.email = 'Email is incorrect';
+    }
+    if(err.message === 'This username doesn\'t exist') {
+        errors.email = 'Username is incorrect';
     }
 
     return errors;
@@ -37,7 +42,7 @@ let transporter = nodemailer.createTransport({
 
 module.exports.user_get = async (req,res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().populate('approvedBy');
         res.status(201).json(users);
     } catch(err) {
         console.log(err);
@@ -241,12 +246,53 @@ module.exports.comment_post = (req,res) => {
     }) 
 }
 
-module.exports.admin_approve_user = async (req,res) => {
-    const { id } = req.params;
+module.exports.admin_get = async (req,res) => {
 
     try {
-        const userFind = await User.findById(id);
-        const data = await User.updateOne({ _id: id }, { adminApproved: true });
+        const admins = await Admin.find();
+        res.status(200).json(admins);
+    } catch(err) {
+        console.log(err);
+    }
+
+}
+
+module.exports.admin_post = async (req,res) => {
+    const { username,password,province,barangay,city } = req.body;
+
+    try {
+        const data = await Admin.create({ username, password, province, city, barangay });
+        res.status(201).json({ mssg: `${username} has been registered, thank you for registering an admin.`, redirect:'/admin-login' });
+    } catch(err) {
+        console.log(err);
+    }
+
+}
+
+module.exports.admin_login = async(req,res) => {
+    const { username,password } = req.body;
+
+    try {   
+        const admin = await Admin.login(username,password);
+        const token = createToken(admin._id);
+        res.cookie('adminJwt',token,{ maxAge: maxAge * 1000 }).status(200).json({ mssg: `${admin.username} has been successfully logged-in`, redirect:'/admin/dashboard',adminId: admin._id })
+    } catch(err) {
+        const errors = handleErrors(err);
+        res.status(400).json(errors);
+    }
+}
+
+module.exports.admin_logout = (req,res) => {
+    res.cookie('adminJwt','',{ maxAge: 1 }).json({ redirect: '/admin-login' });
+}
+
+module.exports.admin_approve_user = async (req,res) => {
+    const { id } = req.params;
+    const adminId = id.split('-')[1];
+    const userId = id.split('-')[0];
+    try {
+        const userFind = await User.findById(userId);
+        const data = await User.updateOne({ _id: userId }, { adminApproved: true, approvedBy: adminId });
         const info = await transporter.sendMail({
             from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
             to: `${userFind.email}`,
@@ -309,4 +355,15 @@ module.exports.admin_delete_user = async (req,res) => {
     } catch(err) { 
         console.log(err);
     }
+}
+
+module.exports.category_get = async (req,res) => {
+
+    try {
+        const category = await Category.find();
+        res.json(category);
+    } catch(err) {
+        console.log(err)
+    }
+
 }
