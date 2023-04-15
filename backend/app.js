@@ -28,7 +28,7 @@ const connectToDB = async () => {
 connectToDB();
 
 app.use(cors({
-    origin: 'http://trash-app-system.netlify.app',
+    origin: 'https://trash-app-system.netlify.app',
     credentials: true
 }));
 
