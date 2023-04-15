@@ -33,7 +33,13 @@ import UserProfile from './pages/admin/UserProfile';
 import AdminRegister from './pages/admin/AdminRegister';
 import GenerateReports from './pages/admin/GenerateReports';
 
+import { useState } from 'react';
+
 function App() {
+
+  //Use in reward system
+  const [currentPage,setCurrentPage] = useState('Give Points');
+
   return (
     // Handling of routes in Frontend
     <Routes>
@@ -49,7 +55,7 @@ function App() {
 
       {/* User Page
       NOTE: Mobile View only for Users */}
-      <Route element={<UserLayout />}>
+      <Route element={<UserLayout currentPage={currentPage} />}>
         <Route path='/' element={<Home />} />
         <Route path='/profile/:id' element={<Profile />} />
         <Route path='/about' element={<About />} />
@@ -66,7 +72,7 @@ function App() {
       <Route element={<AdminLayout />}>
         <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/leaderboard' element={<AdminLeaderboard />} />
-        <Route path='/admin/give-points-rewards' element={<PointsRewards />} />
+        <Route path='/admin/give-points-rewards' element={<PointsRewards currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
         <Route path='/admin/messages' element={<Messages />} />
         <Route path='/admin/collection-records' element={<CollectionRecords />} />
         <Route path='/admin/accounts' element={<Accounts />} />

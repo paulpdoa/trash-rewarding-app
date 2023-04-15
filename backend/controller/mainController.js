@@ -6,6 +6,9 @@ const User = require("../model/User");
 const Comment = require("../model/Comment");
 const Admin = require('../model/Admin');
 const Category = require('../model/Category');
+const EarnPoint = require('../model/EarnPoint');
+const EarnReward = require('../model/EarnReward');
+const Reward = require('../model/Reward');
 
 const maxAge = 3 * 24 * 24 * 60;
 const createToken = (id) => {
@@ -230,11 +233,28 @@ module.exports.user_receive_points = async (req,res) => {
     const collectedPoints = id.split('-')[1];
 
     try {
-        const user = await User.updateOne({ _id: userId },{ collectedPoints });
+        const userFound = await User.findOne({ userId });
+        const user = await User.updateOne({ _id: userId },{ collectedPoints: userFound.collectedPoints + collectedPoints});
+        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoint });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);
     }
+}
+
+module.exports.user_receive_rewards = async (req,res) => {
+    const id = req.params.id;
+
+    const userId = id.split('-')[0];
+    const rewardPickedId = id.split('-')[1];
+
+    try {
+        const reward = await Reward
+        const user = await User.update
+    } catch(err) {
+        console.log(err);
+    }
+
 }
 
 module.exports.comment_get = (req,res) => {

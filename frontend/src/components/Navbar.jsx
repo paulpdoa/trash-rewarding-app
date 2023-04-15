@@ -8,7 +8,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 
-const Navbar = () => {
+const Navbar = ({ currentPage }) => {
 
     const userId = localStorage.getItem('userId');
 
@@ -27,13 +27,25 @@ const Navbar = () => {
         if(data === null) {
             setMssg('Nothing to be scanned')
         } else {
-            try {
-                const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
-                alert(res.data.mssg);
-                setShowQr(false);
-            } catch(err) {
-                console.log(err);
-            }    
+            if(currentPage === 'Give Points') {
+                // For rewarding system
+                try {
+                    const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
+                    alert(res.data.mssg);
+                    setShowQr(false);
+                } catch(err) {
+                    console.log(err);
+                }   
+            } else {
+                try {
+                    const res = await axios.patch(`${baseUrl()}/userreceivereward/${userId}-${data}`);
+                    alert(res.data.mssg);
+                    setShowQr(false);
+                } catch(err) {
+                    console.log(err);
+                }   
+            }
+             
         }
     }
 

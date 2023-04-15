@@ -5,7 +5,7 @@ const { upload } = require('../middleware/uploadMiddleware');
 const {user_get, user_post, user_login, user_logout, user_detail_get, 
    user_verify, comment_get, comment_post, user_resend_verification, user_forgot_password,
    user_update_password,
-   admin_approve_user, admin_reject_user, admin_delete_user, admin_post, admin_get, admin_login, admin_logout, category_get, user_receive_points} = require('../controller/mainController');
+   admin_approve_user, admin_reject_user, admin_delete_user, admin_post, admin_get, admin_login, admin_logout, category_get, user_receive_points, user_receive_rewards} = require('../controller/mainController');
 
 // User Routes
 route.get('/user', user_get);
@@ -18,6 +18,7 @@ route.post('/userresendverification/:id',user_resend_verification);
 route.patch('/userverify/:id',user_verify);
 route.patch('/userupdatepassword/:id',user_update_password)
 route.patch('/userreceivepoint/:id',user_receive_points);
+route.patch('/userreceivereward/:id',user_receive_rewards);
 
 // Comment Routes
 route.get('/comment',comment_get);

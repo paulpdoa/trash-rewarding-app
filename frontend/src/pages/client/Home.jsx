@@ -36,7 +36,7 @@ const Home = () => {
 
         localStorage.getItem('userId') !== undefined && fetchUser();
         return () => abortCont.abort();
-    },[])
+    },[user])
     
     //Formatting of user first letter to be capital letter
     // Get user first name only

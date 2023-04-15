@@ -4,12 +4,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../baseUrl';
 
-const PointsRewards = () => {
+const PointsRewards = ({ currentPage,setCurrentPage }) => {
 
     const [points,setPoints] = useState('');
     const [showQr,setShowQr] = useState(false);
     const [errMssg,setErrMssg] = useState('');
-    const [currentPage,setCurrentPage] = useState('Give Points');
     
     const [categories,setCategories] = useState('');
     const [category,setCategory] = useState('');
