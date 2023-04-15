@@ -28,7 +28,7 @@ const Home = () => {
             try {
                 const data = await axios.get(`${baseUrl()}/userdetailget/${localStorage.getItem('userId')}`);
                 setUser(data.data);
-                setPoints(data.data.collectedPoints);
+                setPoints((point) => data.data.collectedPoints);
             } catch(err) {
                 console.log(err);
             }
@@ -36,7 +36,7 @@ const Home = () => {
 
         localStorage.getItem('userId') !== undefined && fetchUser();
         return () => abortCont.abort();
-    },[user])
+    },[])
     
     //Formatting of user first letter to be capital letter
     // Get user first name only

@@ -63,6 +63,7 @@ module.exports.user_post = async (req,res) => {
     const userType = 'user';
     const status = false;
     const adminApproved = false;
+    const collectedPoints = 0;
 
     const htmlContent = `
     <h1>Hello ${firstName} ${lastName}</h1>
@@ -72,7 +73,7 @@ module.exports.user_post = async (req,res) => {
     `;
 
     try {
-        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: avatar,adminApproved,idCard });
+        const newUser = await User.create({ firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city, code, userType, status, profilePicture: avatar,adminApproved,idCard,collectedPoints });
         const info = await transporter.sendMail({
             from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
             to: `${email}`,
@@ -230,12 +231,12 @@ module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
 
     const userId = id.split('-')[0];
-    const collectedPoints = id.split('-')[1];
-
+    const collectedPoints = Number(id.split('-')[1]);
+    
     try {
-        const userFound = await User.findOne({ userId });
-        const user = await User.updateOne({ _id: userId },{ collectedPoints: userFound.collectedPoints + collectedPoints});
-        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoint });
+        const userFound = await User.findById(userId);
+        const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
+        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);

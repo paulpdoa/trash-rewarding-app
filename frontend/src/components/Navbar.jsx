@@ -1,6 +1,6 @@
 import { AiOutlineHome,AiOutlineExclamationCircle } from 'react-icons/ai';
 import { MdQrCodeScanner } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
 import { RiQuestionnaireLine } from 'react-icons/ri';
 import QrReader from 'modern-react-qr-reader';
@@ -13,9 +13,11 @@ const Navbar = ({ currentPage }) => {
     const userId = localStorage.getItem('userId');
 
     const [showQr,setShowQr] = useState(false);
-    const [delay] = useState(100);
+    const [delay] = useState(5000);
     const [result,setResult] = useState('No QR Code is being scanned');
     const [mssg,setMssg] = useState('');
+
+    const navigate = useNavigate();
 
     const previewStyle = {
         height: '100%',
@@ -23,30 +25,31 @@ const Navbar = ({ currentPage }) => {
     }
 
     const handleScan = async (data) => {
-
+        console.log(data);
         if(data === null) {
-            setMssg('Nothing to be scanned')
-        } else {
-            if(currentPage === 'Give Points') {
+            setMssg('Nothing to be scanned');
+        } 
+            //if(currentPage === 'Give Points') {
                 // For rewarding system
-                try {
-                    const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
-                    alert(res.data.mssg);
-                    setShowQr(false);
-                } catch(err) {
-                    console.log(err);
-                }   
-            } else {
-                try {
-                    const res = await axios.patch(`${baseUrl()}/userreceivereward/${userId}-${data}`);
-                    alert(res.data.mssg);
-                    setShowQr(false);
-                } catch(err) {
-                    console.log(err);
-                }   
-            }
-             
-        }
+        if(data !== null) {
+            try {
+                const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
+                setShowQr(false);
+                alert(res.data.mssg);
+                navigate('/')
+            } catch(err) {
+                console.log(err);
+            }  
+        } 
+            //} else {
+                // try {
+                //     const res = await axios.patch(`${baseUrl()}/userreceivereward/${userId}-${data}`);
+                //     alert(res.data.mssg);
+                //     setShowQr(false);
+                // } catch(err) {
+                //     console.log(err);
+                // }   
+            //}
     }
 
     const handleError = (err) => {
@@ -80,7 +83,7 @@ const Navbar = ({ currentPage }) => {
                
                {/* Use Qr Scanner Here */}
                 { showQr && 
-                    <div className="h-screen bg-black fixed top-0 w-full flex flex-col items-center justify-center">
+                    <div className="h-screen bg-white fixed top-0 w-full flex flex-col items-center justify-center">
                         <p className="absolute top-44 bg-red-500 text-gray-100 p-2 rounded font-semibold">{mssg}</p>
                         <QrReader 
                             className="qr-box flex items-center justify-center"
