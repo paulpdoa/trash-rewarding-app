@@ -227,8 +227,9 @@ module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
 
     const userId = id.split('-')[0];
-    const collectedPoints = id.split('0')[1];
-    console.log(userId,collectedPoints);
+    const collectedPoints = id.split('-')[1];
+    console.log(userId);
+    console.log(collectedPoints);
 }
 
 module.exports.comment_get = (req,res) => {

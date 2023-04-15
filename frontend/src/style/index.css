@@ -59,6 +59,9 @@ tr:nth-child(even) {
   background-repeat: no-repeat;
 }
 
+.swiper {
+  z-index: 0 !important;
+}
 .swiper-slide {
   display:grid !important;
   height: 190px !important;
