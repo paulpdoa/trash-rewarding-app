@@ -228,8 +228,13 @@ module.exports.user_receive_points = async (req,res) => {
 
     const userId = id.split('-')[0];
     const collectedPoints = id.split('-')[1];
-    console.log(userId);
-    console.log(collectedPoints);
+
+    try {
+        const user = await User.updateOne({ _id: userId },{ collectedPoints });
+        res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 module.exports.comment_get = (req,res) => {

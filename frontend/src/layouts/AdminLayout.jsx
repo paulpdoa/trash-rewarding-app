@@ -8,13 +8,14 @@ import Cookies from 'js-cookie';
 const AdminLayout = () => {
     
     const existingCookie = Cookies.get('adminJwt');
+    const existingId = localStorage.getItem('adminId');
     
     const [showSidebar,setShowSidebar] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(existingCookie === undefined) {
+        if(existingId === null) {
             navigate('/admin-login');
         }
     },[existingCookie,navigate])

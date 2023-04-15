@@ -5,12 +5,12 @@ import Cookie from 'js-cookie';
 
 const UserLayout = () => {
 
-    const existingCookie = Cookie.get('userJwt');   
-
+    const existingCookie = Cookie.get('userJwt');  
+    const existingId = localStorage.getItem('userId'); 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(existingCookie === undefined) {
+        if(existingId === null) {
             navigate('/login');
         }
     },[existingCookie,navigate])

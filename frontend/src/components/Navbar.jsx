@@ -27,15 +27,13 @@ const Navbar = () => {
         if(data === null) {
             setMssg('Nothing to be scanned')
         } else {
-            setResult(data);    
-            alert('Your point is already posted to your account');
-            setShowQr(false);
-        }
-
-        try {
-            const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
-        } catch(err) {
-            console.log(err);
+            try {
+                const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
+                alert(res.data.mssg);
+                setShowQr(false);
+            } catch(err) {
+                console.log(err);
+            }    
         }
     }
 
