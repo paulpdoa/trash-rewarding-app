@@ -10,6 +10,9 @@ const EarnPoint = require('../model/EarnPoint');
 const EarnReward = require('../model/EarnReward');
 const Reward = require('../model/Reward');
 
+const d = new Date(); // for now
+const currentTime = d.getHours() + ':' + d.getMinutes();
+
 const maxAge = 3 * 24 * 24 * 60;
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.SECRET, {
@@ -235,7 +238,7 @@ module.exports.user_receive_points = async (req,res) => {
     try {
         const userFound = await User.findById(userId);
         const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
-        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints });
+        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);
@@ -248,13 +251,44 @@ module.exports.user_receive_rewards = async (req,res) => {
     const userId = id.split('-')[0];
     const rewardPickedId = id.split('-')[1];
 
-    console.log(id);
-
     try {
         const userFind = await User.findById(userId);
         const reward = await Reward.findById(rewardPickedId);
-        const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
-      
+
+        const deductedPoints = '-'+ reward.point;
+
+        // Check if user points is enough
+        if(userFind.collectedPoints < 1) {
+            res.status(400).json({ mssg: 'You don\'t have enough points' });
+        } else {
+            const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
+            const earnPoint = await EarnPoint.create({ user_id: userId, point: deductedPoints });
+            const earnRewards = await EarnReward.create({ user_id: userId, reward: rewardPickedId, point: deductedPoints, currentTime });
+            res.status(200).json({ mssg: `You have received a reward, ${reward.point} has been deducted to your points` });
+        }
+
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_point_get = async (req,res) => {
+
+    try {
+        const points = await EarnPoint.find().populate('user_id');
+        res.status(200).json(points);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_point_detail_get = async (req,res) => {
+    const userId = req.params.id;
+    
+    try {   
+        const data = await EarnPoint.find({ user_id: userId }).populate('user_id');
+        console.log(data);
+        res.status(200).json(data);
     } catch(err) {
         console.log(err);
     }

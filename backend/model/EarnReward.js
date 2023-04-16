@@ -12,6 +12,10 @@ const earnRewardSchema = new mongoose.Schema({
     point: {
         required: true,
         type: String
+    },
+    currentTime: {
+        type: String,
+        required:true
     }
 
 }, { timestamps: true })

@@ -8,6 +8,9 @@ import { baseUrl } from '../../baseUrl';
 const RewardCategory = () => {
 
     const [barangay,setBarangay] = useState('');
+    const [rewards,setRewards] = useState([]);
+    const [showId,setShowId] = useState(false);
+    const [rewardId,setRewardId] = useState('');
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
@@ -24,7 +27,29 @@ const RewardCategory = () => {
         fetchUserBarangay();
 
         return () => abortCont.abort();
-    })
+    },[]);
+
+    useEffect(() => {
+        const abortCont = new AbortController();
+        const signal = abortCont.signal;
+
+        const fetchRewards = async () => {
+            try {
+                const data = (await axios.get(`${baseUrl()}/rewards`, { signal }));
+                setRewards(data.data);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        fetchRewards();
+
+        return () => abortCont.abort();
+    },[])
+
+    const handleShowRewardId = (id) => {
+        setShowId(!showId);
+        setRewardId(id);
+    } 
 
     return (
         <div className="h-full relative">
@@ -37,58 +62,23 @@ const RewardCategory = () => {
                 
                 <h1 className="mt-20 text-xl">List of Rewards</h1>
                 <div className="grid grid-cols-3 gap-3 mt-5">
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
-                    <div className="flex flex-col items-center bg-gray-200 rounded-md gap-2">
-                        <img className="w-20 h-20 object-fit" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
-                        <p className="bg-gray-300 p-1 rounded">Rice</p>
-                    </div>
+                    { rewards?.map((reward,pos) => (
+                        <div onClick={() => handleShowRewardId(reward._id)} className="flex flex-col items-center w-20 h-20 rounded-md gap-2" key={pos}>
+                            <img className="w-20 h-20 object-fit bg-gray-300 p-2 rounded" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
+                            <p className="bg-gray-300 text-center cursor-pointer p-1 w-full rounded">{reward.item}</p>
+                        </div>
+                    )) }
                 </div> 
                 
 
             </div>
+            { showId && 
+                <div onClick={() => setShowId(false)} className="absolute bg-black top-0 left-0 w-full h-screen flex items-center justify-center opacity-50">
+                    <div className="bg-gray-100 p-4">
+                        <h1 className="text-black font-bold">{rewardId}</h1>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

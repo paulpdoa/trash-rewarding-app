@@ -31,6 +31,7 @@ const Navbar = ({ currentPage }) => {
         if(data) {
             const record = data.split('-')[0];
             const category = data.split('-')[1];
+
             if(category === 'Give Points') {
                 setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}`)
@@ -41,10 +42,12 @@ const Navbar = ({ currentPage }) => {
                 })
                 .catch(err => console.log(err));  
             } else {
-                // If category is Receive Reward
+                //If category is Receive Reward
+                setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivereward/${userId}-${record}`)
                 .then((res) => {
-                    console.log(res);
+                    alert(res.data.mssg);
+                    navigate('/');
                 })
                 .catch(err => {
                     console.log(err);

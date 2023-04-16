@@ -53,7 +53,7 @@ const UserProfile = () => {
         <div className="h-full relative w-full">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/accounts'>Home</Link> / Accounts</button>
             <div className="h-full px-10 py-10 w-full">
-                <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-bg"> 
+                <div className="text-center font-semibold relative flex items-center flex-col gap-2 profile-admin-bg w-full"> 
                     <Avatar style="rounded-full w-32 h-32 border-white border-8 mt-24" avatar={avatar} />
                     <p className="text-gray-500">Personal Information</p>
                     <h1>{firstName} {middleName[0]?.toUpperCase()}. {lastName}</h1>
