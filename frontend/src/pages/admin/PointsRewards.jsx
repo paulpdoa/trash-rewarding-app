@@ -40,61 +40,70 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
         // 1. Check what category is selected
         // 2. Depending on the input of the user, find the kilogram on the array, then get the point value per kilo/pcs
         // 3. Generate QR code based on the value fetch from the array based on category and measurement
-        const kiloFmt = kilo+'kg';
-        const pcsFmt = pieces+'pcs';
+        if(currentPage === 'Give Points') {
+            
+            const kiloFmt = kilo+'kg';
+            const pcsFmt = pieces+'pcs';
 
-        let calculatedPoint = '';
+            let calculatedPoint = '';
 
-        if(kilo === 0 && pieces === 0) {
-            setErrMssg('Please enter something');
-            setTimeout(() => {
-                setErrMssg('')
-            },1000)
-            setShowQr(false)
-        } 
+            if(kilo !== 0 || pieces !== 0) {
+                setShowQr(true);
+            }
 
-        if(kilo !== 0 || pieces !== 0) {
-            setShowQr(true);
+            if(kilo === 0 && pieces === 0) {
+                setErrMssg('Please enter something');
+                setTimeout(() => {
+                    setErrMssg('')
+                },1000)
+                setShowQr(false)
+            } 
+   
+            const chosenCateg = categories.filter(categ => categ.category === category)[0];
+
+            if(category === 'Plastic Bottles') {
+                //get position of kilo array
+                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+                //get all points array
+                const pointKilo = Object.values(chosenCateg.points[0])
+                calculatedPoint = pointKilo[positionKilo];
+            }
+
+            if(category === 'Cartons') {     
+                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+                //get all points array
+                const pointKilo = Object.values(chosenCateg.points[0])    
+                calculatedPoint = pointKilo[positionKilo];
+            }
+
+            if(category === 'Cans') {  
+                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
+                //get all points array
+                const pointKilo = Object.values(chosenCateg.points[0])    
+                calculatedPoint = pointKilo[positionKilo];
+            }
+
+            if(category === 'Glass Bottles') { 
+                const positionPcs = Object.keys(chosenCateg.points[0]).indexOf(pcsFmt)
+                //get all points array
+                const pointPcs = Object.values(chosenCateg.points[0]) 
+                calculatedPoint = pointPcs[positionPcs];
+            }
+            
+            setPoints(calculatedPoint.toString()); 
+        } else {
+            // For setting rewards 
+            if(rewardId ===  '') {
+                setErrMssg('Please enter correct id of reward');
+                setTimeout(() => {
+                    setErrMssg('')
+                },1000)
+                setShowQr(false)
+            } else {
+                setShowQr(true);
+            }
         }
-        const chosenCateg = categories.filter(categ => categ.category === category)[0];
 
-        if(category === 'Plastic Bottles') {
-             //get position of kilo array
-            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-            //get all points array
-            const pointKilo = Object.values(chosenCateg.points[0])
-            calculatedPoint = pointKilo[positionKilo];
-        }
-
-        if(category === 'Cartons') {     
-            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-            //get all points array
-            const pointKilo = Object.values(chosenCateg.points[0])    
-            calculatedPoint = pointKilo[positionKilo];
-        }
-
-        if(category === 'Cans') {  
-            const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-            //get all points array
-            const pointKilo = Object.values(chosenCateg.points[0])    
-            calculatedPoint = pointKilo[positionKilo];
-        }
-
-        if(category === 'Glass Bottles') { 
-            const positionPcs = Object.keys(chosenCateg.points[0]).indexOf(pcsFmt)
-            //get all points array
-            const pointPcs = Object.values(chosenCateg.points[0]) 
-            calculatedPoint = pointPcs[positionPcs];
-        }
-        
-        setPoints(calculatedPoint.toString()); 
-    }
-
-    // Create function to hide qr when input box is empty
-    const handlePointChange = (point) => {
-        setPoints(point)
-
-        point === '' && setShowQr(false);
     }
 
     const getCategory = (categoryInfo) => {
@@ -115,8 +124,14 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
             <div className="h-full py-20 pt-5 px-5"> 
                 {/* Page Navigation */}
                 <nav className="flex items-center justify-center">
-                    <button className={`${currentPage === 'Give Points' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => setCurrentPage('Give Points')}>Give Points</button>
-                    <button className={`${currentPage === 'Give Rewards' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => setCurrentPage('Give Rewards')}>Give Rewards</button>
+                    <button className={`${currentPage === 'Give Points' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => {
+                        setShowQr(false);
+                        setCurrentPage('Give Points');
+                    }}>Give Points</button>
+                    <button className={`${currentPage === 'Give Rewards' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => {
+                        setShowQr(false);
+                        setCurrentPage('Give Rewards');
+                    }}>Give Rewards</button>
                 </nav>
                 { currentPage === 'Give Points' ? 
                 <>
@@ -167,7 +182,7 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={points} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={points+'-'+currentPage} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>
@@ -175,12 +190,12 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 <>
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-900'>ID:</span>
-                    <input className="bg-gray-200 border-b border-gray-900 outline-none w-full" type="text" />
+                    <input onChange={(e) => setRewardId(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" type="text" />
                 </div>
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={points} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={rewardId+'-'+currentPage} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>

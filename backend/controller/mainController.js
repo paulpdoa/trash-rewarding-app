@@ -229,10 +229,11 @@ module.exports.user_update_password = async (req,res) => {
 
 module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
-
+    console.log(id);
     const userId = id.split('-')[0];
     const collectedPoints = Number(id.split('-')[1]);
-    
+    console.log(collectedPoints);
+
     try {
         const userFound = await User.findById(userId);
         const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });

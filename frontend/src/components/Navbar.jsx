@@ -24,23 +24,35 @@ const Navbar = ({ currentPage }) => {
         width: '100%',
     }
 
-    const handleScan = async (data) => {
-        console.log(data);
-        if(data === null) {
-            setMssg('Nothing to be scanned');
-        } 
-            //if(currentPage === 'Give Points') {
-                // For rewarding system
-        if(data !== null) {
-            try {
-                const res = await axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${data}`);
+    const handleScan = (data) => {
+        
+        setMssg('Please scan a qr code in your barangay');
+
+        if(data) {
+            const record = data.split('-')[0];
+            const category = data.split('-')[1];
+            if(category === 'Give Points') {
                 setShowQr(false);
-                alert(res.data.mssg);
-                navigate('/')
-            } catch(err) {
-                console.log(err);
-            }  
-        } 
+                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}`)
+                .then((res) => {
+                    setMssg(`${record} has been added to your account`);
+                    alert(res.data.mssg);
+                    navigate('/')
+                })
+                .catch(err => console.log(err));  
+            } else {
+                // If category is Receive Reward
+                axios.patch(`${baseUrl()}/userreceivereward/${userId}-${record}`)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }
+        } else {
+            setMssg('Nothing to be scanned');
+        }
             //} else {
                 // try {
                 //     const res = await axios.patch(`${baseUrl()}/userreceivereward/${userId}-${data}`);
@@ -83,15 +95,15 @@ const Navbar = ({ currentPage }) => {
                
                {/* Use Qr Scanner Here */}
                 { showQr && 
-                    <div className="h-screen bg-white fixed top-0 w-full flex flex-col items-center justify-center">
-                        <p className="absolute top-44 bg-red-500 text-gray-100 p-2 rounded font-semibold">{mssg}</p>
+                    <div className="h-screen bg-black fixed top-0 w-full flex flex-col items-center justify-center">
+                        <p className={`absolute top-44 ${mssg === 'Nothing to be scanned' ? 'bg-red-500' : 'bg-green-500'} text-gray-100 p-2 rounded font-semibold`}>{mssg}</p>
                         <QrReader 
                             className="qr-box flex items-center justify-center"
                             facingMode={'environment'} 
                             delay={delay} 
                             style={previewStyle} 
                             onError={handleError} 
-                            onScan={handleScan} 
+                            onScan={handleScan}
                         />
                     </div>
                 }
