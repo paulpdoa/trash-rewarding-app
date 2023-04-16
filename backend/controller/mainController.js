@@ -229,10 +229,8 @@ module.exports.user_update_password = async (req,res) => {
 
 module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
-    console.log(id);
     const userId = id.split('-')[0];
     const collectedPoints = Number(id.split('-')[1]);
-    console.log(collectedPoints);
 
     try {
         const userFound = await User.findById(userId);
@@ -250,9 +248,13 @@ module.exports.user_receive_rewards = async (req,res) => {
     const userId = id.split('-')[0];
     const rewardPickedId = id.split('-')[1];
 
+    console.log(id);
+
     try {
-        const reward = await Reward
-        const user = await User.update
+        const userFind = await User.findById(userId);
+        const reward = await Reward.findById(rewardPickedId);
+        const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
+      
     } catch(err) {
         console.log(err);
     }
@@ -397,9 +399,18 @@ module.exports.category_get = async (req,res) => {
 
     try {
         const category = await Category.find();
-        res.json(category);
+        res.status(200).json(category);
     } catch(err) {
         console.log(err)
     }
 
+}
+
+module.exports.reward_get = async (req,res) => {
+    try {
+        const rewards = await Reward.find();
+        res.status(200).json(rewards);
+    } catch(err) {
+        console.log(err);
+    }
 }

@@ -9,7 +9,6 @@ const earnPointSchema = new mongoose.Schema({
         required: true,
         type: String
     }
-
 }, { timestamps: true })
 
 const EarnPointModel = mongoose.model('earnpoint',earnPointSchema);

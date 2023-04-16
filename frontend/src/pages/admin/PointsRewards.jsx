@@ -18,6 +18,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
     const [pieces,setPieces] = useState(0);
     const [rewardId,setRewardId] = useState('');
 
+    const [allRewards,setAllRewards] = useState([]);
+
     useEffect(() => {
         const abortCont = new AbortController();
         const signal = abortCont.signal;
@@ -34,6 +36,36 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
 
         return () => abortCont.abort();
     },[])
+
+    //Get all rewards from database
+    useEffect(() => {
+        const abortCont = new AbortController();
+        const signal = abortCont.signal;
+
+        const fetchRewards = async () => {
+            try {
+                const res = await axios.get('/rewards', { signal });
+                setAllRewards(res.data);              
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        fetchRewards();
+
+        return () => abortCont.abort();
+    },[])
+
+    const filterRewardId = (id) => {
+        // Use this function to check and pass to backend
+        const chosenReward = allRewards.filter((allReward) => allReward._id === id)[0];
+        
+        if(chosenReward !== undefined) {
+            setRewardId(chosenReward._id);
+            setErrMssg('');
+        } else {
+            setErrMssg('This id is incorrect, please double check reward id');
+        }
+    }
 
     const generateQrCode = () => {
         // Pointing system is here
@@ -190,7 +222,7 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 <>
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-900'>ID:</span>
-                    <input onChange={(e) => setRewardId(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" type="text" />
+                    <input onChange={(e) => filterRewardId(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" type="text" />
                 </div>
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
