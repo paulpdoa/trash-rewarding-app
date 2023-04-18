@@ -6,7 +6,7 @@ const { user_get, user_post, user_login, user_logout, user_detail_get,
    user_verify, comment_get, comment_post, user_resend_verification, user_forgot_password,
    user_update_password, admin_approve_user, admin_reject_user, admin_delete_user, admin_post, 
    admin_get, admin_login, admin_logout, category_get, user_receive_points, user_receive_rewards, 
-   reward_get, user_point_get, user_point_detail_get, user_reward_detail_get, collection_get } = require('../controller/mainController');
+   reward_get, user_point_get, user_point_detail_get, user_reward_detail_get, collection_get, collection_report } = require('../controller/mainController');
 
 // User Routes
 route.get('/user', user_get);
@@ -45,5 +45,6 @@ route.get('/rewards', reward_get);
 
 // Collection Routes
 route.get('/collections',collection_get);
+route.post('/collections',collection_report);
 
 module.exports = route;

@@ -8,6 +8,10 @@ const collectionSchema = new mongoose.Schema({
     material: {
         required: true,
         type: String
+    },
+    quantity: {
+        required:true,
+        type: String
     }
 }, { timestamps: true })
 

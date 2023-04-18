@@ -37,20 +37,22 @@ const CollectionRecords = () => {
                 </div>
 
                 <table className="mt-5">
-                    <tr className="text-sm font-normal text-center">
-                        <th>Name</th>
-                        <th>Materials</th>
-                        {/* <th>Quantity</th> */}
-                        <th>Date</th>
-                    </tr>
-                    { collections?.map((collection,pos) => (
-                        <tr key={pos}>
-                            <td>{collection.user_id.firstName}</td>
-                            <td>{collection.material}</td>
-                            {/* <td>1 Kilo</td> */}
-                            <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td>
+                    <tbody>
+                        <tr className="text-sm font-normal text-center">
+                            <th>Name</th>
+                            <th>Materials</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
                         </tr>
-                    )) }
+                        { collections?.map((collection,pos) => (
+                            <tr key={pos}>
+                                <td>{collection.user_id.firstName}</td>
+                                <td>{collection.material}</td>
+                                <td>{collection.quantity}</td>
+                                <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td>
+                            </tr>
+                        )) }
+                    </tbody>
                 </table>
             </div>
         </div>

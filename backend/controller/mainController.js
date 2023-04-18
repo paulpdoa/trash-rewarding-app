@@ -236,12 +236,13 @@ module.exports.user_receive_points = async (req,res) => {
     const userId = id.split('-')[0];
     const collectedPoints = Number(id.split('-')[1]);
     const material = id.split('-')[2];
+    const quantity = id.split('-')[3] + `${material === 'Glass Bottles' ? ' pcs' : ' kilo'}`;
 
     try {
         const userFound = await User.findById(userId);
         const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
         const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
-        const collection = await Collection.create({ user_id: userId, material });
+        const collection = await Collection.create({ user_id: userId, material, quantity });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);
@@ -468,4 +469,19 @@ module.exports.collection_get = async (req,res) => {
     } catch(err) {  
         console.log(err);
     }
+}
+
+module.exports.collection_report = async (req,res) => {
+    const { from,to } = req.body;
+   
+    try {
+        const collections = await Collection.find({
+            createdAt: { $gte:new Date(from), $lte: new Date(to) }
+        }).populate('user_id');
+
+        res.status(200).json(collections);
+    } catch(err) {
+        console.log(err);
+    }
+
 }

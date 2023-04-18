@@ -104,20 +104,22 @@ const Profile = () => {
                         <h1 className="text-gray-900 font-semibold">Collected Rewards</h1>
                         <div className="flex justify-between items-center p-2 border border-gray-900 rounded-lg">
                             <table>
-                                { collectedRewards.length < 1 ? 
-                                    <p className="font-semibold animate-pulse text-gray-400">No rewards collected yet</p>
-                                :
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                </tr>
-                                }
-                                { collectedRewards?.map((collectedReward) => (
+                                <tbody>
+                                    { collectedRewards.length < 1 ? 
+                                        <p className="font-semibold animate-pulse text-gray-400">No rewards collected yet</p>
+                                    :
                                     <tr>
-                                        <td>{collectedReward.item}</td>
-                                        <td>1 Kilo</td>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
                                     </tr>
-                                ))}
+                                    }
+                                    { collectedRewards?.map((collectedReward) => (
+                                        <tr>
+                                            <td>{collectedReward.item}</td>
+                                            <td>1 Kilo</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
                             </table>
                         </div>
                     </div>

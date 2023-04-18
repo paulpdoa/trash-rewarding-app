@@ -32,10 +32,11 @@ const Navbar = ({ currentPage }) => {
             const record = data.split('-')[0];
             const currentPage = data.split('-')[1];
             const category = data.split('-')[2];
+            const quantity = data.split('-')[3];
 
             if(currentPage === 'Give Points') {
                 setShowQr(false);
-                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}`)
+                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}`)
                 .then((res) => {
                     setMssg(`${record} has been added to your account`);
                     alert(res.data.mssg);
