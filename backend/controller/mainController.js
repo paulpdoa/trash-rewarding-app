@@ -9,6 +9,7 @@ const Category = require('../model/Category');
 const EarnPoint = require('../model/EarnPoint');
 const EarnReward = require('../model/EarnReward');
 const Reward = require('../model/Reward');
+const Collection = require('../model/Collection');
 
 const d = new Date(); // for now
 const currentTime = d.getHours() + ':' + d.getMinutes();
@@ -234,11 +235,13 @@ module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
     const userId = id.split('-')[0];
     const collectedPoints = Number(id.split('-')[1]);
+    const material = id.split('-')[2];
 
     try {
         const userFound = await User.findById(userId);
         const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
         const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
+        const collection = await Collection.create({ user_id: userId, material });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);
@@ -454,6 +457,15 @@ module.exports.reward_get = async (req,res) => {
         const rewards = await Reward.find();
         res.status(200).json(rewards);
     } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.collection_get = async (req,res) => {
+    try {
+        const collections = await Collection.find().populate('user_id');
+        res.status(200).json(collections);
+    } catch(err) {  
         console.log(err);
     }
 }

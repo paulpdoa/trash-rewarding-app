@@ -18,7 +18,7 @@ const Profile = () => {
     const [barangay,setBarangay] = useState('');
     const [joinedDate,setJoinedDate] = useState('');
     const [points,setPoints] = useState(0);
-    const [status,setStatus] = useState(true);
+    const [status] = useState(true);
     const [avatar,setAvatar] = useState('');
 
     const [collectedRewards,setCollectedRewards] = useState([]);
@@ -40,7 +40,7 @@ const Profile = () => {
         fetchRewards();
 
         return () => abortCont.abort();
-    },[])
+    },[id])
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -70,7 +70,7 @@ const Profile = () => {
         fetchUser();
 
         return () => abortCont.abort();
-    })
+    },[id])
 
     return (
         <div className="h-full relative">

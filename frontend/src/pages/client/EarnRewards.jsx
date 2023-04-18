@@ -35,8 +35,8 @@ const EarnRewards = () => {
                 { rewards.length < 1 ? 
                 <p className="animate-pulse font-semibold text-xl text-gray-400">There are no rewards yet</p>
                 :
-                rewards?.map((reward) => (
-                    <div className="w-full p-2 gap-2 rounded mt-5 flex justify-between items-center border-b border-gray-400">
+                rewards?.map((reward,pos) => (
+                    <div key={pos} className="w-full p-2 gap-2 rounded mt-5 flex justify-between items-center border-b border-gray-400">
                         <div className="text-left">
                             <h1 className="font-semibold">{reward.reward.item}</h1>
                             <p className="text-sm text-gray-400"><DateFormatter date={reward.createdAt.split('T')[0]} />, {reward.currentTime}</p>

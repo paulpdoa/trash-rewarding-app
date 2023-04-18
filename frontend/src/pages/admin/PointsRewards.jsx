@@ -214,7 +214,7 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={points+'-'+currentPage} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={points+'-'+currentPage+'-'+category} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>

@@ -19,8 +19,26 @@ const UserProfile = () => {
     const [points,setPoints] = useState(0);
     const [status] = useState(true);
     const [avatar,setAvatar] = useState('');
+    const [collectedRewards,setCollectedRewards] = useState([]);
 
     const { id } = useParams();
+
+    useEffect(() => {
+        const abortCont = new AbortController();
+        const signal = abortCont.signal;
+
+        const fetchRewards = async () => {
+            try {
+                const res = await axios.get(`${baseUrl()}/userrewarddetailget/${id}`,{ signal });
+                setCollectedRewards(res.data);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        fetchRewards();
+
+        return () => abortCont.abort();
+    },[])
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -81,14 +99,20 @@ const UserProfile = () => {
                         <h1 className="text-gray-900 font-semibold">Collected Rewards</h1>
                         <div className="flex justify-between items-center p-2 border border-gray-900 rounded-lg">
                             <table>
+                                { collectedRewards.length < 1 ? 
+                                    <p className="font-semibold animate-pulse text-gray-400">No rewards collected yet</p>
+                                :
                                 <tr>
                                     <th>Name</th>
                                     <th>Quantity</th>
                                 </tr>
-                                <tr>
-                                    <td>Rice</td>
-                                    <td>1 Kilo</td>
-                                </tr>
+                                }
+                                { collectedRewards?.map((collectedReward) => (
+                                    <tr>
+                                        <td>{collectedReward.item}</td>
+                                        <td>1 Kilo</td>
+                                    </tr>
+                                ))}
                             </table>
                         </div>
                     </div>

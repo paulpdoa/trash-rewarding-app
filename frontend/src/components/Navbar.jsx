@@ -30,11 +30,12 @@ const Navbar = ({ currentPage }) => {
 
         if(data) {
             const record = data.split('-')[0];
-            const category = data.split('-')[1];
+            const currentPage = data.split('-')[1];
+            const category = data.split('-')[2];
 
-            if(category === 'Give Points') {
+            if(currentPage === 'Give Points') {
                 setShowQr(false);
-                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}`)
+                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}`)
                 .then((res) => {
                     setMssg(`${record} has been added to your account`);
                     alert(res.data.mssg);
@@ -42,7 +43,7 @@ const Navbar = ({ currentPage }) => {
                 })
                 .catch(err => console.log(err));  
             } else {
-                //If category is Receive Reward
+                //If currentPage is Receive Reward
                 setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivereward/${userId}-${record}`)
                 .then((res) => {

@@ -11,10 +11,11 @@ const Messages = () => {
 
     useEffect(() => {
         const abortCont = new AbortController();
+        const signal = abortCont.signal;
 
         const fetchComments = async() => {
             try {
-                const data = await axios.get(`${baseUrl()}/comment`);
+                const data = await axios.get(`${baseUrl()}/comment`,{ signal });
                 setComments(data.data);
             } catch(err) {
                 console.log(err);
@@ -34,7 +35,7 @@ const Messages = () => {
 
                     { comments.length < 1 ? 
                     <div className="flex justify-between p-3 border-b border-gray-400">
-                        <h1 className="text-sm text-gray-400 animate-pulse">No comments yet for this user</h1>
+                        <h1 className="text-sm text-gray-400 animate-pulse">No comments yet for registered users</h1>
                     </div>
                     :
                      comments?.map((comment,pos) => (
