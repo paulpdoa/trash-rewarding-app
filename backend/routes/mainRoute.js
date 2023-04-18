@@ -5,7 +5,7 @@ const { upload } = require('../middleware/uploadMiddleware');
 const {user_get, user_post, user_login, user_logout, user_detail_get, 
    user_verify, comment_get, comment_post, user_resend_verification, user_forgot_password,
    user_update_password,
-   admin_approve_user, admin_reject_user, admin_delete_user, admin_post, admin_get, admin_login, admin_logout, category_get, user_receive_points, user_receive_rewards, reward_get, user_point_get, user_point_detail_get} = require('../controller/mainController');
+   admin_approve_user, admin_reject_user, admin_delete_user, admin_post, admin_get, admin_login, admin_logout, category_get, user_receive_points, user_receive_rewards, reward_get, user_point_get, user_point_detail_get, user_reward_detail_get} = require('../controller/mainController');
 
 // User Routes
 route.get('/user', user_get);
@@ -13,6 +13,7 @@ route.get('/userlogout',user_logout);
 route.get('/userdetailget/:id',user_detail_get);
 route.get('/userpoints', user_point_get);
 route.get('/userpointdetail/:id',user_point_detail_get);
+route.get('/userrewarddetailget/:id',user_reward_detail_get);
 route.post('/forgotpassword',user_forgot_password);
 route.post('/user', upload.fields([{ name: 'avatar' ,maxCount: 1 }, { name: 'idCard', maxCount: 1 }]), user_post);
 route.post('/userlogin',user_login);

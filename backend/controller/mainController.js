@@ -262,9 +262,9 @@ module.exports.user_receive_rewards = async (req,res) => {
             res.status(400).json({ mssg: 'You don\'t have enough points' });
         } else {
             const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
-            const earnPoint = await EarnPoint.create({ user_id: userId, point: deductedPoints });
+            const earnPoint = await EarnPoint.create({ user_id: userId, point: deductedPoints, currentTime });
             const earnRewards = await EarnReward.create({ user_id: userId, reward: rewardPickedId, point: deductedPoints, currentTime });
-            res.status(200).json({ mssg: `You have received a reward, ${reward.point} has been deducted to your points` });
+            res.status(200).json({ mssg: `You have received a reward, ${reward.point} has been deducted to your points` });     
         }
 
     } catch(err) {
@@ -287,14 +287,23 @@ module.exports.user_point_detail_get = async (req,res) => {
     
     try {   
         const data = await EarnPoint.find({ user_id: userId }).populate('user_id');
-        console.log(data);
+        res.status(200).json(data);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.user_reward_detail_get = async (req,res) => {
+    const userId = req.params.id;
+
+    try {
+        const data = await EarnReward.find({ user_id: userId }).populate('reward user_id');
         res.status(200).json(data);
     } catch(err) {
         console.log(err);
     }
 
 }
-
 module.exports.comment_get = (req,res) => {
 
     Comment.find({}).populate('user_id')

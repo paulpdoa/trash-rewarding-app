@@ -71,14 +71,16 @@ const Register = () => {
 
     const selectProvince = (provName) => {
 
-        let firstUpper = provName[0];
-    
-        for(let i = 1; i < provName.length; i++) {
-            firstUpper += provName[i].toLowerCase();
-        }
-        setProvince(firstUpper);
+        let provinceNameFormat = '';        
         const provinceCode = provinces.RECORDS.filter(province => province.provCode === provName).map(province => province.provCode);
         setProvCode(provinceCode[0]);
+       
+        const provinceName = provinces.RECORDS.filter(province => province.provCode === provName)[0].provDesc;
+        for(let i = 1; i < provinceName.length; i++) {
+            provinceNameFormat += provinceName[i].toLowerCase();
+        }
+        setProvince(provinceName[0] + provinceNameFormat);
+             
       }
     
       const selectCity = (cityName) => {
