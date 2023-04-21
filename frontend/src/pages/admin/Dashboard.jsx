@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [leaderboards,setLeaderboards] = useState([]);
   const [totalPoints,setTotalPoints] = useState(0);
   const [collections,setCollections] = useState([]);
+  const [isApproved,setIsApproved] = useState(false);
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -38,6 +39,11 @@ const Dashboard = () => {
         const total = res.data.reduce((tot,curr) => tot + curr.collectedPoints,0);
         setTotalPoints(total);
         setLeaderboards(sortedPoints);
+        if(res.data[res.data.length - 1].adminApproved) {
+          setIsApproved(false);
+        } else {
+          setIsApproved(true);
+        }
       } catch(err) {
         console.log(err);
       }
@@ -67,25 +73,25 @@ const Dashboard = () => {
   return (
         <div className="h-full w-full">
             <div className="h-full px-10 py-24">
-                <div className="w-full p-2 rounded shadow-lg">
+                <div className="w-full p-2 rounded shadow-lg shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">COLLECTION RECORDS</h1>
                   <BarChart chartData={collections} options={options} />
                 </div>
 
-                <div className="w-full p-2 rounded mt-5 shadow-lg">
+                <div className="w-full p-2 rounded mt-5 shadow-lg shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">MONTHLY USER POINTS</h1>
                   <p className="text-center font-semibold text-gray-400 text-xl"><NumberFormat points={totalPoints} /> POINTS</p>
                 </div>
 
-                <div className="w-full p-2 rounded mt-5 shadow-lg">
+                <div className="w-full p-2 rounded mt-5 shadow-lg shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">DAILY LEADERBOARD</h1>
                   { leaderboards.length < 1 ? 
                   <p className="font-semibold animate-pulse text-gray-400 text-center">No rankings yet</p> 
                   :
                   leaderboards?.map((leaderboard,pos) => (
-                    <div key={pos} className="flex items-center gap-2">
+                    <div key={pos} className="flex items-center overflow-y-scroll h-auto gap-2 mt-5">
                       <p className="font-semibold">{ pos + 1 }</p>
-                      <div className="bg-gray-200 rounded-md w-full p-2 flex items-center justify-between">
+                      <div className="bg-gray-100 rounded-full w-full p-2 flex items-center justify-between">
                         <p>{ leaderboard.firstName } { leaderboard.lastName }</p>
                         <span>{ leaderboard.collectedPoints } points</span>
                       </div>
@@ -95,11 +101,16 @@ const Dashboard = () => {
 
                 <div className="w-full p-2 rounded mt-5">
                   <h1 className="font-semibold text-xl text-center">NOTIFICATION</h1>
-                  <div className="text-xs text-gray-400 p-2 font-semibold shadow-lg">
+                  { isApproved ?
+                  <div className="text-xs text-gray-400 p-4 font-semibold shadow-lg shadow-green-200">
                     <h1>NEW REGISTERED USER!</h1>
                     <h2>USER EMAIL: { leaderboards[leaderboards.length - 1]?.email }</h2>
                     <Link className="text-center border-b border-gray-400" to='/admin/accounts'>Click here to approve/reject users</Link>
-                  </div>
+                  </div> 
+                  : 
+                  <p className="text-center mt-5 font-semibold text-gray-400 animate-pulse">No new users registered yet</p>
+                  }
+                 
                 </div>
             </div>
         </div>

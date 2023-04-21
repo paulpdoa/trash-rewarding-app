@@ -44,14 +44,18 @@ const CollectionRecords = () => {
                             <th>Quantity</th>
                             <th>Date</th>
                         </tr>
-                        { collections?.map((collection,pos) => (
+                        { collections.length < 1 ? 
+                        <p className="text-normal font-semibold text-gray-400 animate-pulse">No collections yet</p>
+                        :
+                        collections?.map((collection,pos) => (
                             <tr key={pos}>
-                                <td>{collection.user_id.firstName}</td>
+                                <td>{collection.user_id === null ? 'Unknown' : collection.user_id.firstName}</td>
                                 <td>{collection.material.category}</td>
                                 <td>{collection.quantity}</td>
                                 <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td> 
                             </tr>
-                        )) }
+                        )) 
+                        }
                     </tbody>
                 </table>
             </div>

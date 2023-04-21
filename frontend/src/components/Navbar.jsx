@@ -14,7 +14,6 @@ const Navbar = ({ currentPage }) => {
 
     const [showQr,setShowQr] = useState(false);
     const [delay] = useState(5000);
-    const [result,setResult] = useState('No QR Code is being scanned');
     const [mssg,setMssg] = useState('');
 
     const navigate = useNavigate();

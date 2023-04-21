@@ -429,6 +429,8 @@ module.exports.admin_delete_user = async (req,res) => {
         const userFind = await User.findById(id); 
         const data = await User.deleteOne({ _id: id });
         const comment = await Comment.deleteOne({ user_id: id });
+        const earnpoint = await EarnPoint.deleteOne({ user_id: id });
+        const earnreward = await EarnReward.deleteOne({ user_id:id });
         const info = await transporter.sendMail({
             from: `'Trash Reward App' <${process.env.MAIL_ACCOUNT}>`,
             to: `${userFind.email}`,

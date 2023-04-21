@@ -100,41 +100,45 @@ const Accounts = () => {
                  currentPage === 'Member Accounts' ?
                  /* For Member Accounts Page */
                 <table className="mt-5">
-                    <tr>
-                        <th className="font-normal text-xs">Name</th>
-                        <th className="font-normal text-xs">Date Registered</th>
-                        <th className="font-normal text-xs">Status</th>
-                        <th className="font-normal text-xs">Actions</th>
-                    </tr>
-                    { users?.map((user,pos) => (
-                        <tr key={pos}>
-                            <td className="font-normal text-xs text-gray-900 underline"><Link to={`/admin/userprofile/${user._id}`}>{user.firstName} {user.lastName}</Link></td>
-                            <td className="font-normal text-xs text-gray-900"><DateFormatter date={user.createdAt.split('T')[0]}/></td>
-                            <td className="font-normal text-xs text-gray-900">{ user.status && user.adminApproved ? 'Active' : 'Inactive'}</td>
-                            <td className="font-normal text-xs text-gray-900">
-                                <button onClick={() => deactivateUser(user._id)}>Deactivate</button>
-                            </td>
+                    <tbody>
+                        <tr>
+                            <th className="font-normal text-xs">Name</th>
+                            <th className="font-normal text-xs">Date Registered</th>
+                            <th className="font-normal text-xs">Status</th>
+                            <th className="font-normal text-xs">Actions</th>
                         </tr>
-                    )) }
+                        { users?.map((user,pos) => (
+                            <tr key={pos}>
+                                <td className="font-normal text-xs text-gray-900 underline"><Link to={`/admin/userprofile/${user._id}`}>{user.firstName} {user.lastName}</Link></td>
+                                <td className="font-normal text-xs text-gray-900"><DateFormatter date={user.createdAt.split('T')[0]}/></td>
+                                <td className="font-normal text-xs text-gray-900">{ user.status && user.adminApproved ? 'Active' : 'Inactive'}</td>
+                                <td className="font-normal text-xs text-gray-900">
+                                    <button onClick={() => deactivateUser(user._id)}>Deactivate</button>
+                                </td>
+                            </tr>
+                        )) }
+                        </tbody>
                 </table>   
                 :
                /* For Approvals Page */
                <table className="mt-5">
-                    <tr>
-                        <th className="font-normal text-xs">Name</th>
-                        <th className="font-normal text-xs">Date Registered</th>
-                        <th className="font-normal text-xs">Actions</th>
-                    </tr>
-                    { users?.filter(user => !user.adminApproved).map((user,pos) => (
-                        <tr key={pos}>
-                            <td onClick={() => getUserDetails(user._id)} className="font-normal text-xs text-gray-900 underline">{user.firstName} {user.lastName}</td>
-                            <td className="font-normal text-xs text-gray-900"><DateFormatter date={user.createdAt.split('T')[0]}/></td>
-                            <td className="font-normal text-xs text-gray-900 flex-col flex gap-2">
-                                <button onClick={() => approveUser(user._id)} className="bg-green-500 text-gray-100 text-xs p-1">Approve</button>
-                                <button onClick={() => rejectUser(user._id)} className="bg-red-500 text-gray-100 text-xs p-1">Reject</button>
-                            </td>
+                    <tbody>
+                        <tr>
+                            <th className="font-normal text-xs">Name</th>
+                            <th className="font-normal text-xs">Date Registered</th>
+                            <th className="font-normal text-xs">Actions</th>
                         </tr>
-                    )) }
+                        { users?.filter(user => !user.adminApproved).map((user,pos) => (
+                            <tr key={pos}>
+                                <td onClick={() => getUserDetails(user._id)} className="font-normal text-xs text-gray-900 underline">{user.firstName} {user.lastName}</td>
+                                <td className="font-normal text-xs text-gray-900"><DateFormatter date={user.createdAt.split('T')[0]}/></td>
+                                <td className="font-normal text-xs text-gray-900 flex-col flex gap-2">
+                                    <button onClick={() => approveUser(user._id)} className="bg-green-500 text-gray-100 text-xs p-1">Approve</button>
+                                    <button onClick={() => rejectUser(user._id)} className="bg-red-500 text-gray-100 text-xs p-1">Reject</button>
+                                </td>
+                            </tr>
+                        )) }
+                    </tbody>
                 </table>   
                 }
             </div>
