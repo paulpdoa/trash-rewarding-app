@@ -1,10 +1,10 @@
-import { Bar } from 'react-chartjs-2'; 
 import { Chart as ChartJS,CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend } from 'chart.js';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../../baseUrl';
 import NumberFormat from '../../components/NumberFormat';
 import { Link } from 'react-router-dom';
+import BarChart from '../../components/BarChart';
 
 ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend);
 
@@ -21,19 +21,14 @@ export const options = {
     },
   };
   
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-    labels,
-    datasets: [
 
-    ]
-}
 
 const Dashboard = () => {
 
   const [leaderboards,setLeaderboards] = useState([]);
   const [totalPoints,setTotalPoints] = useState(0);
+  const [collections,setCollections] = useState([]);
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -54,12 +49,30 @@ const Dashboard = () => {
     return () => abortCont.abort();
   },[])
 
+  // For fetching Collection Records
+  useEffect(() => {
+    const abortCont = new AbortController();
+    const signal = abortCont.signal;
+
+    const fetchCollection = async () => {
+      try {
+        const res = await axios.get(`${baseUrl()}/collections`, {  signal });
+        setCollections(res.data);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    fetchCollection();
+
+    return () => abortCont.abort();
+  },[])
+
   return (
         <div className="h-full w-full">
             <div className="h-full px-10 py-24">
                 <div className="w-full p-2 rounded shadow-lg">
                   <h1 className="font-semibold text-xl text-center">COLLECTION RECORDS</h1>
-                  <Bar options={options} data={data} />
+                  <BarChart chartData={collections} options={options} />
                 </div>
 
                 <div className="w-full p-2 rounded mt-5 shadow-lg">
@@ -73,7 +86,7 @@ const Dashboard = () => {
                   <p className="font-semibold animate-pulse text-gray-400 text-center">No rankings yet</p> 
                   :
                   leaderboards?.map((leaderboard,pos) => (
-                    <div className="flex items-center gap-2">
+                    <div key={pos} className="flex items-center gap-2">
                       <p className="font-semibold">{ pos + 1 }</p>
                       <div className="bg-gray-200 rounded-md w-full p-2 flex items-center justify-between">
                         <p>{ leaderboard.firstName } { leaderboard.lastName }</p>

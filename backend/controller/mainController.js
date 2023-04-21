@@ -13,6 +13,9 @@ const Collection = require('../model/Collection');
 
 const d = new Date(); // for now
 const currentTime = d.getHours() + ':' + d.getMinutes();
+const currentDate = d.getFullYear() + '-' + `${d.getMonth() < 10 ? '0'+ Number(d.getMonth() + 1) :  Number(d.getMonth() + 1) }` + '-' + d.getDate();
+const monthList = ['January','February','March','April','May','June','July','August','September'];
+const currentMonth = monthList[Number(d.getMonth())];
 
 const maxAge = 3 * 24 * 24 * 60;
 const createToken = (id) => {
@@ -240,9 +243,10 @@ module.exports.user_receive_points = async (req,res) => {
 
     try {
         const userFound = await User.findById(userId);
+        const categoryFind = await Category.find({ category: material });
         const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
         const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
-        const collection = await Collection.create({ user_id: userId, material, quantity });
+        const collection = await Collection.create({ user_id: userId, material: categoryFind[0]._id, quantity, pointsAdded: collectedPoints,date: currentDate, month: currentMonth });
         res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
     } catch(err) {
         console.log(err);
@@ -464,7 +468,7 @@ module.exports.reward_get = async (req,res) => {
 
 module.exports.collection_get = async (req,res) => {
     try {
-        const collections = await Collection.find().populate('user_id');
+        const collections = await Collection.find().populate('user_id material');
         res.status(200).json(collections);
     } catch(err) {  
         console.log(err);
@@ -473,15 +477,15 @@ module.exports.collection_get = async (req,res) => {
 
 module.exports.collection_report = async (req,res) => {
     const { from,to } = req.body;
-   
-    try {
-        const collections = await Collection.find({
-            createdAt: { $gte:new Date(from), $lte: new Date(to) }
-        }).populate('user_id');
 
+    const startDate = from;
+    const endDate = to;
+
+    try {
+        const collections = await Collection.find({ date: { $gte: startDate, $lte: endDate }}).populate('user_id material');
         res.status(200).json(collections);
     } catch(err) {
-        console.log(err);
+        console.log(err);   
     }
 
 }

@@ -47,9 +47,9 @@ const CollectionRecords = () => {
                         { collections?.map((collection,pos) => (
                             <tr key={pos}>
                                 <td>{collection.user_id.firstName}</td>
-                                <td>{collection.material}</td>
+                                <td>{collection.material.category}</td>
                                 <td>{collection.quantity}</td>
-                                <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td>
+                                <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td> 
                             </tr>
                         )) }
                     </tbody>

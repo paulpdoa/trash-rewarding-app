@@ -40,7 +40,7 @@ const Navbar = ({ currentPage }) => {
                 .then((res) => {
                     setMssg(`${record} has been added to your account`);
                     alert(res.data.mssg);
-                    navigate('/')
+                    window.location.reload();
                 })
                 .catch(err => console.log(err));  
             } else {

@@ -6,12 +6,24 @@ const collectionSchema = new mongoose.Schema({
         ref: 'user' 
     },
     material: {
-        required: true,
-        type: String
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'category' 
     },
     quantity: {
         required:true,
         type: String
+    },
+    pointsAdded: {
+        required: true,
+        type: String
+    },
+    date: {
+        type: String,
+        required:true
+    },
+    month: {
+        type: 'String',
+        required: true
     }
 }, { timestamps: true })
 

@@ -28,7 +28,7 @@ const Home = () => {
             try {
                 const data = await axios.get(`${baseUrl()}/userdetailget/${localStorage.getItem('userId')}`);
                 setUser(data.data);
-                setPoints((point) => data.data.collectedPoints);
+                setPoints(data.data.collectedPoints);
             } catch(err) {
                 console.log(err);
             }

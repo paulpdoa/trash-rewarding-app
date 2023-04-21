@@ -33,6 +33,7 @@ const Profile = () => {
             try {
                 const res = await axios.get(`${baseUrl()}/userrewarddetailget/${id}`,{ signal });
                 setCollectedRewards(res.data);
+                console.log(collectedRewards);  
             } catch(err) {
                 console.log(err);
             }
@@ -63,9 +64,7 @@ const Profile = () => {
 
             } catch(err) {
                 console.log(err);
-            }
-
-           
+            }           
         }
         fetchUser();
 
@@ -113,10 +112,10 @@ const Profile = () => {
                                         <th>Quantity</th>
                                     </tr>
                                     }
-                                    { collectedRewards?.map((collectedReward) => (
-                                        <tr>
-                                            <td>{collectedReward.item}</td>
-                                            <td>1 Kilo</td>
+                                    { collectedRewards?.map((collectedReward,pos) => (
+                                        <tr key={pos}>
+                                            <td>{collectedReward.reward.item}</td>
+                                            <td>1 kilo</td>
                                         </tr>
                                     ))}
                                 </tbody>
