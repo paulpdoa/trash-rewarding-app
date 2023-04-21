@@ -5,6 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
+import Cookies from 'js-cookie';
 
 const AdminNavbar = ({setShowSidebar,showSidebar}) => {
 
@@ -18,6 +19,7 @@ const AdminNavbar = ({setShowSidebar,showSidebar}) => {
             const data = await axios.get(`${baseUrl()}/adminlogout`);
             localStorage.removeItem('adminUsername');
             localStorage.removeItem('adminId');
+            Cookies.remove('adminJwt');
             navigate(data.data.redirect);
         } catch(err) {
             console.log(err);

@@ -112,7 +112,7 @@ module.exports.user_login = async (req,res) => {
                 User.login(email,password)
                 .then((user) => {
                     const token = createToken(user._id);
-                    res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture });
+                    res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture, userJwt: token });
                 })
                 .catch((err) => {
                     const errors = handleErrors(err);
@@ -364,7 +364,7 @@ module.exports.admin_login = async(req,res) => {
     try {   
         const admin = await Admin.login(username,password);
         const token = createToken(admin._id);
-        res.cookie('adminJwt',token,{ maxAge: maxAge * 1000 }).status(200).json({ mssg: `${admin.username} has been successfully logged-in`, redirect:'/admin/dashboard',adminId: admin._id })
+        res.cookie('adminJwt',token,{ maxAge: maxAge * 1000 }).status(200).json({ mssg: `${admin.username} has been successfully logged-in`, redirect:'/admin/dashboard',adminId: admin._id,adminJwt: token })
     } catch(err) {
         const errors = handleErrors(err);
         res.status(400).json(errors);

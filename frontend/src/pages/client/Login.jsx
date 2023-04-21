@@ -4,6 +4,7 @@ import axios from 'axios';
 import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { baseUrl } from '../../baseUrl';
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
@@ -46,6 +47,8 @@ const Login = () => {
             localStorage.setItem('userEmail',data.data.email);
             localStorage.setItem('userId', data.data.id);
             localStorage.setItem('userAvatar', data.data.profilePicture);
+            // Set Cookie for browser
+            Cookies.set('userJwt',data.data.userJwt);
             setOpenAlert(true);
             setRedirect(data.data.redirect);
         } catch(err) {

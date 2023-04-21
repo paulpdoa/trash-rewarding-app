@@ -31,9 +31,9 @@ const CollectionRecords = () => {
         <div className="h-full relative bg-white w-full">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Collection Records</button>
             <div className="h-full py-2 px-2"> 
-                <div className="flex gap-2 items-center p-2 border border-gray-200 shadow-sm rounded-full">
+                <div className="flex gap-2 items-center border border-gray-200 shadow-sm rounded-full">
                     <HiOutlineMagnifyingGlass className="text-xl" />
-                    <input onChange={(e) => setName(e.target.value)} type="search" placeholder="Search name..." />
+                    <input className="w-full p-2 outline-none" onChange={(e) => setName(e.target.value)} type="search" placeholder="Search name..." />
                 </div>
 
                 <table className="mt-5">
@@ -47,7 +47,7 @@ const CollectionRecords = () => {
                         { collections.length < 1 ? 
                         <p className="text-normal font-semibold text-gray-400 animate-pulse">No collections yet</p>
                         :
-                        collections?.map((collection,pos) => (
+                        collections?.filter((collection) => collection.user_id.firstName.toLowerCase().includes(name.toLowerCase()))?.map((collection,pos) => (
                             <tr key={pos}>
                                 <td>{collection.user_id === null ? 'Unknown' : collection.user_id.firstName}</td>
                                 <td>{collection.material.category}</td>

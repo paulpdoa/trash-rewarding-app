@@ -1,16 +1,16 @@
 import { useNavigate,Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useEffect } from 'react';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 const UserLayout = ({ currentPage }) => {
 
-    const existingCookie = Cookie.get('userJwt');  
-    const existingId = localStorage.getItem('userId'); 
+    const existingCookie = Cookies.get('userJwt');  
+    //const existingId = localStorage.getItem('userId'); 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(existingId === null) {
+        if(existingCookie === undefined) {
             navigate('/login');
         }
     },[existingCookie,navigate])

@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs } from 'swiper'; 
 import 'swiper/swiper.min.css';
 import { baseUrl } from '../../baseUrl';
+import Cookies from 'js-cookie';
 
 const Home = () => {
 
@@ -50,6 +51,8 @@ const Home = () => {
         localStorage.removeItem('userId');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userAvatar');
+        Cookies.remove('userJwt');
+
     }
     
     return (

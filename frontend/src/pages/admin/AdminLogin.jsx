@@ -2,6 +2,8 @@ import AlertMssg from "../../components/AlertMssg"
 import { useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from "../../baseUrl";
+import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const AdminLogin = () => {
 
@@ -24,6 +26,7 @@ const AdminLogin = () => {
             setMssg(data.data.mssg);
             setOpenAlert(true);
             setRedirect(data.data.redirect);
+            Cookies.set('adminJwt', data.data.adminJwt);
         } catch(err) {
             const { username,password } = err.response.data;
             setUsernameErr(username);
@@ -44,6 +47,7 @@ const AdminLogin = () => {
                 <span className="text-xs text-red-500">{passwordErr}</span>
 
                 <button className="p-2 shadow-sm w-1/2 text-center self-center bg-white rounded font-semibold">LOG IN</button>
+                <p className="text-green-500 font-semibold text-sm mt-2 text-center">Don't have an account yet? <Link className="text-gray-800" to='/admin-register'>Register</Link></p>
            </form>
            { openAlert && <AlertMssg message={mssg} redirect={redirect} /> }
         </div>

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 
-const Navbar = ({ currentPage }) => {
+const Navbar = () => {
 
     const userId = localStorage.getItem('userId');
 
@@ -37,8 +37,7 @@ const Navbar = ({ currentPage }) => {
                 setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}`)
                 .then((res) => {
-                    setMssg(`${record} has been added to your account`);
-                    alert(res.data.mssg);
+                    alert(`${record} has been added to your account`);
                     window.location.reload();
                 })
                 .catch(err => console.log(err));  
@@ -48,6 +47,7 @@ const Navbar = ({ currentPage }) => {
                 axios.patch(`${baseUrl()}/userreceivereward/${userId}-${record}`)
                 .then((res) => {
                     alert(res.data.mssg);
+                    window.location.reload();
                     navigate('/');
                 })
                 .catch(err => {
@@ -57,15 +57,6 @@ const Navbar = ({ currentPage }) => {
         } else {
             setMssg('Nothing to be scanned');
         }
-            //} else {
-                // try {
-                //     const res = await axios.patch(`${baseUrl()}/userreceivereward/${userId}-${data}`);
-                //     alert(res.data.mssg);
-                //     setShowQr(false);
-                // } catch(err) {
-                //     console.log(err);
-                // }   
-            //}
     }
 
     const handleError = (err) => {

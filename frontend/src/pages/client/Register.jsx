@@ -80,7 +80,6 @@ const Register = () => {
             provinceNameFormat += provinceName[i].toLowerCase();
         }
         setProvince(provinceName[0] + provinceNameFormat);
-             
       }
     
       const selectCity = (cityName) => {
@@ -146,7 +145,7 @@ const Register = () => {
                         : 
                     <>
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />                    
-                        <select value={province.toUpperCase()} onChange={(e) => selectProvince(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
+                        <select onChange={(e) => selectProvince(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
                             <option hidden>Select your province</option>
                             { provinces.RECORDS.map((province) => (
                                 <option key={province.id} value={ province.provCode }>{ province.provDesc[0]+province.provDesc.slice(1,province.provDesc.length).toLowerCase() }</option>

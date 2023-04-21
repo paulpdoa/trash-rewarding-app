@@ -24,7 +24,7 @@ const EarnRewards = () => {
         fetchRewards();
 
         return () => abortCont.abort();
-    },[])
+    },[userId]);
 
     return (
         <div className="h-full relative">
@@ -44,8 +44,6 @@ const EarnRewards = () => {
                         <span className="text-gray-400">{reward.point} points</span>
                     </div>
                 )) }
-                
-
             </div>
         </div>
     )

@@ -77,7 +77,7 @@ const AdminRegister = () => {
         <div className="flex justify-center items-center flex-col bg-gray-100 h-screen relative">
             <div className="flex flex-col w-4/5 mb-5">
                 <h1 className="text-3xl font-bold">Register!</h1>
-                <p className="text-green-500 font-semibold text-xs">Already have an account? <Link className="text-gray-800" to='/login'>Login</Link></p>
+                <p className="text-green-500 font-semibold text-xs">Already have an account? <Link className="text-gray-800" to='/admin-login'>Login</Link></p>
                 <span>Personal Information</span>
                 { isLoading && <span className="animate-pulse text-md text-green-500 flex items-center gap-2 text-sm"><BiLoaderAlt className="animate-spin" />Please wait for response, do not leave the page</span> }
             </div>
