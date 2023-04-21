@@ -20,9 +20,6 @@ export const options = {
       },
     },
   };
-  
-
-
 
 const Dashboard = () => {
 
@@ -65,7 +62,7 @@ const Dashboard = () => {
     fetchCollection();
 
     return () => abortCont.abort();
-  },[])
+  },[collections])
 
   return (
         <div className="h-full w-full">
