@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
 import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
@@ -22,6 +22,12 @@ const Login = () => {
     const [redirect,setRedirect] = useState('');
     const navigate = useNavigate();
 
+    // Redirect to home page if user is still logged in
+    useEffect(() => {
+        if(Cookies.get('userJwt') !== undefined) {
+            navigate('/');
+        }
+    },[navigate])
 
     const resendVerificationEmail = async (e) => {
         e.preventDefault();

@@ -1,8 +1,8 @@
 import AlertMssg from "../../components/AlertMssg"
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { baseUrl } from "../../baseUrl";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const AdminLogin = () => {
@@ -15,6 +15,15 @@ const AdminLogin = () => {
     const [openAlert,setOpenAlert] = useState(false);
     const [mssg,setMssg] = useState('');
     const [redirect,setRedirect] = useState('');
+
+    const navigate = useNavigate();
+
+    // Redirect to home page if admin is still logged in
+    useEffect(() => {
+        if(Cookies.get('adminJwt') !== undefined) {
+            navigate('/admin/dashboard');
+        }
+    },[navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

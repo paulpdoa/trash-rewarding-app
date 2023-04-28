@@ -38,7 +38,7 @@ import { useState } from 'react';
 
 function App() {
 
-
+  // Will be used in Admin page for giving rewards or points
   const [currentPage,setCurrentPage] = useState('Give Points');
 
   return (
