@@ -3,7 +3,6 @@ import { TbGiftCard } from 'react-icons/tb';
 import { MdOutlineLeaderboard } from 'react-icons/md';
 import { AiOutlineDollarCircle,AiOutlineClockCircle } from 'react-icons/ai';
 import { Link,useNavigate } from 'react-router-dom';
-import { RiRecycleLine } from 'react-icons/ri'
 import axios from 'axios';
 import NumberFormat from '../../components/NumberFormat';
 import { MdOutlineSwipeRight } from 'react-icons/md';
@@ -58,8 +57,8 @@ const Home = () => {
     return (
         <div className="h-screen w-full home__bg">
             <div className="flex items-center relative text-white text-2xl gap-2 p-2">
-                <RiRecycleLine className="cursor-pointer" onClick={() => setShowMenu(!showMenu)} />
-                <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}</h1>
+                <img className="cursor-pointer w-fit" onClick={() => setShowMenu(!showMenu)} src="/image/home_icon.png" alt="Trash App Logo" />
+                <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</h1>
                 {/* Show this menu when button is clicked */}
                 { showMenu &&  
                     <ul className="text-sm absolute left-2 z-30 top-9 w-24 bg-gray-800 rounded">
@@ -75,7 +74,7 @@ const Home = () => {
             <div className="bg-white h-full mt-20 home__contents relative">
             {/* Navbar for this content */}
             <nav className="absolute -top-5 w-full flex justify-center">
-                <ul className="flex text-xs justify-around text-green-700 font-normal rounded-md w-4/5 bg-gray-100 p-3">
+                <ul className="flex text-xs justify-around text-green-700 font-normal rounded-2xl w-4/5 bg-green-50 p-3">
                     <Link className="flex flex-col items-center text-green-600" to='/reward-category'>
                         <TbGiftCard className="text-3xl"/>
                         <li className="text-xs">Rewards</li>
@@ -109,7 +108,7 @@ const Home = () => {
                 grabCursor={true}
                 className="z-10"
                 >
-                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-2xl p-2 bg-green-50 border border-gray-200 shadow-2xl">
                         <img className="w-fit col-span-1" src="/image/plastic_bottle_1.png" alt="Plastic Bottle" />
                         <div className="text-center col-span-2">
                             <h1 className="text-green-600 font-bold">Plastic Bottle</h1>
@@ -119,7 +118,7 @@ const Home = () => {
                             <p className="text-xs text-gray-400">Collect 1kg plastic bottle to earn 5,000 points</p>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-2xl p-2 bg-green-50 border border-gray-200 shadow-2xl">
                         <img className="w-fit col-span-1" src="/image/can_1.png" alt="Can" />
                         <div className="text-center col-span-2">
                             <h1 className="text-green-600 font-bold">Can</h1>
@@ -129,7 +128,7 @@ const Home = () => {
                             <p className="text-xs text-gray-400">Collect 1kg can bottle to earn 10,000 points</p>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-2xl p-2 bg-green-50 border border-gray-200 shadow-2xl">
                         <img className="w-fit col-span-1" src="/image/empty-glass-bottle-beer.png" alt="Glass Bottle" />
                         <div className="text-center col-span-2">
                             <h1 className="text-green-600 font-bold">Glass Bottle</h1>
@@ -139,7 +138,7 @@ const Home = () => {
                             <p className="text-xs text-gray-400">Collect 1 glass bottle to earn 50 points</p>
                         </div>
                     </SwiperSlide>
-                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-md p-2 bg-white border border-gray-200 shadow-2xl">
+                    <SwiperSlide className="w-full relative h-full grid grid-cols-3 justify-items-center items-center rounded-2xl p-2 bg-green-50 border border-gray-200 shadow-2xl">
                         <img className="w-fit col-span-1" src="/image/recycling_1.png" alt="Cartons" />
                         <div className="text-center col-span-2">
                             <h1 className="text-green-600 font-bold">Cartons</h1>
@@ -155,26 +154,11 @@ const Home = () => {
                 <div className="mt-5">
                     <h1 className="text-green-600 font-semibold">Learn</h1>
 
-                    <div className="flex flex-col gap-3">
-                        <div className="w-full flex gap-2 items-center justify-center p-2 rounded-md shadow-md bg-gray-200">
-                            <img src="" alt="" />
-                            <div className="text-left">
-                                <h1 className="text-green-600 font-normal">Description</h1>
-                            </div>
-                        </div>
-                        <div className="w-full flex gap-2 items-center justify-center p-2 rounded-md shadow-md bg-gray-200">
-                            <img src="" alt="" />
-                            <div className="text-left">
-                                <h1 className="text-green-600 font-normal">Description</h1>
-                            </div>
-                        </div>
-                        <div className="w-full flex gap-2 items-center justify-center p-2 rounded-md shadow-md bg-gray-200">
-                            <img src="" alt="" />
-                            <div className="text-left">
-                                <h1 className="text-green-600 font-normal">Description</h1>
-                            </div>
-                        </div>
-                    </div>
+                    <div className="mt-5 flex flex-col gap-4">
+                        <Link to='/learn/3-R'><img src="/image/3rs.png" alt="3 R's" /></Link>
+                        <Link to='/learn/community'><img src="/image/community.png" alt="community" /></Link>
+                    </div>  
+                    
                 </div>
             </div>
             

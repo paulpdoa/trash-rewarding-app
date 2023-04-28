@@ -65,25 +65,30 @@ const Navbar = () => {
     
     return (
         <nav className="fixed bottom-0 w-full">
-            <ul className="flex relative bg-gray-100 p-3 justify-around">
+            <ul className="flex relative navbar-bg p-3 justify-around">
                 <div className="flex justify-around items-center w-full">
                     <Link className="flex flex-col items-center text-green-600" to='/'>
-                        <AiOutlineHome className="text-3xl"/>
+                        <img src="/image/home.png" alt="home icon" />
                         <li className="text-xs">Home</li>
                     </Link>
                     <Link className="flex flex-col items-center text-green-600" to={`/profile/${localStorage.getItem('userId')}`}>
-                        <CgProfile className="text-3xl"/>
+                        <img src="/image/profile-circle.png" alt="Profile Icon" />
                         <li className="text-xs">Profile</li>
                     </Link>
                 </div>
-                <button onClick={() => setShowQr(!showQr)} className="rounded-full fixed bottom-8 border-white border-8 w-16 h-16 text-2xl flex justify-center items-center text-gray-100 qr__icon z-50"><MdQrCodeScanner /></button>
+                
+                <div className="w-36 h-16 -mt-12 z-50">
+
+                    <button onClick={() => setShowQr(!showQr)} className="rounded-full w-full h-full flex justify-center items-center text-gray-100 home__bg z-50"><img className="w-7 object-fit" src="/image/scan.png" alt="Scanner Icon" /></button>
+                </div>
+
                 <div className="flex justify-around items-center w-full">
                     <Link className="flex flex-col items-center text-green-600" to='/about'>
-                        <AiOutlineExclamationCircle className="text-3xl" />
+                        <img src="/image/info-circle.png" alt="About Icon" />
                         <li className="text-xs">About</li>
                     </Link>
                     <Link className="flex flex-col items-center text-green-600" to='/support-us'>
-                        <RiQuestionnaireLine className="text-3xl"/>
+                        <img src="/image/support-icon.png" alt="Support Icon" />
                         <li className="text-xs">Support us</li>
                     </Link>
                 </div>

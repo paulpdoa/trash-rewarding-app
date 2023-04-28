@@ -11,10 +11,16 @@
   background: linear-gradient(180deg, rgba(73,134,53,1) 0%, rgba(88,214,12,1) 67%, rgba(47,180,112,1) 90%);
 }
 
+.navbar-bg {
+  background-image: url('../assets/Subtract.png');
+  background-repeat:no-repeat;
+  background-size: cover;
+}
+
 /* Home */
 .home__bg {
-  background: rgb(77,115,64);
-  background: linear-gradient(90deg, rgba(77,115,64,1) 0%, rgba(103,176,59,1) 43%, rgba(51,207,127,1) 90%);
+  background: linear-gradient(53.24deg, #00FFA3 54.55%, rgba(0, 240, 255, 0) 139.12%);
+  background-blend-mode: darken;
 }
 .home__contents {
   border-top-left-radius: 50px;
@@ -76,3 +82,13 @@ tr:nth-child(even) {
   display:flex;
   z-index: 0;
 }
+
+/* Learn Page */
+.community-bg {
+  background-image: url('../assets/community-bg.png');
+  background-repeat:no-repeat;
+}
+.three-r-bg {
+  background-image: url('../assets/3r-bg.png');
+  background-repeat:no-repeat;
+} 

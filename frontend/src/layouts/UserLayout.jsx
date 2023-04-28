@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-const UserLayout = ({ currentPage }) => {
+const UserLayout = () => {
 
     const existingCookie = Cookies.get('userJwt');  
     //const existingId = localStorage.getItem('userId'); 
@@ -18,7 +18,7 @@ const UserLayout = ({ currentPage }) => {
     return (
         <main className="h-full">
             <Outlet />
-            <Navbar currentPage={currentPage} />
+            <Navbar />
         </main> 
     )
 } 

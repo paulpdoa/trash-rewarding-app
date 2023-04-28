@@ -65,7 +65,7 @@ const Login = () => {
     return (
         <div className="flex justify-center items-center flex-col h-screen relative">
            <div className="flex flex-col w-4/5 mb-5">
-                <img className="w-fit object-fit" src="/image/trashapp_logo.png" alt="Trash App Logo" />
+                <img className="object-fit mb-5 self-center" src="/image/trashapp_logo.png" alt="Trash App Logo" />
                 <h1 className="text-2xl text-green-500 font-bold">Hello There!</h1>
                 <p className="text-xs">Empowering the community to increase plastic recovery</p>
                 { adminApproved ? <button onClick={resendVerificationEmail} className="text-red-500 text-sm flex items-center gap-2 text-left">{statusMssg}</button> : <span className="text-red-500 text-sm flex items-center gap-2 text-left">{statusMssg}</span> }

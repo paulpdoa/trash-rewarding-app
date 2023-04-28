@@ -19,6 +19,7 @@ import Verify from './pages/client/Verify';
 import ForgotPassword from './pages/client/ForgotPassword';
 import PasswordVerify from './pages/client/PasswordVerify';
 import ChangePassword from './pages/client/ChangePassword';
+import Learn from './pages/client/Learn'
 
 // Admin Pages
 import Dashboard from './pages/admin/Dashboard';
@@ -33,12 +34,8 @@ import UserProfile from './pages/admin/UserProfile';
 import AdminRegister from './pages/admin/AdminRegister';
 import GenerateReports from './pages/admin/GenerateReports';
 
-import { useState } from 'react';
 
 function App() {
-
-  //Use in reward system
-  const [currentPage,setCurrentPage] = useState('Give Points');
 
   return (
     // Handling of routes in Frontend
@@ -55,7 +52,7 @@ function App() {
 
       {/* User Page
       NOTE: Mobile View only for Users */}
-      <Route element={<UserLayout currentPage={currentPage} />}>
+      <Route element={<UserLayout/>}>
         <Route path='/' element={<Home />} />
         <Route path='/profile/:id' element={<Profile />} />
         <Route path='/about' element={<About />} />
@@ -65,6 +62,7 @@ function App() {
         <Route path='/earn-rewards' element={<EarnRewards />} />
         <Route path='/support-us' element={<SupportUs />} />
         <Route path='/earn-points' element={<EarnPoints />} />
+        <Route path='/learn/:id' element={<Learn />} />
       </Route>
 
       {/* Admin Page 
@@ -72,7 +70,7 @@ function App() {
       <Route element={<AdminLayout />}>
         <Route path='/admin/dashboard' element={<Dashboard/>} />
         <Route path='/admin/leaderboard' element={<AdminLeaderboard />} />
-        <Route path='/admin/give-points-rewards' element={<PointsRewards currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
+        <Route path='/admin/give-points-rewards' element={<PointsRewards />} />
         <Route path='/admin/messages' element={<Messages />} />
         <Route path='/admin/collection-records' element={<CollectionRecords />} />
         <Route path='/admin/accounts' element={<Accounts />} />
