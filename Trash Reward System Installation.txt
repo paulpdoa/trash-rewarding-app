@@ -1,0 +1,31 @@
+Trash Reward System Installation
+
+1. Download node.js
+- https://nodejs.org/en
+- Download "Recommended for Most Users"
+
+2. Go to Github.com
+- https://github.com/paulpdoa/trash-rewarding-app
+- change master to dev
+- Select code then copy value of HTTPS
+
+3. Download Visual Studio Code
+- https://code.visualstudio.com/
+
+4. Download git
+- https://gitforwindows.org/
+- Press download
+
+5. Open Visual Studio Code after installing
+- In terminal(command prompt) type "git clone https://github.com/paulpdoa/trash-rewarding-app.git"
+
+6. type "cd frontend"
+- type npm install
+
+7. in new terminal session type
+- cd backend
+- npm install
+
+Link to App
+Production Link:  https://trash-app-system.netlify.app
+Test Link: https://644bc4764993de071e3f83fe--trash-app-system.netlify.app
