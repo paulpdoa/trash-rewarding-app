@@ -1,8 +1,4 @@
-import { AiOutlineHome,AiOutlineExclamationCircle } from 'react-icons/ai';
-import { MdQrCodeScanner } from 'react-icons/md';
 import { Link,useNavigate } from 'react-router-dom';
-import { CgProfile } from 'react-icons/cg';
-import { RiQuestionnaireLine } from 'react-icons/ri';
 import QrReader from 'modern-react-qr-reader';
 import { useState } from 'react';
 import axios from 'axios';
@@ -77,10 +73,8 @@ const Navbar = () => {
                     </Link>
                 </div>
                 
-                <div className="w-36 h-16 -mt-12 z-50">
-
-                    <button onClick={() => setShowQr(!showQr)} className="rounded-full w-full h-full flex justify-center items-center text-gray-100 home__bg z-50"><img className="w-7 object-fit" src="/image/scan.png" alt="Scanner Icon" /></button>
-                </div>
+                
+                <button onClick={() => setShowQr(!showQr)} className="-mt-12 home__bg qr-btn rounded-full flex justify-center items-center text-gray-100 z-50"><img className="w-7 object-fit" src="/image/scan.png" alt="Scanner Icon" /></button>
 
                 <div className="flex justify-around items-center w-full">
                     <Link className="flex flex-col items-center text-green-600" to='/about'>

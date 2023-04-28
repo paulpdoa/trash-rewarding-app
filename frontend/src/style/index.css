@@ -11,6 +11,11 @@
   background: linear-gradient(180deg, rgba(73,134,53,1) 0%, rgba(88,214,12,1) 67%, rgba(47,180,112,1) 90%);
 }
 
+.qr-btn {
+  width: 150px;
+  height: 62px;
+}
+
 .navbar-bg {
   background-image: url('../assets/Subtract.png');
   background-repeat:no-repeat;
@@ -85,7 +90,7 @@ tr:nth-child(even) {
 
 /* Learn Page */
 .community-bg {
-  background-image: url('../assets/community-bg.png');
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('../assets/community-bg.png');
   background-repeat:no-repeat;
 }
 .three-r-bg {
