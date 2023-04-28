@@ -26,6 +26,19 @@ Trash Reward System Installation
 - cd backend
 - npm install
 
+8. Inside backend folder, create a new folder named ".env" then paste this contents
+PORT = 8000
+
+DB_USER=polo
+DB_PASS=trash_rewarding_system
+APP_NAME=trash-reward-system
+MAIL_ACCOUNT=trashrewardapp@gmail.com
+MAIL_PASSWORD=ycqrmbaqbisftdyr
+SECRET=kngakjkj1h23h16ugkjHHKJAGK176876jkgkajbkjh7876JGkjbmdsa246q5465vsfdsq
+---------------------------------------------------------------------------------------------
+NOTE: After executing this steps, you can now use your application!
+ENJOY :)
+---------------------------------------------------------------------------------------------
 Link to App
 Production Link:  https://trash-app-system.netlify.app
 Test Link: https://644bc4764993de071e3f83fe--trash-app-system.netlify.app
