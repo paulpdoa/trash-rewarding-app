@@ -97,3 +97,11 @@ tr:nth-child(even) {
   background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('../assets/3r-bg.png');
   background-repeat:no-repeat;
 } 
+
+/* About Page Background */
+.about-bg {
+  background-image: url('../assets/about_bg.png');
+  background-repeat:no-repeat;
+  background-size:contain
+
+} 
