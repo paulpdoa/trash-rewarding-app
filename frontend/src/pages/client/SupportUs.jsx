@@ -54,7 +54,7 @@ const SupportUs = () => {
                 <h1 className="font-normal text-center text-xl px-10 py-2 rounded">Support Us</h1>
                 <div className="bg-gray-200 w-full p-2 rounded mt-5">
                     <h2 className="font-semibold">Support Us</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam quod ratione a sed sequi mollitia quidem, non doloremque rerum quae.</p>
+                    <p>Help us to improve our project by giving us feedback and suggestions. We really appreciate your feedback to us and read it carefully to be us to be better. Thankyou!</p>
                 </div>
 
                 {/* Comments */}
