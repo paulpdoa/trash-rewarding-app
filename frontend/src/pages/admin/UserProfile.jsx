@@ -105,13 +105,13 @@ const UserProfile = () => {
                                     :
                                     <tr>
                                         <th>Name</th>
-                                        <th>Quantity</th>
+                                        <th>Date Received</th>
                                     </tr>
                                     }
-                                    { collectedRewards?.map((collectedReward) => (
-                                        <tr>
-                                            <td>{collectedReward.item}</td>
-                                            <td>1 Kilo</td>
+                                    { collectedRewards?.map((collectedReward,pos) => (
+                                        <tr key={pos}>
+                                            <td>{collectedReward.reward.item}</td>
+                                            <td><DateFormatter date={collectedReward.createdAt.split('T')[0]} /></td>
                                         </tr>
                                     ))}
                                 </tbody>

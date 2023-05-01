@@ -32,8 +32,7 @@ const Profile = () => {
         const fetchRewards = async () => {
             try {
                 const res = await axios.get(`${baseUrl()}/userrewarddetailget/${id}`,{ signal });
-                setCollectedRewards(res.data);
-                console.log(collectedRewards);  
+                setCollectedRewards(res.data); 
             } catch(err) {
                 console.log(err);
             }
@@ -109,13 +108,13 @@ const Profile = () => {
                                     :
                                     <tr>
                                         <th>Name</th>
-                                        <th>Quantity</th>
+                                        <th>Date Received</th>
                                     </tr>
                                     }
                                     { collectedRewards?.map((collectedReward,pos) => (
                                         <tr key={pos}>
                                             <td>{collectedReward.reward.item}</td>
-                                            <td>1 kilo</td>
+                                            <td><DateFormatter date={collectedReward.createdAt.split('T')[0]} /></td>
                                         </tr>
                                     ))}
                                 </tbody>

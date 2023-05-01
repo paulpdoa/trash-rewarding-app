@@ -52,8 +52,7 @@ const SupportUs = () => {
             <Navigator currentPage='Support Us' />            
             <div className="h-full px-10 py-24 w-full">
                 <h1 className="font-normal text-center text-xl px-10 py-2 rounded">Support Us</h1>
-                <div className="bg-gray-200 w-full p-2 rounded mt-5">
-                    <h2 className="font-semibold">Support Us</h2>
+                <div className="border border-gray-800 w-full p-2 rounded-md mt-5">
                     <p>Help us to improve our project by giving us feedback and suggestions. We really appreciate your feedback to us and read it carefully to be us to be better. Thankyou!</p>
                 </div>
 

@@ -61,7 +61,7 @@ function App() {
         <Route path='/profile/:id' element={<Profile />} />
         <Route path='/about' element={<About />} />
         <Route path='/reward-category' element={<RewardCategory />} />
-        <Route path='/rewards' element={<Rewards />} />
+        {/* <Route path='/rewards' element={<Rewards />} /> */}
         <Route path='/leaderboards' element={<Leaderboards />} />
         <Route path='/earn-rewards' element={<EarnRewards />} />
         <Route path='/support-us' element={<SupportUs />} />

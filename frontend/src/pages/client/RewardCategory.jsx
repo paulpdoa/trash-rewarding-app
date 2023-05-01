@@ -63,8 +63,8 @@ const RewardCategory = () => {
                 <h1 className="mt-20 text-xl">List of Rewards</h1>
                 <div className="grid grid-cols-3 gap-3 mt-5">
                     { rewards?.map((reward,pos) => (
-                        <div onClick={() => handleShowRewardId(reward._id)} className="flex flex-col items-center w-20 h-20 rounded-md gap-2" key={pos}>
-                            <img className="w-20 h-20 object-fit bg-gray-300 p-2 rounded" src="https://static.wixstatic.com/media/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png/v1/fill/w_414,h_302,q_90/2cd43b_fc5e924ef97d4e5b973e2fa49ed26fdc~mv2.png" alt="reward" />
+                        <div onClick={() => handleShowRewardId(reward._id)} className="flex flex-col items-center rounded-md gap-2" key={pos}>
+                            <img className="object-fit w-full h-24 bg-gray-300 p-2 rounded" src={reward.itemImage} alt={reward.item} />
                             <p className="bg-gray-300 text-center cursor-pointer p-1 w-full rounded">{reward.item}</p>
                         </div>
                     )) }
@@ -73,7 +73,7 @@ const RewardCategory = () => {
 
             </div>
             { showId && 
-                <div onClick={() => setShowId(false)} className="absolute bg-black top-0 left-0 w-full h-screen flex items-center justify-center opacity-50">
+                <div onClick={() => setShowId(false)} className="absolute bg-black top-0 left-0 w-full h-screen flex items-center justify-center opacity-70">
                     <div className="bg-gray-100 p-4">
                         <h1 className="text-black font-bold">{rewardId}</h1>
                     </div>

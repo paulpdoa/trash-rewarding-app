@@ -8,6 +8,10 @@ const rewardSchema = new mongoose.Schema({
     point: {
         required: true,
         type: String
+    },
+    itemImage: {
+        required: true,
+        type: String
     }
 
 }, { timestamps: true })
