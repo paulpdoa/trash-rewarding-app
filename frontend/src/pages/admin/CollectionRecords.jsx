@@ -9,6 +9,7 @@ const CollectionRecords = () => {
 
     const [name,setName] = useState('');
     const [collections,setCollections] = useState([]);
+    const adminLocation = localStorage.getItem('adminLocation');
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -17,7 +18,7 @@ const CollectionRecords = () => {
         const fetchCollection = async () => {
             try {
                 const res = await axios.get(`${baseUrl()}/collections`,{ signal });
-                setCollections(res.data);
+                setCollections(res.data.filter(user => user.user_id.barangay === adminLocation));
             } catch(err) {
                 console.log(err);
             }
@@ -25,14 +26,14 @@ const CollectionRecords = () => {
         fetchCollection();
 
         return () => abortCont.abort();
-    },[])
+    },[adminLocation])
 
     return (
         <div className="h-full relative bg-white w-full">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Collection Records</button>
             <div className="h-full py-2 px-2"> 
                 <div className="flex gap-2 items-center border border-gray-200 shadow-sm rounded-full">
-                    <HiOutlineMagnifyingGlass className="text-xl" />
+                    <HiOutlineMagnifyingGlass className="text-xl ml-2" />
                     <input className="w-full p-2 outline-none" onChange={(e) => setName(e.target.value)} type="search" placeholder="Search name..." />
                 </div>
 

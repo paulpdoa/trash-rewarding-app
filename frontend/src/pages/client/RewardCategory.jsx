@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { useState,useEffect } from 'react';
-import { IoArrowBackCircleOutline } from 'react-icons/io5';
-import { useNavigate,Link } from 'react-router-dom';
 import Navigator from '../../components/Navigator';
 import { baseUrl } from '../../baseUrl';
 
@@ -27,7 +25,7 @@ const RewardCategory = () => {
         fetchUserBarangay();
 
         return () => abortCont.abort();
-    },[]);
+    },[userId]);
 
     useEffect(() => {
         const abortCont = new AbortController();

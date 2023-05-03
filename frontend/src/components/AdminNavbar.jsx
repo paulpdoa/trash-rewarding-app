@@ -19,6 +19,7 @@ const AdminNavbar = ({setShowSidebar,showSidebar}) => {
             const data = await axios.get(`${baseUrl()}/adminlogout`);
             localStorage.removeItem('adminUsername');
             localStorage.removeItem('adminId');
+            localStorage.removeItem('adminLocation');
             Cookies.remove('adminJwt');
             navigate(data.data.redirect);
         } catch(err) {

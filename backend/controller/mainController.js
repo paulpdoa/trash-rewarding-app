@@ -364,7 +364,7 @@ module.exports.admin_login = async(req,res) => {
     try {   
         const admin = await Admin.login(username,password);
         const token = createToken(admin._id);
-        res.cookie('adminJwt',token,{ maxAge: maxAge * 1000 }).status(200).json({ mssg: `${admin.username} has been successfully logged-in`, redirect:'/admin/dashboard',adminId: admin._id,adminJwt: token })
+        res.cookie('adminJwt',token,{ maxAge: maxAge * 1000 }).status(200).json({ mssg: `${admin.username} has been successfully logged-in`, redirect:'/admin/dashboard',adminId: admin._id,adminJwt: token,adminLoc: admin.barangay })
     } catch(err) {
         const errors = handleErrors(err);
         res.status(400).json(errors);

@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [totalPoints,setTotalPoints] = useState(0);
   const [collections,setCollections] = useState([]);
   const [isApproved,setIsApproved] = useState(false);
+  const adminLocation = localStorage.getItem('adminLocation');
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -34,15 +35,17 @@ const Dashboard = () => {
 
     const fetchLeaderboards = async () => {
       try {
-        const res = await axios.get(`${baseUrl()}/user`, {  signal });
-        const sortedPoints = res.data.sort((a,b) => b.collectedPoints - a.collectedPoints);
-        const total = res.data.reduce((tot,curr) => tot + curr.collectedPoints,0);
+        const res = await axios.get(`${baseUrl()}/user`, { signal });
+        const sortedPoints = res.data.filter((user) => user.barangay === adminLocation).sort((a,b) => b.collectedPoints - a.collectedPoints);
+        const total = res.data.filter((user) => user.barangay === adminLocation).reduce((tot,curr) => tot + curr.collectedPoints,0);
         setTotalPoints(total);
         setLeaderboards(sortedPoints);
+        //To check status of user if it is approved or not
+        //For Notification row
         if(res.data[res.data.length - 1].adminApproved) {
-          setIsApproved(false);
-        } else {
           setIsApproved(true);
+        } else {
+          setIsApproved(false);
         }
       } catch(err) {
         console.log(err);
@@ -50,7 +53,7 @@ const Dashboard = () => {
     }
     fetchLeaderboards();
     return () => abortCont.abort();
-  },[])
+  },[adminLocation])
 
   // For fetching Collection Records
   useEffect(() => {
@@ -59,8 +62,9 @@ const Dashboard = () => {
 
     const fetchCollection = async () => {
       try {
-        const res = await axios.get(`${baseUrl()}/collections`, {  signal });
-        setCollections(res.data);
+        const res = await axios.get(`${baseUrl()}/collections`, { signal });
+        const specificBrgy = res.data.filter(user => user.user_id.barangay === adminLocation);
+        setCollections(specificBrgy);
       } catch(err) {
         console.log(err);
       }
@@ -68,22 +72,22 @@ const Dashboard = () => {
     fetchCollection();
 
     return () => abortCont.abort();
-  },[collections])
+  },[collections,adminLocation])
 
   return (
         <div className="h-full w-full">
-            <div className="h-full px-10 py-24">
-                <div className="w-full p-2 rounded shadow-lg shadow-green-200">
+            <div className="h-full px-10 py-24 flex flex-col items-center">
+                <div className="w-full md:w-1/2 p-2 rounded shadow-lg flex flex-col shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">COLLECTION RECORDS</h1>
                   <BarChart chartData={collections} options={options} />
                 </div>
 
-                <div className="w-full p-2 rounded mt-5 shadow-lg shadow-green-200">
+                <div className="w-full md:w-1/2 p-2 rounded mt-5 shadow-lg shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">MONTHLY USER POINTS</h1>
                   <p className="text-center font-semibold text-gray-400 text-xl"><NumberFormat points={totalPoints} /> POINTS</p>
                 </div>
 
-                <div className="w-full p-2 rounded mt-5 shadow-lg shadow-green-200">
+                <div className="w-full md:w-1/2 p-2 rounded mt-5 shadow-lg shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">DAILY LEADERBOARD</h1>
                   { leaderboards.length < 1 ? 
                   <p className="font-semibold animate-pulse text-gray-400 text-center">No rankings yet</p> 
@@ -99,7 +103,7 @@ const Dashboard = () => {
                   )) }
                 </div>
 
-                <div className="w-full p-2 rounded mt-5">
+                <div className="w-full md:w-1/2 p-2 rounded mt-5">
                   <h1 className="font-semibold text-xl text-center">NOTIFICATION</h1>
                   { isApproved ?
                   <div className="text-xs text-gray-400 p-4 font-semibold shadow-lg shadow-green-200">
@@ -110,7 +114,6 @@ const Dashboard = () => {
                   : 
                   <p className="text-center mt-5 font-semibold text-gray-400 animate-pulse">No new users registered yet</p>
                   }
-                 
                 </div>
             </div>
         </div>

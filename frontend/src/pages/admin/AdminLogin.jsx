@@ -32,6 +32,7 @@ const AdminLogin = () => {
             const data = await axios.post(`${baseUrl()}/adminlogin`,{ username,password });
             localStorage.setItem('adminUsername', username);
             localStorage.setItem('adminId',data.data.adminId);
+            localStorage.setItem('adminLocation',data.data.adminLoc);
             setMssg(data.data.mssg);
             setOpenAlert(true);
             setRedirect(data.data.redirect);
@@ -44,11 +45,11 @@ const AdminLogin = () => {
     }
     return (
         <div className="flex relative justify-center items-center flex-col h-screen">
-           <div className="flex flex-col w-4/5 mb-5">
+           <div className="flex flex-col w-4/5 md:w-1/2 mb-5">
                 <h1 className="text-2xl text-green-500 font-bold">Hello there Admin!</h1>
                 <p className="text-xs">Empowering the community to increase plastic recovery</p>
            </div>
-           <form onSubmit={handleSubmit} className="flex flex-col justify-center w-4/5 gap-2">
+           <form onSubmit={handleSubmit} className="flex flex-col justify-center w-4/5 md:w-1/2 gap-2">
                 <input onChange={(e) => setUsername(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" type="text" placeholder="Username" />
                 <span className="text-xs text-red-500">{usernameErr}</span>
 

@@ -11,6 +11,7 @@ const GenerateReports = () => {
     const [reports,setReports] = useState([]);
     const [mssg,setMssg] = useState('');
     const [canDownload,setCanDownload] = useState(false);
+    const adminLocation = localStorage.getItem('adminLocation');
 
     const formattedName = from?.split('-')[0]+from?.split('-')[1]+from?.split('-')[2] + '-' + to?.split('-')[0]+to?.split('-')[1]+to?.split('-')[2];
    
@@ -41,7 +42,7 @@ const GenerateReports = () => {
             try {
                 const res = await axios.post(`${baseUrl()}/collections`,{ from, to });
                 setCanDownload(true);
-                setReports(res.data);
+                setReports(res.data.filter(user => user.user_id.barangay === adminLocation));
             } catch(err) {
                 console.log(err);
             }

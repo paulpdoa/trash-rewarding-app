@@ -8,6 +8,7 @@ import { baseUrl } from '../../baseUrl';
 
 const AdminLeaderboard = () => {
     const [users,setUsers] = useState([]);
+    const adminLocation = localStorage.getItem('adminLocation');
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -15,7 +16,9 @@ const AdminLeaderboard = () => {
         const fetchUsers = async () => {
             try {
                 const data = await axios.get(`${baseUrl()}/user`);
-                setUsers(data.data);
+                //Only filter user with the same barangay with admin    
+                const adminLoc = data.data.filter(user => user.barangay === adminLocation);
+                setUsers(adminLoc);
             } catch(err) {
                 console.log(err);
             }

@@ -19,6 +19,7 @@ const Accounts = () => {
     const [currentPage,setCurrentPage] = useState('Member Accounts');
     const [userId,setUserId] = useState('');
     const adminId = localStorage.getItem('adminId');
+    const adminLocation = localStorage.getItem('adminLocation');
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -27,13 +28,13 @@ const Accounts = () => {
         const fetchUsers = async () => {
             try {
                 const data = await axios.get(`${baseUrl()}/user`,{ signal });
-                setUsers(data.data);
+                setUsers(data.data.filter(user => user.barangay === adminLocation));
             } catch(err) {
                 console.log(err);
             }
         }
         fetchUsers();
-    },[users])
+    },[users,adminLocation])     
 
     const approveUser = async (id) => {
         setIsLoading(true)
