@@ -36,8 +36,11 @@ MAIL_ACCOUNT=trashrewardapp@gmail.com
 MAIL_PASSWORD=ycqrmbaqbisftdyr
 SECRET=kngakjkj1h23h16ugkjHHKJAGK176876jkgkajbkjh7876JGkjbmdsa246q5465vsfdsq
 ---------------------------------------------------------------------------------------------
-NOTE: After executing this steps, you can now use your application!
-ENJOY :)
+NOTE: After executing this steps, you can now use your application! ENJOY :)
+
+DOWNLOAD AND INSTALL MONGODB COMPASS
+https://www.mongodb.com/products/compass
+
 ---------------------------------------------------------------------------------------------
 Link to App
 Production Link:  https://trash-app-system.netlify.app
