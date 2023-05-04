@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+}
+
 * {
   font-family:'Poppins', sans-serif;
 }
@@ -105,3 +113,8 @@ tr:nth-child(even) {
   background-size:contain
 
 } 
+
+/* Super admin login page */
+.superadmin-bg {
+  background-color: #74FDAB;
+}

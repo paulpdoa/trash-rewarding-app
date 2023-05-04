@@ -46,6 +46,7 @@ const AdminLogin = () => {
     return (
         <div className="flex relative justify-center items-center flex-col h-screen">
            <div className="flex flex-col w-4/5 md:w-1/2 mb-5">
+                <img className="object-fit mb-5 self-center" src="/image/trashapp_logo.png" alt="Trash App Logo" />
                 <h1 className="text-2xl text-green-500 font-bold">Hello there Admin!</h1>
                 <p className="text-xs">Empowering the community to increase plastic recovery</p>
            </div>

@@ -24,6 +24,7 @@ const createToken = (id) => {
     })
 }
 
+//Handling error, to make function reusable
 const handleErrors = (err) => {
     let errors = { email: '', password: '',username: '' };
 
@@ -40,6 +41,7 @@ const handleErrors = (err) => {
     return errors;
 }
 
+//for sending email to users
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -50,6 +52,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+// to get all users
 module.exports.user_get = async (req,res) => {
     try {
         const users = await User.find().populate('approvedBy');
@@ -59,10 +62,11 @@ module.exports.user_get = async (req,res) => {
     }
 }
 
+// code for user registration
 module.exports.user_post = async (req,res) => {
 
     const { firstName,lastName,middleName,dateOfBirth, password, email, province, barangay, city } = req.body;
-    //const { filename } = req.files;
+
     const avatar = req.files['avatar'][0].filename;
     const idCard = req.files['idCard'][0].filename;
 
@@ -104,12 +108,12 @@ module.exports.user_post = async (req,res) => {
 module.exports.user_login = async (req,res) => {
     const { email, password } = req.body;
 
-    User.findOne({email})
+    User.findOne({email}) // find the user first 
     .then((name) => {
        if(name) {
         if(name.userType === 'user') {
             if(name.status && name.adminApproved) {
-                User.login(email,password)
+                User.login(email,password) 
                 .then((user) => {
                     const token = createToken(user._id);
                     res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture, userJwt: token });
@@ -119,12 +123,12 @@ module.exports.user_login = async (req,res) => {
                     res.status(400).json(errors);
                 })  
             } else {
+                // for checking of status of user, if user is not yet verified, then user cannot login
                 if(!name.status) {
                     res.status(400).json({ mssg: `${email} is not yet verified, click here to verify email`, verify: `/verify/${name._id}`, adminApprovedStatus: true });
                 } else {
                     res.status(400).json({ mssg: `${email} is not yet verified, please contact administrator`, adminApprovedStatus: false });
-                }
-                
+                }    
             }
            } else {
             res.status(400).json({ mssg: `${email} is an admin, cannot login to this page` });

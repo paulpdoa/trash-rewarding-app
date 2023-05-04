@@ -35,6 +35,7 @@ import AdminRegister from './pages/admin/AdminRegister';
 import GenerateReports from './pages/admin/GenerateReports';
 
 import { useState } from 'react'; 
+import SuperAdminLogin from './pages/superadmin/SuperAdminLogin';
 
 function App() {
 
@@ -44,16 +45,18 @@ function App() {
   return (
     // Handling of routes in Frontend
     <Routes>
+      {/* Users page for auth */}
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/verify/:id' element={<Verify />} />
       <Route path='/forgot-password' element={<ForgotPassword />} />
       <Route path='/password-verify/:id' element={<PasswordVerify />} />
       <Route path='/change-password/:id' element={<ChangePassword />} />
-
+      {/* Admin Page for Auth */}
       <Route path='/admin-login' element={<AdminLogin />} />
       <Route path='/admin-register' element={<AdminRegister />} />
-
+      {/* Super admin page for auth */}
+      <Route path='/superadmin-login' element={<SuperAdminLogin />} />
       {/* User Page
       NOTE: Mobile View only for Users */}
       <Route element={<UserLayout/>}>
