@@ -43,9 +43,9 @@ const Dashboard = () => {
         //To check status of user if it is approved or not
         //For Notification row
         if(res.data[res.data.length - 1].adminApproved) {
-          setIsApproved(true);
-        } else {
           setIsApproved(false);
+        } else {
+          setIsApproved(true);
         }
       } catch(err) {
         console.log(err);
@@ -63,7 +63,7 @@ const Dashboard = () => {
     const fetchCollection = async () => {
       try {
         const res = await axios.get(`${baseUrl()}/collections`, { signal });
-        const specificBrgy = res.data.filter(user => user.user_id.barangay === adminLocation);
+        const specificBrgy = res.data.filter(user => user.user_id !== null && user.user_id.barangay === adminLocation);
         setCollections(specificBrgy);
       } catch(err) {
         console.log(err);
