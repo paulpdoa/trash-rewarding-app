@@ -149,21 +149,45 @@ const Register = () => {
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />                    
                         <select onChange={(e) => selectProvince(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
                             <option hidden>Select your province</option>
-                            { provinces.RECORDS.map((province) => (
+                            { provinces.RECORDS.sort((a,b) =>{
+                                 if (a.provDesc < b.provDesc) {
+                                    return -1;
+                                  }
+                                  if (a.provDesc > b.provDesc) {
+                                    return 1;
+                                  }
+                                  return 0;
+                            }).map((province) => (
                                 <option key={province.id} value={ province.provCode }>{ province.provDesc[0]+province.provDesc.slice(1,province.provDesc.length).toLowerCase() }</option>
                             )) }
                         </select>
 
                         { province === '' ? <p className="p-2 rounded border-none outline-none shadow-sm">Select province first</p> : <select value={city.toUpperCase()} onChange={(e) => selectCity(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
                             <option hidden>Select your city</option>
-                            { cities.RECORDS.filter(city => city.provCode === provCode).map((city) => (
+                            { cities.RECORDS.sort((a,b) => {
+                                if (a.citymunDesc < b.citymunDesc) {
+                                    return -1;
+                                  }
+                                  if (a.citymunDesc > b.citymunDesc) {
+                                    return 1;
+                                  }
+                                  return 0;
+                            }).filter(city => city.provCode === provCode).map((city) => (
                                 <option key={city.id} value={ city.citymunDesc }>{ city.citymunDesc[0]+city.citymunDesc.slice(1,city.citymunDesc.length).toLowerCase() }</option> 
                             )) }
                         </select> }
 
                         { city === '' ? <p className="p-2 rounded border-none outline-none shadow-sm">Select city first</p> :<select value={barangay} onChange={(e) => setBarangay(e.target.value)} className="p-2 rounded border-none outline-none shadow-sm" required>
                             <option hidden>Select your barangay</option>
-                            { barangays.RECORDS.filter(barangay => barangay.citymunCode === cityCode).map((barangay) => (
+                            { barangays.RECORDS.sort((a,b) => {
+                                if (a.brgyDesc < b.brgyDesc) {
+                                    return -1;
+                                  }
+                                  if (a.brgyDesc > b.brgyDesc) {
+                                    return 1;
+                                  }
+                                  return 0;
+                            }).filter(barangay => barangay.citymunCode === cityCode).map((barangay) => (
                                 <option key={barangay.id} value={ barangay.brgyDesc }>{ barangay.brgyDesc }</option>
                             )) }
                         </select> }

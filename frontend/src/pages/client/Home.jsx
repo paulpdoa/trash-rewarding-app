@@ -57,7 +57,7 @@ const Home = () => {
     return (
         <div className="h-screen w-full home__bg">
             <div className="flex items-center relative text-white text-2xl gap-2 p-2">
-                <img className="cursor-pointer w-fit" onClick={() => setShowMenu(!showMenu)} src="/image/home_icon.png" alt="Trash App Logo" />
+                <img className="cursor-pointer w-10" onClick={() => setShowMenu(!showMenu)} src="/image/Logo.png" alt="Trash App Logo" />
                 <h1 className="text-gray-100 font-semibold text-xl">Hello {usernameFormat}!</h1>
                 {/* Show this menu when button is clicked */}
                 { showMenu &&  
