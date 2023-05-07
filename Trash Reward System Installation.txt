@@ -6,7 +6,6 @@ Trash Reward System Installation
 
 2. Go to Github.com
 - https://github.com/paulpdoa/trash-rewarding-app
-- change master to dev
 - Select code then copy value of HTTPS
 
 3. Download Visual Studio Code
@@ -37,11 +36,6 @@ MAIL_PASSWORD=ycqrmbaqbisftdyr
 SECRET=kngakjkj1h23h16ugkjHHKJAGK176876jkgkajbkjh7876JGkjbmdsa246q5465vsfdsq
 ---------------------------------------------------------------------------------------------
 NOTE: After executing this steps, you can now use your application! ENJOY :)
-
-DOWNLOAD AND INSTALL MONGODB COMPASS
-https://www.mongodb.com/products/compass
-
 ---------------------------------------------------------------------------------------------
 Link to App
 Production Link:  https://trash-app-system.netlify.app
-Test Link: https://644bc4764993de071e3f83fe--trash-app-system.netlify.app
