@@ -94,6 +94,7 @@ const Register = () => {
       }
 
     const validateFirstStep = () => {
+        
         if(fn === '') {
             alert('First name cannot be null');
         } else if(fn.length < 1) {
@@ -106,7 +107,7 @@ const Register = () => {
             alert('Date of birth cannot be null');
         } else if(pass === '') {
             alert('Password cannot be null');
-        } else if(pass < 8) {
+        } else if(pass.length < 8) {
             alert('Password cannot be less than 8 characters');
         } else if(confPass === '') {
             alert('Confirm Password cannot be null');
