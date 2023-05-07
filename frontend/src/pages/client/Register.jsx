@@ -94,7 +94,7 @@ const Register = () => {
       }
 
     const validateFirstStep = () => {
-        
+
         if(fn === '') {
             alert('First name cannot be null');
         } else if(fn.length < 1) {

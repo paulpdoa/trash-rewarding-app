@@ -28,6 +28,7 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
             try {
                 const data = await axios.get(`${baseUrl()}/category`,{ signal });
                 setCategories(data.data);
+                console.log(data.data);
             } catch(err) {
                 console.log(err);
             }
@@ -191,6 +192,9 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                         <option value="8">8kg</option>
                         <option value="9">9kg</option>
                         <option value="10">10kg</option>
+                        <option value="1/4">1/4kg</option>
+                        <option value="1/2">1/2kg</option>
+                        <option value="3/4">3/4kg</option>
                     </select>
                 </div>    
                 :
