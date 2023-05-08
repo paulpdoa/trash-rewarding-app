@@ -50,6 +50,7 @@ const Home = () => {
         localStorage.removeItem('userId');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userAvatar');
+        localStorage.removeItem('userLocation');
         Cookies.remove('userJwt');
 
     }

@@ -53,6 +53,7 @@ const Login = () => {
             localStorage.setItem('userEmail',data.data.email);
             localStorage.setItem('userId', data.data.id);
             localStorage.setItem('userAvatar', data.data.profilePicture);
+            localStorage.setItem('userLocation', data.data.userLoc);
             // Set Cookie for browser
             Cookies.set('userJwt',data.data.userJwt);
             setOpenAlert(true);

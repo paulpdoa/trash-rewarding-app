@@ -116,7 +116,7 @@ module.exports.user_login = async (req,res) => {
                 User.login(email,password) 
                 .then((user) => {
                     const token = createToken(user._id);
-                    res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture, userJwt: token });
+                    res.status(201).cookie('userJwt', token, { maxAge: maxAge * 1000 }).json({ mssg: 'Login successful', redirect: '/', name: `${user.firstName} ${user.middleName} ${user.lastName}`, email: user.email, id: user._id, profilePicture: user.profilePicture, userJwt: token, userLoc: user.barangay });
                 })
                 .catch((err) => {
                     const errors = handleErrors(err);

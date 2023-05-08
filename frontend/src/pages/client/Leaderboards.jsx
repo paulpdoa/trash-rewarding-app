@@ -9,14 +9,14 @@ import { baseUrl } from '../../baseUrl';
 const Leaderboards = () => {
 
     const [users,setUsers] = useState([]);
-
+    const userLocation = localStorage.getItem('userLocation');
     useEffect(() => {
         const abortCont = new AbortController();
 
         const fetchUsers = async () => {
             try {
                 const data = await axios.get(`${baseUrl()}/user`);
-                setUsers(data.data);
+                setUsers(data.data.filter(user => user.barangay === userLocation));
             } catch(err) {
                 console.log(err);
             }
