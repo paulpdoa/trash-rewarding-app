@@ -61,7 +61,7 @@ const RewardCategory = () => {
                 <h1 className="mt-20 text-xl">List of Rewards</h1>
                 <div className="grid grid-cols-3 gap-3 mt-5">
                     { rewards?.map((reward,pos) => (
-                        <div onClick={() => handleShowRewardId(reward._id)} className="flex flex-col items-center rounded-md gap-2" key={pos}>
+                        <div onClick={() => handleShowRewardId(reward.uniqueId)} className="flex flex-col items-center rounded-md gap-2" key={pos}>
                             <img className="object-fit w-full h-24 bg-gray-300 p-2 rounded" src={reward.itemImage} alt={reward.item} />
                             <p className="border border-gray-800 text-center cursor-pointer p-1 w-full rounded">{reward.item}</p>
                         </div>

@@ -18,7 +18,8 @@ const CollectionRecords = () => {
         const fetchCollection = async () => {
             try {
                 const res = await axios.get(`${baseUrl()}/collections`,{ signal });
-                setCollections(res.data.filter(user => user.user_id.barangay === adminLocation));
+                setCollections(res.data.filter(user => user.user_id !== null && user.user_id.barangay === adminLocation));
+                console.log(res.data);
             } catch(err) {
                 console.log(err);
             }

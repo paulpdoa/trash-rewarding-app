@@ -28,7 +28,6 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
             try {
                 const data = await axios.get(`${baseUrl()}/category`,{ signal });
                 setCategories(data.data);
-                console.log(data.data);
             } catch(err) {
                 console.log(err);
             }
@@ -58,8 +57,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
 
     const filterRewardId = (id) => {
         // Use this function to check and pass to backend
-        const chosenReward = allRewards.filter((allReward) => allReward._id === id)[0];
-        
+        const chosenReward = allRewards.filter((allReward) => allReward.uniqueId === id)[0];
+        console.log(chosenReward);
         if(chosenReward !== undefined) {
             setRewardId(chosenReward._id);
             setErrMssg('');
@@ -143,7 +142,6 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
         // 1. Select category
         // 2. If category has a measurement of kilo, then for kilo, else for pcs
         // 3. If Kilo, input a kilo, generate the qr code
-        // 4. 
         const measure = categoryInfo.split('-')[0];
         const categoryType = categoryInfo.split('-')[1];
 

@@ -13,7 +13,7 @@ const Collection = require('../model/Collection');
 
 const d = new Date(); // for now
 const currentTime = d.getHours() + ':' + d.getMinutes();
-const currentDate = d.getFullYear() + '-' + `${d.getMonth() < 10 ? '0'+ Number(d.getMonth() + 1) :  Number(d.getMonth() + 1) }` + '-' + d.getDate();
+const currentDate = d.getFullYear() + '-' + `${d.getMonth() < 10 ? '0'+ Number(d.getMonth() + 1) :  Number(d.getMonth() + 1) }` + '-' + `${d.getDate() < 10 ? '0' + Number(d.getDate()) : Number(d.getDate())}`;
 const monthList = ['January','February','March','April','May','June','July','August','September'];
 const currentMonth = monthList[Number(d.getMonth())];
 
@@ -270,7 +270,7 @@ module.exports.user_receive_rewards = async (req,res) => {
         const deductedPoints = '-'+ reward.point;
 
         // Check if user points is enough
-        if(userFind.collectedPoints < 1) {
+        if(userFind.collectedPoints < reward.point) {
             res.status(400).json({ mssg: 'You don\'t have enough points' });
         } else {
             const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
@@ -489,6 +489,7 @@ module.exports.collection_report = async (req,res) => {
 
     try {
         const collections = await Collection.find({ date: { $gte: startDate, $lte: endDate }}).populate('user_id material');
+        console.log(collections);
         res.status(200).json(collections);
     } catch(err) {
         console.log(err);   

@@ -47,7 +47,7 @@ const Navbar = () => {
                     navigate('/');
                 })
                 .catch(err => {
-                    console.log(err);
+                    alert(err.response.data.mssg);
                 })
             }
         } else {

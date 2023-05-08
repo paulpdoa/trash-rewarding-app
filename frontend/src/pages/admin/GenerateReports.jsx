@@ -13,8 +13,9 @@ const GenerateReports = () => {
     const [canDownload,setCanDownload] = useState(false);
     const adminLocation = localStorage.getItem('adminLocation');
 
+    // Formatted name for file
     const formattedName = from?.split('-')[0]+from?.split('-')[1]+from?.split('-')[2] + '-' + to?.split('-')[0]+to?.split('-')[1]+to?.split('-')[2];
-   
+
     const headers = [
         { label: "Name", key: "user_id.firstName"},
         { label: "Material", key: "material.category" },
@@ -41,8 +42,17 @@ const GenerateReports = () => {
         } else {
             try {
                 const res = await axios.post(`${baseUrl()}/collections`,{ from, to });
-                setCanDownload(true);
-                setReports(res.data.filter(user => user.user_id.barangay === adminLocation));
+                const reportContent = res.data.filter(user => user.user_id !== null && user.user_id.barangay === adminLocation);
+
+                // Check if a report can be generated
+                if(reportContent.length < 1) {
+                    alert('No reports to be generated on this date');
+                    setCanDownload(false);
+                } else {
+                    setCanDownload(true);
+                    setReports(reportContent)
+                }
+                
             } catch(err) {
                 console.log(err);
             }
