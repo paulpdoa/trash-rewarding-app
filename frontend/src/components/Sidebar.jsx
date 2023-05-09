@@ -4,6 +4,7 @@ import { MdOutlineManageAccounts,MdOutlineLeaderboard } from 'react-icons/md';
 import { BsXDiamondFill } from 'react-icons/bs';
 import { IoMedalOutline } from 'react-icons/io5';
 import { BsExclamationCircle } from 'react-icons/bs';
+import { GiTargetPrize } from 'react-icons/gi';
  
 const Sidebar = ({ showSidebar,setShowSidebar }) => {
 
@@ -16,6 +17,7 @@ const Sidebar = ({ showSidebar,setShowSidebar }) => {
                     <Link onClick={() => setShowSidebar(false)} to='/admin/accounts'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><MdOutlineManageAccounts />Accounts</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/collection-records'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsXDiamondFill />Collection Records</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/leaderboard'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><MdOutlineLeaderboard />View Leaderboards</li></Link>
+                    <Link onClick={() => setShowSidebar(false)} to='/admin/add-rewards'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><GiTargetPrize />Add Rewards</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/give-points-rewards'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><IoMedalOutline />Rewarding System</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/reports'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsExclamationCircle />Generate Reports</li></Link>
                 </ul>

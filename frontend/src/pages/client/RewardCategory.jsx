@@ -42,7 +42,7 @@ const RewardCategory = () => {
         fetchRewards();
 
         return () => abortCont.abort();
-    },[])
+    },[rewards])
 
     const handleShowRewardId = (id) => {
         setShowId(!showId);

@@ -9,7 +9,7 @@ import Login from './pages/client/Login';
 import Profile from './pages/client/Profile';
 import Register from './pages/client/Register';
 import RewardCategory from './pages/client/RewardCategory';
-import Rewards from './pages/client/Rewards';
+//import Rewards from './pages/client/Rewards';
 import Leaderboards from './pages/client/Leaderboards';
 import EarnRewards from './pages/client/EarnRewards';
 import PointsRewards from './pages/admin/PointsRewards';
@@ -36,6 +36,7 @@ import GenerateReports from './pages/admin/GenerateReports';
 
 import { useState } from 'react'; 
 import SuperAdminLogin from './pages/superadmin/SuperAdminLogin';
+import AddRewards from './pages/admin/AddRewards';
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
         <Route path='/profile/:id' element={<Profile />} />
         <Route path='/about' element={<About />} />
         <Route path='/reward-category' element={<RewardCategory />} />
+        {/* Not used anymore */}
         {/* <Route path='/rewards' element={<Rewards />} /> */}
         <Route path='/leaderboards' element={<Leaderboards />} />
         <Route path='/earn-rewards' element={<EarnRewards />} />
@@ -83,6 +85,7 @@ function App() {
         <Route path='/admin/accounts' element={<Accounts />} />
         <Route path='/admin/userprofile/:id' element={<UserProfile />} />
         <Route path='/admin/reports' element={<GenerateReports />} />
+        <Route path='/admin/add-rewards' element={<AddRewards />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

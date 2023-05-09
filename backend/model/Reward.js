@@ -3,13 +3,22 @@ const mongoose = require('mongoose');
 const rewardSchema = new mongoose.Schema({
     item: {
         required: true,
-        type: String
+        type: String,
+        unique: true
     },
     point: {
         required: true,
         type: String
     },
     itemImage: {
+        required: true,
+        type: String
+    },
+    quantity: {
+        required: true,
+        type: Number
+    },
+    uniqueId: {
         required: true,
         type: String
     }

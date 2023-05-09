@@ -1,0 +1,5 @@
+Trash App System Enhancement
+1. One time use QR code
+2. CRUD for categories
+3. CRUD for rewards/Inventory of reward
+4. List of rewards in Admin Panel

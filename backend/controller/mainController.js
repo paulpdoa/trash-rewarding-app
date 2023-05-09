@@ -452,6 +452,48 @@ module.exports.admin_delete_user = async (req,res) => {
     }
 }
 
+// Add Rewards
+module.exports.add_rewards = async (req,res) => {
+    const { filename } = req.file;
+    const { item,point,quantity } = req.body;
+    const uniqueId = Math.floor(Math.random() * 100000);
+    
+    try {
+        const newReward = await Reward.create({ item,point,itemImage:filename,quantity, uniqueId });
+        res.status(200).json({ mssg: `${item} has been added`, currentPage:'Reward List' });
+    } catch(err) {
+        if(err.code === 11000) {
+            res.status(400).json({ mssg: `${item} is already existing, please add another item` });
+        }
+    }
+
+}
+
+module.exports.delete_reward = async (req,res) => {
+    const { id } = req.params
+    
+    try {
+        const deleteReward = await Reward.deleteOne({ _id: id });
+        res.status(200).json({ mssg: 'Reward has been deleted', currentPage: 'Reward List' })
+    } catch(err) {
+        console.log(err);
+    }
+
+}
+
+module.exports.update_reward = async (req,res) => {
+
+    const { id } = req.params
+
+    try {
+        const reward = await Reward.updateOne({ _id:id },{  });
+        
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+
 module.exports.category_get = async (req,res) => {
 
     try {
@@ -467,6 +509,17 @@ module.exports.reward_get = async (req,res) => {
     try {
         const rewards = await Reward.find();
         res.status(200).json(rewards);
+    } catch(err) {
+        console.log(err);
+    }
+}
+module.exports.reward_detail_get = async (req,res) => {
+
+    const { id } = req.params;
+
+    try {
+        const reward = await Reward.findById(id);
+        res.status(200).json(reward);
     } catch(err) {
         console.log(err);
     }
