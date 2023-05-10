@@ -241,17 +241,25 @@ module.exports.user_update_password = async (req,res) => {
 module.exports.user_receive_points = async (req,res) => {
     const id = req.params.id;
     const userId = id.split('-')[0];
-    const collectedPoints = Number(id.split('-')[1]);
+    const collectedPoints = Number(id.split('-')[1].split('=')[0]);
     const material = id.split('-')[2];
     const quantity = id.split('-')[3] + `${material === 'Glass Bottles' ? ' pcs' : ' kilo'}`;
 
+    const generatedQrCode = collectedPoints + id.split('-')[1].split('=')[1];
+    
     try {
         const userFound = await User.findById(userId);
-        const categoryFind = await Category.find({ category: material });
-        const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints });
-        const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
-        const collection = await Collection.create({ user_id: userId, material: categoryFind[0]._id, quantity, pointsAdded: collectedPoints,date: currentDate, month: currentMonth });
-        res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
+        //Check if qr code is new, if not new then trap user to ask admin for new qr code
+        if(userFound.scannedQrCode === generatedQrCode) {
+            res.status(400).json({ mssg: 'You cannot scan again, please ask admin before scanning' });
+        } else {
+            const categoryFind = await Category.find({ category: material });
+            const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints, scannedQrCode: generatedQrCode });
+            const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
+            const collection = await Collection.create({ user_id: userId, material: categoryFind[0]._id, quantity, pointsAdded: collectedPoints,date: currentDate, month: currentMonth });
+            res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
+        }
+       
     } catch(err) {
         console.log(err);
     }

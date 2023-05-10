@@ -68,6 +68,9 @@ const userSchema = new mongoose.Schema({
     approvedBy: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'admin'
+    },
+    scannedQrCode: {
+        type:String
     }
 }, { timestamps: true })
 

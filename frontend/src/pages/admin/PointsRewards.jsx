@@ -122,7 +122,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 calculatedPoint = pointPcs[positionPcs];
             }
             
-            setPoints(calculatedPoint.toString()); 
+            setPoints(calculatedPoint.toString() + '=' + Date.now());
+          
         } else {
             // For setting rewards 
             if(rewardId ===  '') {

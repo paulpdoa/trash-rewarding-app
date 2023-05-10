@@ -24,19 +24,24 @@ const Navbar = () => {
         setMssg('Please scan a qr code in your barangay');
 
         if(data) {
-            const record = data.split('-')[0];
+            const record = data.split('-')[0]; // example data: 2000=123991239132
             const currentPage = data.split('-')[1];
             const category = data.split('-')[2];
             const quantity = data.split('-')[3];
-
+            
             if(currentPage === 'Give Points') {
                 setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}`)
                 .then((res) => {
-                    alert(`${record} has been added to your account`);
-                    window.location.reload();
+                    // if(localStorage.getItem('scannedQrCode') === record.split('=').join('')) {
+                        alert(`${record.split('=')[0]} has been added to your account`);
+                        // localStorage.setItem('scannedQrCode',record.split('=').join(''));
+                        window.location.reload();
+                    // } else {
+                    //     alert('Cannot scan qr code, please ask admin before scanning again');
+                    // }
                 })
-                .catch(err => console.log(err));  
+                .catch(err => alert(err.response.data.mssg));  
             } else {
                 //If currentPage is Receive Reward
                 setShowQr(false);
