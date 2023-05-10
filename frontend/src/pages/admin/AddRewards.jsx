@@ -169,7 +169,7 @@ const AddRewards = () => {
             </div>
             {/* { openAlert && <AlertMssg message={mssg} redirect={redirect} /> } */}
             { openDelete && <DeleteMssg closeDelete={setOpenDelete} setCurrentPage={setCurrentPage} rewardId={rewardDeleteId} /> }
-            { openUpdate && <RewardUpdate rewardId={rewardUpdateId} /> }
+            { openUpdate && <RewardUpdate rewardId={rewardUpdateId} closeUpdate={setOpenUpdate} /> }
         </div>
     )
 }

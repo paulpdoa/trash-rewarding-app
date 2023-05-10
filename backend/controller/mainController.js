@@ -492,10 +492,11 @@ module.exports.delete_reward = async (req,res) => {
 module.exports.update_reward = async (req,res) => {
 
     const { id } = req.params
+    const { rewardName, points, quantity } = req.body;
 
     try {
-        const reward = await Reward.updateOne({ _id:id },{  });
-        
+        const reward = await Reward.updateOne({ _id:id },{ item: rewardName, point: points, quantity });
+        res.status(200).json({ mssg: `${rewardName} has been updated` });
     } catch(err) {
         console.log(err);
     }

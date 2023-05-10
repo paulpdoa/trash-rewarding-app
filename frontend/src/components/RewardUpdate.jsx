@@ -1,8 +1,9 @@
 import { useEffect,useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 
-const RewardUpdate = ({ rewardId }) => {
+const RewardUpdate = ({ rewardId,closeUpdate }) => {
 
     const [reward,setReward] = useState({});
     const [quantity,setQuantity] = useState(0);
@@ -30,10 +31,16 @@ const RewardUpdate = ({ rewardId }) => {
     },[rewardId])
 
     const updateReward = async () => {
-        try {
-
-        } catch(err) {
-            console.log(err);
+        if(quantity < 1) {
+            alert('Quantity cannot be zero, please add a stock');
+        } else {
+            try {
+                const data = await axios.patch(`${baseUrl()}/reward/${reward._id}`,{ rewardName,points,quantity });
+                alert(data.data.mssg);
+                closeUpdate(false);
+            } catch(err) {
+                console.log(err);
+            }
         }
     }
 
@@ -52,6 +59,9 @@ const RewardUpdate = ({ rewardId }) => {
                 </div>  
 
                 <button onClick={updateReward} className="bg-green-300 text-white rounded-md outline-none shadow-sm p-2 mt-3">Update Reward</button>
+
+                {/* Close Button */}
+                <AiOutlineCloseCircle onClick={() => closeUpdate(false)} className="absolute top-2 right-2 text-lg text-red-500 font-bold" />
             </div>
         </div>
     )

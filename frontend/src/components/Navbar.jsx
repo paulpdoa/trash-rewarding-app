@@ -33,13 +33,8 @@ const Navbar = () => {
                 setShowQr(false);
                 axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}`)
                 .then((res) => {
-                    // if(localStorage.getItem('scannedQrCode') === record.split('=').join('')) {
-                        alert(`${record.split('=')[0]} has been added to your account`);
-                        // localStorage.setItem('scannedQrCode',record.split('=').join(''));
-                        window.location.reload();
-                    // } else {
-                    //     alert('Cannot scan qr code, please ask admin before scanning again');
-                    // }
+                    alert(`${record.split('=')[0]} has been added to your account`);
+                    window.location.reload();
                 })
                 .catch(err => alert(err.response.data.mssg));  
             } else {
