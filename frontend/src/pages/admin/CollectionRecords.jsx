@@ -92,7 +92,7 @@ const CollectionRecords = () => {
     const exportPdf = () => {
         const doc = new jsPDF({orientation: "landscape"});
         autoTable(doc, { 
-            styles: { fillColor: '#DDDDDD' },
+            styles: { fillColor: 'rgb(74,222,128)' },
             html: '#my-table',
             margin: { top: 15 }, 
         })
@@ -101,11 +101,13 @@ const CollectionRecords = () => {
         doc.save("Trash Collection Report.pdf");
     }
 
+    console.log(Date.now());
+
     return (
         <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Collection Records</button>
             <div className="h-full md:h-auto py-2 px-2"> 
-                <div className="flex gap-2 items-center border border-  gray-200 shadow-sm rounded-full">
+                <div className="flex gap-2 items-center border border-gray-200 shadow-sm rounded-full">
                     <HiOutlineMagnifyingGlass className="text-xl ml-2" />
                     <input className="w-full p-2 outline-none" onChange={(e) => filterList(e.target.value)} type="search" placeholder="Search name or materials..." />
                 </div>

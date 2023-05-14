@@ -10,7 +10,7 @@ import { BiCategoryAlt } from 'react-icons/bi';
 const SidebarMobile = ({ showSidebar,setShowSidebar }) => {
 
     return (
-        <nav className={`${showSidebar ? 'absolute' : 'hidden'} col-span-2 left-0 top-0 h-screen md:h-full bg-gray-900 bg-opacity-80 w-full z-50`}>
+        <nav className={`${showSidebar ? 'absolute' : 'hidden'} md:hidden col-span-2 left-0 top-0 h-screen md:h-full bg-gray-900 bg-opacity-80 w-full z-50`}>
             <div className="relative bg-gray-900 w-2/3 md:w-1/3 h-full">
                 <ul>
                     <li className="px-3 py-5"><h1 className="text-normal text-gray-100">GENERAL</h1></li>

@@ -539,13 +539,14 @@ module.exports.add_category = async(req,res) => {
         const categ = await Category.create({ category,unit,measurement });
         res.status(200).json({ mssg: `${category} has been added` });
     } catch(err) {
-        if(err.code === 11000) {
+        if(err.code === 11000) {    
             console.log(err);
             if(err.keyValue.category) {
                 res.status(400).json({ mssg: `${err.keyValue.category} is already existing, please update if you have changes` });
-            } else {
-                res.status(400).json({ mssg: `${err.keyValue['measurement.weight']} is already existing, please update if you have changes` });
-            }
+            } 
+            // else {
+            //     res.status(400).json({ mssg: `${err.keyValue['measurement.weight']} is already existing, please update if you have changes` });
+            // }
         }
     }
 }
