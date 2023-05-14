@@ -46,8 +46,7 @@ const AddRewards = () => {
         const fetchRewards = async() => {
             try {
                 const data = await axios.get(`${baseUrl()}/rewards`, { signal });
-                setRewards(data.data);
-                
+                setRewards(data.data.filter(reward => reward.barangay === localStorage.getItem('adminLocation')));
             } catch(err) {
                 console.log(err);
             }
@@ -72,11 +71,14 @@ const AddRewards = () => {
             data.append('point',points);
             data.append('rewardImage',image);
             data.append('quantity',quantity);
+            data.append('barangay',localStorage.getItem('adminLocation'));
 
             const res = await axios.post(`${baseUrl()}/rewards`,data);
             setCurrentPage(res.data.currentPage);
             // setOpenAlert(true);
             alert(res.data.mssg);
+            setPreviewImg('');
+            setQuantity(0);
         } catch(err) {
             alert(err.response.data.mssg);
         }
@@ -106,11 +108,10 @@ const AddRewards = () => {
         setRewardUpdateId(id);
     }
 
-
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Add Rewards</button>
-            <div className="h-full py-2 px-2">
+            <div className="h-full md:h-auto py-2 px-2">
                 {/* Page Navigation */}
                 <nav className="flex items-center justify-center">
                     <button className={`${currentPage === 'Add Rewards' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => {
@@ -123,15 +124,19 @@ const AddRewards = () => {
 
                 { currentPage === 'Reward List' ? 
                     // For list of rewards
-                    <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mt-5">
-                        { rewards?.map((reward,pos) => (
+                    <div className={`grid ${rewards.length < 1 ? '' : 'grid-cols-3 md:grid-cols-5'}  gap-3 mt-5`}>
+                        { rewards.length < 1 ? <p className="font-semibold animate-pulse text-gray-400">No rewards posted in {localStorage.getItem('adminLocation')}</p> : rewards?.map((reward,pos) => (
                             <div className="flex flex-col items-center rounded-md gap-2" key={pos}>
                                 <img className="object-fit w-full h-24 bg-gray-300 p-2 rounded" src={`${httpServer}${reward.itemImage}`} alt={reward.item} />
                                 <div className="border border-gray-800 cursor-pointer p-1 w-full text-left rounded relative">
                                     <p className="text-sm">{reward.item}</p>
                                     { reward.quantity < 1 ? <p className="text-xs text-red-500">Out of stock</p> : <p className="text-xs">qty: {reward.quantity}</p> }
                                     <p className="text-xs">Points: <NumberFormat points={reward.point} /></p>
-                                    { reward.quantity < 1 ? <GrDocumentUpdate onClick={() => addQuantity(reward._id)} className="absolute top-2 right-2 text-xs md:text-sm text-blue-500" /> : <BsFillTrashFill onClick={() => openDeleteModal(reward._id)} className="absolute top-2 right-2 text-xs md:text-sm text-red-500" /> }
+                                    
+                                    <div className="absolute top-2 right-2 flex items-center gap-1">
+                                        <GrDocumentUpdate onClick={() => addQuantity(reward._id)} className="text-xs md:text-sm text-blue-500" />
+                                        <BsFillTrashFill onClick={() => openDeleteModal(reward._id)} className="text-xs md:text-sm text-red-500" />
+                                    </div>
                                 </div>
                             </div>
                         )) }

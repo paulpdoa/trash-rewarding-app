@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState,useEffect } from 'react';
 import Navigator from '../../components/Navigator';
 import { baseUrl } from '../../baseUrl';
+import NumberFormat from '../../components/NumberFormat';
 
 const RewardCategory = () => {
 
@@ -34,7 +35,7 @@ const RewardCategory = () => {
         const fetchRewards = async () => {
             try {
                 const data = (await axios.get(`${baseUrl()}/rewards`, { signal }));
-                setRewards(data.data);
+                setRewards(data.data.filter(reward => reward.barangay === localStorage.getItem('userLocation')));
             } catch(err) {
                 console.log(err);
             }
@@ -59,11 +60,15 @@ const RewardCategory = () => {
                 </div>
                 
                 <h1 className="mt-20 text-xl">List of Rewards</h1>
-                <div className="grid grid-cols-3 gap-3 mt-5">
-                    { rewards?.map((reward,pos) => (
-                        <div onClick={() => handleShowRewardId(reward.uniqueId)} className="flex flex-col items-center rounded-md gap-2" key={pos}>
-                            <img className="object-fit w-full h-24 bg-gray-300 p-2 rounded" src={reward.itemImage} alt={reward.item} />
-                            <p className="border border-gray-800 text-center cursor-pointer p-1 w-full rounded">{reward.item}</p>
+                <div className={`grid ${rewards.length < 1 ? '' : 'grid-cols-3'} gap-3 mt-5`}>
+                    { rewards.length < 1 ? <p className="font-semibold animate-pulse text-gray-400">No rewards posted in {localStorage.getItem('userLocation')}</p> : rewards?.map((reward,pos) => (
+                        <div onClick={() => reward.quantity > 0 && handleShowRewardId(reward.uniqueId)} className="flex flex-col items-center rounded-md gap-2" key={pos}>
+                            <img className="object-fit w-full h-24 bg-gray-300 p-2 rounded" src={`${baseUrl()}/images/${reward.itemImage}`} alt={reward.item} />
+                            <div className="border border-gray-800 cursor-pointer p-1 w-full text-left rounded relative">
+                                <p className="text-sm">{reward.item}</p>
+                                { reward.quantity < 1 ? <p className="text-xs text-red-500">Out of stock</p> : <p className="text-xs">qty: {reward.quantity}</p> }
+                                <p className="text-xs">Points: <NumberFormat points={reward.point} /></p>  
+                            </div>
                         </div>
                     )) }
                 </div> 

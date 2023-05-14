@@ -21,6 +21,10 @@ const rewardSchema = new mongoose.Schema({
     uniqueId: {
         required: true,
         type: String
+    },
+    barangay: {
+        required: true,
+        type: String
     }
 
 }, { timestamps: true })

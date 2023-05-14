@@ -463,11 +463,11 @@ module.exports.admin_delete_user = async (req,res) => {
 // Add Rewards
 module.exports.add_rewards = async (req,res) => {
     const { filename } = req.file;
-    const { item,point,quantity } = req.body;
+    const { item,point,quantity, barangay } = req.body;
     const uniqueId = Math.floor(Math.random() * 100000);
     
     try {
-        const newReward = await Reward.create({ item,point,itemImage:filename,quantity, uniqueId });
+        const newReward = await Reward.create({ item,point,itemImage:filename,quantity, uniqueId, barangay });
         res.status(200).json({ mssg: `${item} has been added`, currentPage:'Reward List' });
     } catch(err) {
         if(err.code === 11000) {
@@ -503,6 +503,7 @@ module.exports.update_reward = async (req,res) => {
 }
 
 
+
 module.exports.category_get = async (req,res) => {
 
     try {
@@ -510,6 +511,67 @@ module.exports.category_get = async (req,res) => {
         res.status(200).json(category);
     } catch(err) {
         console.log(err)
+    }
+}
+
+module.exports.category_detail_get = async (req,res) => {
+    const { id } = req.params;
+    
+    try {
+        const categ = await Category.findById(id);
+        res.status(200).json(categ);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.add_category = async(req,res) => {
+    const { category,unit,points,kilo,pcs } = req.body;
+
+    const measurement = {
+        weight: kilo,
+        unit,
+        points,
+        pcs
+    }
+
+    try {
+        const categ = await Category.create({ category,unit,measurement });
+        res.status(200).json({ mssg: `${category} has been added` });
+    } catch(err) {
+        if(err.code === 11000) {
+            console.log(err);
+            if(err.keyValue.category) {
+                res.status(400).json({ mssg: `${err.keyValue.category} is already existing, please update if you have changes` });
+            } else {
+                res.status(400).json({ mssg: `${err.keyValue['measurement.weight']} is already existing, please update if you have changes` });
+            }
+        }
+    }
+}
+
+module.exports.delete_category = async (req,res) => {
+    const { id } = req.params; 
+
+    try {
+        const categRec = await Category.findById(id);
+        const deleteCateg = await Category.deleteOne({ _id: id });
+        res.status(200).json({ mssg: `${categRec.category} has been deleted` });
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+module.exports.update_category = async (req,res) => {
+    
+    const { id } = req.params;
+    const { kilo,pcs,points } = req.body;
+    
+    try {
+        const categ = await Category.updateOne({ _id:id }, { $push: { measurement: { weight: kilo, pcs, points } } });
+        res.status(200).json({ mssg: 'Category has been updated' });
+    } catch(err) {
+        console.log(err);
     }
 
 }

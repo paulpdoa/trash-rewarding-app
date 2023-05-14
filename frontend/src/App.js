@@ -37,6 +37,7 @@ import GenerateReports from './pages/admin/GenerateReports';
 import { useState } from 'react'; 
 import SuperAdminLogin from './pages/superadmin/SuperAdminLogin';
 import AddRewards from './pages/admin/AddRewards';
+import AddCategories from './pages/admin/AddCategories';
 
 function App() {
 
@@ -86,6 +87,7 @@ function App() {
         <Route path='/admin/userprofile/:id' element={<UserProfile />} />
         <Route path='/admin/reports' element={<GenerateReports />} />
         <Route path='/admin/add-rewards' element={<AddRewards />} />
+        <Route path='/admin/add-category' element={<AddCategories />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

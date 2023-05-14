@@ -11,7 +11,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
     const [errMssg,setErrMssg] = useState('');
     
     const [categories,setCategories] = useState('');
-    const [category,setCategory] = useState('');
+    const [category,setCategory] = useState({});
+    const [categoryName,setCategoryName] = useState('');
     const [measurement,setMeasurement] = useState('kilo');
 
     const [kilo,setKilo] = useState(0);
@@ -73,11 +74,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
         // 2. Depending on the input of the user, find the kilogram on the array, then get the point value per kilo/pcs
         // 3. Generate QR code based on the value fetch from the array based on category and measurement
         if(currentPage === 'Give Points') {
-            
-            const kiloFmt = kilo+'kg';
-            const pcsFmt = pieces+'pcs';
 
-            let calculatedPoint = '';
+            let calculatedString = ''
 
             if(kilo !== 0 || pieces !== 0) {
                 setShowQr(true);
@@ -91,39 +89,15 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 setShowQr(false)
             } 
    
-            const chosenCateg = categories.filter(categ => categ.category === category)[0];
 
-            if(category === 'Plastic Bottles') {
-                //get position of kilo array
-                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-                //get all points array
-                const pointKilo = Object.values(chosenCateg.points[0])
-                calculatedPoint = pointKilo[positionKilo];
-            }
-
-            if(category === 'Cartons') {     
-                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-                //get all points array
-                const pointKilo = Object.values(chosenCateg.points[0])    
-                calculatedPoint = pointKilo[positionKilo];
-            }
-
-            if(category === 'Cans') {  
-                const positionKilo = Object.keys(chosenCateg.points[0]).indexOf(kiloFmt)
-                //get all points array
-                const pointKilo = Object.values(chosenCateg.points[0])    
-                calculatedPoint = pointKilo[positionKilo];
-            }
-
-            if(category === 'Glass Bottles') { 
-                const positionPcs = Object.keys(chosenCateg.points[0]).indexOf(pcsFmt)
-                //get all points array
-                const pointPcs = Object.values(chosenCateg.points[0]) 
-                calculatedPoint = pointPcs[positionPcs];
+            if(measurement === 'kilo') {
+                calculatedString = kilo.split('-')[0];
+            } else {
+                calculatedString = pieces.split('-')[0];
             }
             
-            setPoints(calculatedPoint.toString() + '=' + Date.now());
-          
+            setPoints(calculatedString.toString() + '=' + Date.now());
+            
         } else {
             // For setting rewards 
             if(rewardId ===  '') {
@@ -139,21 +113,23 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
 
     }
 
-    const getCategory = (categoryInfo) => {
-        // 1. Select category
-        // 2. If category has a measurement of kilo, then for kilo, else for pcs
-        // 3. If Kilo, input a kilo, generate the qr code
-        const measure = categoryInfo.split('-')[0];
-        const categoryType = categoryInfo.split('-')[1];
+    const getCategory = async (id) => {
 
-        setMeasurement(measure);
-        setCategory(categoryType);
+        try {
+            const data = await axios.get(`${baseUrl()}/category/${id}`);
+            setCategory(data.data);
+            setCategoryName(data.data?.category);
+            setMeasurement(data.data?.unit);
+        } catch(err) {
+            console.log(err);
+        }
+        
     }
 
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Generate QR Code</button>
-            <div className="h-full py-20 pt-5 px-5"> 
+            <div className="h-full md:h-auto py-20 pt-5 px-5"> 
                 {/* Page Navigation */}
                 <nav className="flex items-center justify-center">
                     <button className={`${currentPage === 'Give Points' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => {
@@ -172,28 +148,18 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                     <select onChange={(e) => getCategory(e.target.value)} className='bg-gray-200 text-sm text-gray-500 p-2'>
                         <option hidden>Select Category</option>
                         { categories && categories.map((category,pos) => (
-                            <option key={pos} value={`${category.measurement}-${category.category}`}>{category.category}</option>
+                            <option key={pos} value={category._id}>{category.category}</option>
                         )) }
                     </select>
                 </div>
                 { measurement === 'kilo' ? 
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-500'>Kilo:</span>
-                    <select onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
+                    <select onClick={() => setShowQr(false)} onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
                         <option hidden>Select kilo</option>
-                        <option value="1">1kg</option>
-                        <option value="2">2kg</option>
-                        <option value="3">3kg</option>
-                        <option value="4">4kg</option>
-                        <option value="5">5kg</option>
-                        <option value="6">6kg</option>
-                        <option value="7">7kg</option>
-                        <option value="8">8kg</option>
-                        <option value="9">9kg</option>
-                        <option value="10">10kg</option>
-                        <option value="1/4">1/4kg</option>
-                        <option value="1/2">1/2kg</option>
-                        <option value="3/4">3/4kg</option>
+                        { category?.measurement?.map((measure,pos) => (
+                            <option key={pos} value={`${measure.points}-${measure.weight}`}>{measure.weight}kg</option>
+                        )) }
                     </select>
                 </div>    
                 :
@@ -201,23 +167,16 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                     <span className='bg-gray-200 text-sm text-gray-500'>Pieces:</span>
                     <select onChange={(e) => setPieces(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
                         <option hidden>Select pieces</option>
-                        <option value="1">1pc</option>
-                        <option value="2">2pcs</option>
-                        <option value="3">3pcs</option>
-                        <option value="4">4pcs</option>
-                        <option value="5">5pcs</option>
-                        <option value="6">6pcs</option>
-                        <option value="7">7pcs</option>
-                        <option value="8">8pcs</option>
-                        <option value="9">9pcs</option>
-                        <option value="10">10pcs</option>
+                        { category?.measurement?.map((measure,pos) => (
+                            <option key={pos} value={`${measure.points}-${measure.pcs}`}>{measure.pcs}pcs</option>
+                        )) }
                     </select>
                 </div>
                 }
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={points+'-'+currentPage+'-'+category+'-'+`${category === 'Glass Bottles' ? pieces : kilo}`} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={`${points}-${currentPage}-${categoryName}-${measurement === 'kilo' ? kilo : pieces}`} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>
@@ -230,7 +189,7 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={rewardId+'-'+currentPage} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={`${rewardId}-${currentPage}`} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>

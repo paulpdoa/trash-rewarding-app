@@ -28,6 +28,7 @@ const GenerateReports = () => {
     const pointCalculation = () => {
         const total = reports.reduce((num,curr) => num + Number(curr.pointsAdded),0);
         reports.push({totalPoints: total});
+        
     }
     pointCalculation();
 
@@ -43,7 +44,6 @@ const GenerateReports = () => {
             try {
                 const res = await axios.post(`${baseUrl()}/collections`,{ from, to });
                 const reportContent = res.data.filter(user => user.user_id !== null && user.user_id.barangay === adminLocation);
-
                 // Check if a report can be generated
                 if(reportContent.length < 1) {
                     alert('No reports to be generated on this date');
@@ -60,9 +60,9 @@ const GenerateReports = () => {
     }
 
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Generate Reports</button>
-            <div className="h-full py-20 pt-5 px-5"> 
+            <div className="h-full md:h-auto py-20 pt-5 px-5"> 
                 <h1 className="font-semibold text-sm border-b border-gray-400 py-2">Generate Reports</h1>
                 <h2 className="text-sm text-red-500 font-normal mt-4">{mssg}</h2>
                 <div className="flex flex-col items-start mt-5">

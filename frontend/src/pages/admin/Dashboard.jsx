@@ -75,8 +75,8 @@ const Dashboard = () => {
   },[collections,adminLocation])
 
   return (
-        <div className="h-full w-full">
-            <div className="h-full px-10 py-24 flex flex-col items-center">
+        <div className="h-full md:h-auto w-full md:col-span-8">
+            <div className="h-full md:h-auto px-10 py-5 mt-5 flex flex-col items-center">
                 <div className="w-full md:w-1/2 p-2 rounded shadow-lg flex flex-col shadow-green-200">
                   <h1 className="font-semibold text-xl text-center">COLLECTION RECORDS</h1>
                   <BarChart chartData={collections} options={options} />

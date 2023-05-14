@@ -1,5 +1,16 @@
 Trash App System Enhancement
-1. One time use QR code
-2. CRUD for categories
-3. CRUD for rewards/Inventory of reward
-4. List of rewards in Admin Panel
+
+Ongoing
+9. Template ng generate report - Lagyan daw ng header and magiging ready to print na
+10. Collection Record/Generate Report in one page
+
+Done    
+1. One time use QR code / OK
+2. CRUD for categories / OK
+3. CRUD for rewards/Inventory of reward / Enhance / OK
+- Update Reward anytime / OK
+4. List of rewards in Admin Panel / OK
+5. Delete Account - need ng confirmation, bale overlay ng okay and cancel, pop up.
+6. Feedback - aalisin yung message sa taas, ilalagay sa menu bar at papaltan ng name ng "Feedbacks".
+7. Dashboard - hindi na nawawala yung menu for website view, i aadjust yung mga laman with summary ng all pages then clickable.
+8. Collection Record - may filter ng records. May ascending descending tapos date at quantity. Pati sa generate report pwede iaapply to. 

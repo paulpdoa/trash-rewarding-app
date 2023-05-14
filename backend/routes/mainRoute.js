@@ -6,7 +6,7 @@ const { user_get, user_post, user_login, user_logout, user_detail_get,
    user_verify, comment_get, comment_post, user_resend_verification, user_forgot_password,
    user_update_password, admin_approve_user, admin_reject_user, admin_delete_user, admin_post, 
    admin_get, admin_login, admin_logout, category_get, user_receive_points, user_receive_rewards, 
-   reward_get, user_point_get, user_point_detail_get, user_reward_detail_get, collection_get, collection_report, add_rewards, delete_reward, reward_detail_get, update_reward } = require('../controller/mainController');
+   reward_get, user_point_get, user_point_detail_get, user_reward_detail_get, collection_get, collection_report, add_rewards, delete_reward, reward_detail_get, update_reward, add_category, category_detail_get, delete_category, update_category } = require('../controller/mainController');
 
 // User Routes
 route.get('/user', user_get);
@@ -39,6 +39,10 @@ route.delete('/admindeleteuser/:id',admin_delete_user);
 
 // Category Routes
 route.get('/category',category_get);
+route.get('/category/:id',category_detail_get);
+route.post('/category',add_category);
+route.delete('/category/:id',delete_category);
+route.patch('/category/:id',update_category);
 
 // Reward Routes
 route.get('/rewards', reward_get);

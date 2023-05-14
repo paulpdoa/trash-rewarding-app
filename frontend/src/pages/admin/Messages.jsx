@@ -27,9 +27,9 @@ const Messages = () => {
     },[])
 
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Messages</button>
-            <div className="h-full py-20 px-5"> 
+            <div className="h-full md:h-auto py-20 px-5"> 
                 <div className="border border-gray-900 rounded-md p-2 mt-10">
                     <h1 className="font-normal text-lg">Comments</h1>
 

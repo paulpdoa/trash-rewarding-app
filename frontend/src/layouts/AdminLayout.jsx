@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import SidebarMobile from '../components/SidebarMobile';
 import { useState,useEffect } from 'react';
 import AdminNavbar from '../components/AdminNavbar';
 import { useNavigate } from 'react-router-dom';
@@ -18,15 +19,17 @@ const AdminLayout = () => {
         if(existingId === null) {
             navigate('/admin-login');
         }
-    },[existingCookie,navigate])
+    },[existingCookie,navigate,existingId])
 
     return (
         <main className="h-full relative">
             <AdminNavbar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
-            <div className={`flex relative`}>
-                <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+            <div className={`md:grid flex md:grid-cols-10 relative h-full`}>
+                <SidebarMobile showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+                <Sidebar />
                 <Outlet />
             </div>
+            
         </main>
     )
 }

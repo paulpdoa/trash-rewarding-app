@@ -6,6 +6,7 @@ import AlertMssg from '../../components/AlertMssg';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import UserDetails from '../../components/UserDetails';
 import { baseUrl } from '../../baseUrl';
+import DeleteUser from '../../components/DeleteUser';
 
 const Accounts = () => {
 
@@ -20,6 +21,8 @@ const Accounts = () => {
     const [userId,setUserId] = useState('');
     const adminId = localStorage.getItem('adminId');
     const adminLocation = localStorage.getItem('adminLocation');
+
+    const [openDelete,setOpenDelete] = useState(false);
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -66,37 +69,27 @@ const Accounts = () => {
         }
     }
 
-    const deactivateUser = async (id) => {
-        setIsLoading(true);
-        setLoadMssg('Deleting user');
-        try {
-            const data = await axios.delete(`${baseUrl()}/admindeleteuser/${id}`);
-            setLoadMssg('');
-            setIsLoading(false);
-            setOpenAlert(true);
-            setMssg(data.data.mssg);
-            setRedirect(data.data.redirect);
-        } catch(err) {
-            console.log(err);
-        }
-    }
-
     const getUserDetails = (id) => {
         setShowDetails(true);
         setUserId(id);
     }
 
+    const openDeleteUser = (id) => {
+        setOpenDelete(true);
+        setUserId(id);
+    }
+
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Member Accounts</button>
-            <div className="h-full py-20 pt-5 px-5"> 
+            <div className="h-full md:h-auto py-20 pt-5 px-5"> 
                 { isLoading && <span className="text-green-500 flex items-center justify-center gap-2 text-sm pb-2"><AiOutlineLoading3Quarters className="animate-spin" />{loadMssg}, please wait...</span>}
                 {/* Page Navigation */}
                 <nav className="flex items-center justify-center">
                     <button className={`${currentPage === 'Member Accounts' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => setCurrentPage('Member Accounts')}>Member Accounts</button>
                     <button className={`${currentPage === 'For Approvals' ? 'bg-gray-300' : 'bg-gray-200'} text-sm text-gray-500 p-2`} onClick={() => setCurrentPage('For Approvals')}>For Approvals</button>
                 </nav>
-                
+                { users.length < 1 && <p className="font-semibold text-gray-400 animate-pulse w-full mt-5">No users in this barangay</p> }
                 {
                  currentPage === 'Member Accounts' ?
                  /* For Member Accounts Page */
@@ -114,7 +107,7 @@ const Accounts = () => {
                                 <td className="font-normal text-xs text-gray-900"><DateFormatter date={user.createdAt.split('T')[0]}/></td>
                                 <td className="font-normal text-xs text-gray-900">{ user.status && user.adminApproved ? 'Active' : 'Inactive'}</td>
                                 <td className="font-normal text-xs text-gray-900">
-                                    <button onClick={() => deactivateUser(user._id)}>Deactivate</button>
+                                    <button onClick={() => openDeleteUser(user._id)}>Deactivate</button>
                                 </td>
                             </tr>
                         )) }
@@ -145,6 +138,7 @@ const Accounts = () => {
             </div>
             { openAlert && <AlertMssg message={mssg} redirect={redirect} /> }
             { showDetails && <UserDetails userId={userId} closeDetails={setShowDetails} /> }
+            { openDelete && <DeleteUser userId={userId} closeDelete={setOpenDelete} /> }
         </div>
     )
 }

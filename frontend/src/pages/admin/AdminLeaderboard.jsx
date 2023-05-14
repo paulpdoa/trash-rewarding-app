@@ -30,10 +30,10 @@ const AdminLeaderboard = () => {
     },[])
 
     return (
-        <div className="h-full relative bg-white w-full">
+        <div className="h-full relative bg-white w-full  col-span-8">
             <button className="px-7 z-50 py-5 font-normal text-gray-700 flex gap-1 items-center"><Link className="text-gray-900 font-semibold" to='/admin/dashboard'>Home</Link> / Admin Leaderboards</button>
-            <div className="h-full py-20"> 
-                <div className="flex justify-between px-5 items-end h-full">
+            <div className="h-full md:h-auto py-20"> 
+                <div className="flex justify-between px-5 items-end h-full md:h-auto">
                     { users?.length < 1 ?
                     <div className="flex justify-center items-center bg-green-100 rounded-md w-full h-auto">
                        <p className="animate-pulse text-gray-400 font-semibold">No top 3 rankings yet</p>
