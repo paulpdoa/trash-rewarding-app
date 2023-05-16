@@ -49,11 +49,11 @@ const AddCategories = () => {
             alert('Points cannot be less than 1');
         } else {
             try {
-                const data = await axios.post(`${baseUrl()}/category`,{ points,unit,kilo,pcs,category: categoryName });
+                const data = await axios.post(`${baseUrl()}/category`,{ points,unit,category: categoryName });
                 alert(data.data.mssg);
                 window.location.reload();
             } catch(err) {
-                alert(err.response.data.mssg);
+                console.log(err)
             }
         }
     }
@@ -89,7 +89,7 @@ const AddCategories = () => {
                             <option value="kilo">Kilo</option>
                             <option value="pcs">Pcs</option>
                         </select>
-                        <input onChange={(e) => unit === 'kilo' ? setKilo(e.target.value) : setPcs(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" placeholder={`${unit === 'kilo' ? 'Enter weight' : unit === 'pcs' ? 'Enter pieces' : 'Select unit'}`} />
+                        {/* <input onChange={(e) => unit === 'kilo' ? setKilo(e.target.value) : setPcs(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" placeholder={`${unit === 'kilo' ? 'Enter weight' : unit === 'pcs' ? 'Enter pieces' : 'Select unit'}`} /> */}
                         <input onChange={(e) => setPoints(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" type="number" placeholder="Points" />
 
                         <button className="bg-green-300 text-white rounded-md outline-none shadow-sm p-2 mt-3">Add Category</button>       
@@ -105,11 +105,11 @@ const AddCategories = () => {
                                 <GrDocumentUpdate onClick={() => openUpdateCategory(category._id)} className="text-sm md:text-sm text-blue-500" />
                                 <BsFillTrashFill onClick={() => openDeleteCategory(category._id)} className="text-sm md:text-sm text-red-500" />
                             </div>
-                            <select className="border border-gray-300 p-1 text-sm outline-none">
+                            {/* <select className="border border-gray-300 p-1 text-sm outline-none">
                                 {category.measurement.map((measure) => (
                                     <option value="">{measure.weight === '' ? measure.pcs : measure.weight} {category.unit}</option>
                                 ))}
-                            </select>
+                            </select> */}
                         </div>
                     )) }
                 </div>

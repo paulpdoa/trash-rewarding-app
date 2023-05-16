@@ -28,10 +28,11 @@ const Navbar = () => {
             const currentPage = data.split('-')[1];
             const category = data.split('-')[2];
             const quantity = data.split('-')[3];
+            const measure = data.split('-')[4];
             
             if(currentPage === 'Give Points') {
                 setShowQr(false);
-                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}`)
+                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}-${measure}-${localStorage.getItem('userLocation')}`)
                 .then((res) => {
                     alert(`${record.split('=')[0]} has been added to your account`);
                     window.location.reload();

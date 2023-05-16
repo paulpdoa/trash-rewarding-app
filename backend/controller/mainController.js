@@ -14,7 +14,7 @@ const Collection = require('../model/Collection');
 const d = new Date(); // for now
 const currentTime = d.getHours() + ':' + d.getMinutes();
 const currentDate = d.getFullYear() + '-' + `${d.getMonth() < 10 ? '0'+ Number(d.getMonth() + 1) :  Number(d.getMonth() + 1) }` + '-' + `${d.getDate() < 10 ? '0' + Number(d.getDate()) : Number(d.getDate())}`;
-const monthList = ['January','February','March','April','May','June','July','August','September'];
+const monthList = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const currentMonth = monthList[Number(d.getMonth())];
 
 const maxAge = 3 * 24 * 24 * 60;
@@ -243,8 +243,10 @@ module.exports.user_receive_points = async (req,res) => {
     const userId = id.split('-')[0];
     const collectedPoints = Number(id.split('-')[1].split('=')[0]);
     const material = id.split('-')[2];
-    const quantity = id.split('-')[3] + `${material === 'Glass Bottles' ? ' pcs' : ' kilo'}`;
+    const quantity = id.split('-')[3] + ' ' + id.split('-')[4];
+    const userLocation = id.split('-')[5];
 
+    console.log(id);
     const generatedQrCode = collectedPoints + id.split('-')[1].split('=')[1];
     
     try {
@@ -254,9 +256,10 @@ module.exports.user_receive_points = async (req,res) => {
             res.status(400).json({ mssg: 'You cannot scan again, please ask admin before scanning' });
         } else {
             const categoryFind = await Category.find({ category: material });
+            
             const user = await User.updateOne({ _id: userId },{ collectedPoints: collectedPoints + userFound.collectedPoints, scannedQrCode: generatedQrCode });
             const epoint = await EarnPoint.create({ user_id: userId, point: collectedPoints,currentTime });
-            const collection = await Collection.create({ user_id: userId, material: categoryFind[0]._id, quantity, pointsAdded: collectedPoints,date: currentDate, month: currentMonth });
+            const collection = await Collection.create({ user_id: userId, material: categoryFind[0]._id, quantity, pointsAdded: collectedPoints,date: currentDate, month: currentMonth, user:userFound.firstName,materialName: material,barangay: userLocation});
             res.status(200).json({ mssg: `${collectedPoints} has been added to your point, keep collecting trash!` });
         }
        
@@ -281,11 +284,18 @@ module.exports.user_receive_rewards = async (req,res) => {
         if(userFind.collectedPoints < reward.point) {
             res.status(400).json({ mssg: 'You don\'t have enough points' });
         } else {
-            const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
-            const earnPoint = await EarnPoint.create({ user_id: userId, point: deductedPoints, currentTime });
-            const earnRewards = await EarnReward.create({ user_id: userId, reward: rewardPickedId, point: deductedPoints, currentTime });
-            res.status(200).json({ mssg: `You have received a reward, ${reward.point} has been deducted to your points` });     
-        }
+            if(reward.quantity < 1) {
+                res.status(400).json({ mssg: 'This item is out of stock' });
+            } else {
+                const userUpdatePoint = await User.updateOne({ _id: userId },{ collectedPoints: userFind.collectedPoints - reward.point });
+                const earnPoint = await EarnPoint.create({ user_id: userId, point: deductedPoints, currentTime });
+                const earnRewards = await EarnReward.create({ user_id: userId, reward: rewardPickedId, point: deductedPoints, currentTime });
+                const deductReward = await Reward.updateOne({ _id: rewardPickedId }, { quantity: reward.quantity - 1 });
+                res.status(200).json({ mssg: `You have received a reward, ${reward.point} has been deducted to your points` });     
+            }
+        } 
+
+
 
     } catch(err) {
         console.log(err);
@@ -526,17 +536,14 @@ module.exports.category_detail_get = async (req,res) => {
 }
 
 module.exports.add_category = async(req,res) => {
-    const { category,unit,points,kilo,pcs } = req.body;
+    const { category,unit,points } = req.body;
 
-    const measurement = {
-        weight: kilo,
-        unit,
-        points,
-        pcs
-    }
+    // const measurement = {
+    //     points
+    // }
 
     try {
-        const categ = await Category.create({ category,unit,measurement });
+        const categ = await Category.create({ category,unit,points });
         res.status(200).json({ mssg: `${category} has been added` });
     } catch(err) {
         if(err.code === 11000) {    
@@ -566,13 +573,21 @@ module.exports.delete_category = async (req,res) => {
 module.exports.update_category = async (req,res) => {
     
     const { id } = req.params;
-    const { kilo,pcs,points } = req.body;
+    const { points } = req.body;
     
     try {
-        const categ = await Category.updateOne({ _id:id }, { $push: { measurement: { weight: kilo, pcs, points } } });
-        res.status(200).json({ mssg: 'Category has been updated' });
+        const categFind = await Category.findById(id);
+
+        if(categFind.points === points) {
+            res.status(400).json({ mssg: 'Point has not been changed' });
+        } else {
+            const categ = await Category.updateOne({ _id:id }, { points: points });
+            res.status(200).json({ mssg: 'Category has been updated' });
+        }
+        // const categ = await Category.updateOne({ _id:id }, { $push: { measurement: { points } } });
+       
     } catch(err) {
-        console.log(err);
+        alert(err.response.data.mssg);
     }
 
 }

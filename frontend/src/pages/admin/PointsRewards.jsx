@@ -19,6 +19,8 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
     const [pieces,setPieces] = useState(0);
     const [rewardId,setRewardId] = useState('');
 
+    const [categPoint,setCategPoint] = useState(0);
+
     const [allRewards,setAllRewards] = useState([]);
 
     useEffect(() => {
@@ -89,13 +91,11 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 setShowQr(false)
             } 
    
-
             if(measurement === 'kilo') {
-                calculatedString = kilo.split('-')[0];
+                calculatedString = kilo * categPoint
             } else {
-                calculatedString = pieces.split('-')[0];
+                calculatedString = pieces * categPoint
             }
-            
             setPoints(calculatedString.toString() + '=' + Date.now());
             
         } else {
@@ -110,7 +110,6 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                 setShowQr(true);
             }
         }
-
     }
 
     const getCategory = async (id) => {
@@ -120,10 +119,10 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
             setCategory(data.data);
             setCategoryName(data.data?.category);
             setMeasurement(data.data?.unit);
+            setCategPoint(data.data?.points);
         } catch(err) {
             console.log(err);
-        }
-        
+        } 
     }
 
     return (
@@ -152,31 +151,34 @@ const PointsRewards = ({ currentPage,setCurrentPage }) => {
                         )) }
                     </select>
                 </div>
+                {/* <input type="number" className='bg-gray-200 text-sm text-gray-500 p-2 mt-2 outline-none' placeholder="Enter points" /> */}
                 { measurement === 'kilo' ? 
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-500'>Kilo:</span>
-                    <select onClick={() => setShowQr(false)} onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
+                    {/* <select onClick={() => setShowQr(false)} onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
                         <option hidden>Select kilo</option>
                         { category?.measurement?.map((measure,pos) => (
                             <option key={pos} value={`${measure.points}-${measure.weight}`}>{measure.weight}kg</option>
                         )) }
-                    </select>
+                    </select> */}
+                    <input type="number" onChange={(e) => setKilo(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" />
                 </div>    
                 :
                 <div className="flex gap-2 items-center mt-2 bg-gray-200 text-gray-500 w-1/2 p-2">
                     <span className='bg-gray-200 text-sm text-gray-500'>Pieces:</span>
-                    <select onChange={(e) => setPieces(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
+                    {/* <select onChange={(e) => setPieces(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full">
                         <option hidden>Select pieces</option>
                         { category?.measurement?.map((measure,pos) => (
                             <option key={pos} value={`${measure.points}-${measure.pcs}`}>{measure.pcs}pcs</option>
                         )) }
-                    </select>
+                    </select> */}
+                    <input type="number" onChange={(e) => setPieces(e.target.value)} className="bg-gray-200 border-b border-gray-900 outline-none w-full" />
                 </div>
                 }
                 
                 <div className="flex items-center flex-col justify-center gap-3 mt-10">
                     <span className="text-red-500 text-sm items-start">{errMssg}</span>
-                    { showQr && <QrCode className="border-2 border-gray-900" value={`${points}-${currentPage}-${categoryName}-${measurement === 'kilo' ? kilo : pieces}`} /> }
+                    { showQr && <QrCode className="border-2 border-gray-900" value={`${points}-${currentPage}-${categoryName}-${measurement === 'kilo' ? kilo : pieces}-${measurement}`} /> }
                     <button onClick={generateQrCode} className="bg-none border-gray-900 border p-2 w-3/4 rounded-3xl text-lg cursor-pointer">Generate QR Code</button>
                 </div>
                 </>

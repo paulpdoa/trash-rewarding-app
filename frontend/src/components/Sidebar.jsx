@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GoDashboard } from 'react-icons/go';
 import { MdOutlineManageAccounts,MdOutlineLeaderboard,MdOutlineEmail } from 'react-icons/md';
-import { BsXDiamondFill } from 'react-icons/bs';
+import { BsXDiamondFill,BsExclamationCircle } from 'react-icons/bs';
 import { IoMedalOutline } from 'react-icons/io5';
 import { GiTargetPrize } from 'react-icons/gi';
 import { BiCategoryAlt } from 'react-icons/bi'; 

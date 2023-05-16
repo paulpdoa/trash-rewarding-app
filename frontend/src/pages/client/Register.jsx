@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 // import AlertMssg from '../../components/AlertMssg';
 import axios from 'axios';
 import provinces from '../../json/refprovince.json';
@@ -9,8 +9,11 @@ import AlertMssg from '../../components/AlertMssg';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { HiOutlineUpload } from 'react-icons/hi';
 import { baseUrl } from '../../baseUrl';
+import { BsCalendarDate } from 'react-icons/bs';
 
 const Register = () => {
+
+    const ref = useRef();
 
     const [fn,setFn] = useState('');
     const [ln,setLn] = useState('');
@@ -141,7 +144,13 @@ const Register = () => {
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="First Name" type="text" onChange={(e) => setFn(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Last Name" type="text" onChange={(e) => setLn(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Middle Name" type="text" onChange={(e) => setMn(e.target.value)} />
-                        <input className="p-2 rounded border-none outline-none shadow-sm w-full" type="date" onChange={(e) => setDob(e.target.value)} />
+                        
+                        <div className="relative bg-white p-2 flex justify-between items-center">
+                            <p className={`text-gray-400 ${dob !== '' ? 'opacity-0' : 'opacity-100'}`}>Date of Birth</p>
+                            <BsCalendarDate />
+                            <input className={`absolute pl-2 left-0 h-full rounded border-none ${dob !== '' ? 'opacity-100' : 'opacity-0'} outline-none shadow-sm w-full`} type="date" onChange={(e) => setDob(e.target.value)} />
+                        </div>
+
                         <input className="p-2 rounded border-none outline-none shadow-sm" autoComplete='new-password' placeholder="Password" type="password" onChange={(e) => setPass(e.target.value)} />
                         <input className="p-2 rounded border-none outline-none shadow-sm" placeholder="Confirm Password" type="password" onChange={(e) => setConfPass(e.target.value)} />
                     </> 

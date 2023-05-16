@@ -22,7 +22,7 @@ const SidebarMobile = ({ showSidebar,setShowSidebar }) => {
                     <Link onClick={() => setShowSidebar(false)} to='/admin/add-category'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BiCategoryAlt />Add Category</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/give-points-rewards'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><IoMedalOutline />Rewarding System</li></Link>
                     <Link onClick={() => setShowSidebar(false)} to='/admin/messages'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><MdOutlineEmail />Feedbacks</li></Link>
-                    <Link onClick={() => setShowSidebar(false)} to='/admin/reports'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsExclamationCircle />Generate Reports</li></Link>
+                    {/* <Link onClick={() => setShowSidebar(false)} to='/admin/reports'><li className="px-3 py-5 text-gray-100 font-semibold text-sm flex items-center gap-2"><BsExclamationCircle />Generate Reports</li></Link> */}
                 </ul>
             </div>
         </nav>

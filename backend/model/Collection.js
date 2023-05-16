@@ -24,6 +24,18 @@ const collectionSchema = new mongoose.Schema({
     month: {
         type: 'String',
         required: true
+    },
+    user: {
+        type: String,
+        required: true
+    }, 
+    materialName: {
+        type: String,
+        required: true
+    },
+    barangay: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 

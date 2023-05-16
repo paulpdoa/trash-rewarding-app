@@ -14,3 +14,83 @@ Done
 6. Feedback - aalisin yung message sa taas, ilalagay sa menu bar at papaltan ng name ng "Feedbacks".
 7. Dashboard - hindi na nawawala yung menu for website view, i aadjust yung mga laman with summary ng all pages then clickable.
 8. Collection Record - may filter ng records. May ascending descending tapos date at quantity. Pati sa generate report pwede iaapply to. 
+
+
+-----------------------------------------------------
+Bugs:
+Registration Page
+
+Collection Records Page
+Quantity - Di naka decimal ang kg ( 1200kg to 1.2kg )
+- Collection records page, needs to be in decimal place
+
+------------------------------------------------------
+~ Adviser / Critique Suggestions ~
+
+
+--------------------------------------------------------------------
+Done
+- Overall Accumulated Points ( Papaltan yng sulat na monthly points ksi dna sya pede pag 2 na ang months sa graph).
+
+*Date - Placeholder ( wlang nakalagay na birthdate )
+-Date of birth show placeholder 
+
+*Rewarding System Page
+Reward List - Pag nag claim di nababawas sa stocks.
+- Bawas sa stocks sa rewards/inventory
+
+Generate Report
+* Lagyan dw logo 😂
+- Logo before title
+
+*Header - maglalagay ng notif logo para sa new registered user na mag popop up sabay pag clinick diretso sa account page sa may approval (tatanggalin na yng nasa dashboard).
+- notif for new Users
+-popup display message of newly registered user
+
+Deleted Accounts - Nadedelete ang records ng mga nadelete na accounts ( Dapat nasa records pa din )
+- Collection Records page show Name and Materials even deleted 
+
+* Makikita sa dashboard ay - Graph ng points (jan - dec)
+- Active Users > Total of active users
+- Leaderboard ( Yng avatar nlng ng top 3 then yng points nila). 
+
+Collection records on Dashboard page 
+* Babaguhin ang user points magiging points collected (Sa may Graph).
+* Pag pinindot ang graph ng month may popup n overlay na pie chart. Ang laman ay pie chart ay mga materials per color sbay clickable sya  then connected sya s collection records magiging auto filter n lng sya ( name, materials, points added, quantity at date) - for the month na clinick sbay i-gegenerate report nlng po nmin.
+- Pipindot ng month, tapos ciclick ng material, tapos deretso collection record auto filter na with selected criterias
+
+Rewarding System Page
+
+* Kg nlng ang inputable sbay dynamic ang pointing system ng kg (database) 
+- Select Kilo/pieces > 1 kilo / 1 piece
+- Remove weight in Add Category page/ remove weight in update of category
+
+Example: New Category Metal.
+
+Metal kg = fix 1kg
+Metal = 1000 points ( pede ma update )
+
+Input kg: 1kg
+1 × 1000 = 1000 points
+Total points = 1000 points
+
+Input kg: 5 kg
+5 × 1000 = 5000 points
+Total points = 5000 points
+
+Input kg: 1/2 ( Si admin na bahala mag convert).
+0.5 × 1000 = 500 points
+Total points = 500 points
+
+Input kg: 1/4 ( Si admin na bahala mag convert).
+0.25 × 1000 = 250 points
+Total points = 250 points
+
+~ Bali mawawala na po yng input ng kg sa new category.
+
+* Fixed position ang side bar at header (pag sa laptop).
+- Sticky header and sidebar
+
+Collection Records Page 
+* Add lng ng filter ng Range.
+- Generate Reports na page, ilipat lang sa collection records na page

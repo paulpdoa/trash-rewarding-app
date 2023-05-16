@@ -8,8 +8,8 @@ const CategoryUpdate = ({ categoryId,closeUpdate }) => {
     const [categoryName,setCategoryName] = useState('');
     const [unit,setUnit] = useState('');
     const [points,setPoints] = useState(0);
-    const [kilo,setKilo] = useState('');
-    const [pcs,setPcs] = useState(0);
+    // const [kilo,setKilo] = useState('');
+    // const [pcs,setPcs] = useState(0);
 
     useEffect(() => {
         const abortCont = new AbortController();
@@ -20,6 +20,7 @@ const CategoryUpdate = ({ categoryId,closeUpdate }) => {
                 const data = await axios.get(`${baseUrl()}/category/${categoryId}`,{ signal });
                 setCategoryName(data.data?.category);
                 setUnit(data.data?.unit);
+                setPoints(data.data?.points)
 
             } catch(err) {
                 console.log(err);
@@ -34,11 +35,11 @@ const CategoryUpdate = ({ categoryId,closeUpdate }) => {
         e.preventDefault();
 
         try {
-            const data = await axios.patch(`${baseUrl()}/category/${categoryId}`,{ points,kilo,pcs });
+            const data = await axios.patch(`${baseUrl()}/category/${categoryId}`,{ points });
             alert(data.data.mssg);
             window.location.reload();
         } catch(err) {
-            console.log(err);
+            alert(err.response.data.mssg);
         }
     }
 
@@ -53,8 +54,8 @@ const CategoryUpdate = ({ categoryId,closeUpdate }) => {
                         <option value="kilo">Kilo</option>
                         <option value="pcs">Pcs</option>
                     </select>
-                    <input onChange={(e) => unit === 'kilo' ? setKilo(e.target.value) : setPcs(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" placeholder={`${unit === 'kilo' ? 'Enter weight' : unit === 'pcs' ? 'Enter pieces' : 'Select unit'}`} />
-                    <input onChange={(e) => setPoints(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" type="number" placeholder="Points" />
+                    {/* <input onChange={(e) => unit === 'kilo' ? setKilo(e.target.value) : setPcs(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" placeholder={`${unit === 'kilo' ? 'Enter weight' : unit === 'pcs' ? 'Enter pieces' : 'Select unit'}`} /> */}
+                    <input value={points} onChange={(e) => setPoints(e.target.value)} className="p-2 outline-none border border-gray-300 rounded-md w-3/4" type="number" placeholder="Points" />
 
                     <button className="bg-green-300 text-white rounded-md outline-none shadow-sm p-2 mt-3">Add Points</button>  
 

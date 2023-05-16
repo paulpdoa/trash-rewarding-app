@@ -6,6 +6,7 @@ import { baseUrl } from '../../baseUrl';
 import DateFormatter from '../../components/DateFormatter';
 import { IoMdArrowDropdown,IoMdArrowDropup } from 'react-icons/io';
 import { CSVLink } from 'react-csv';
+import NumberFormat from '../../components/NumberFormat';
 
 //PDF
 import { jsPDF } from 'jspdf';
@@ -20,16 +21,20 @@ const CollectionRecords = () => {
     const [reports,setReports] = useState([]);
     const adminLocation = localStorage.getItem('adminLocation');
 
+    //For Date Range enhancement
+    const [from,setFrom] = useState('');
+    const [to,setTo] = useState('');
+
     const pointCalculation = () => {
         const total = collections.reduce((num,curr) => num + Number(curr.pointsAdded),0);
         reports.push({totalPoints: total});
         reports.unshift({ title: 'Collection Report' });    
     }
 
-    const generateReport = () => {
-        pointCalculation();
-        console.log(reports);
-    }
+    // const generateReport = () => {
+    //     pointCalculation();
+    //     console.log(reports);
+    // }
     
 
     useEffect(() => {
@@ -39,7 +44,7 @@ const CollectionRecords = () => {
         const fetchCollection = async () => {
             try {
                 const res = await axios.get(`${baseUrl()}/collections`,{ signal });
-                setCollections(res.data.filter(user => user.user_id !== null && user.user_id.barangay === adminLocation));
+                setCollections(res.data.filter(user => user.barangay === adminLocation));
             } catch(err) {
                 console.log(err);
             }
@@ -59,25 +64,19 @@ const CollectionRecords = () => {
 
     const quantityDescending = () => {
         setCollections([...collections].sort((a,b) => {
-            if(a.quantity !== undefined && b.quantity !== undefined) {
-                return Number(b.quantity.split(' ')[0]) - Number(a.quantity.split(' ')[0])
-            }
+            if(a.quantity !== undefined && b.quantity !== undefined) return Number(b.quantity.split(' ')[0]) - Number(a.quantity.split(' ')[0])  
         }));    
     }
 
     const dateAscending = () => {
         setCollections([...collections].sort((a,b) => {
-            if(a.createdAt !== undefined && b.createdAt !== undefined) {
-                return new Date(a.createdAt.split('T')[0]) - new Date(b.createdAt.split('T')[0])
-            }
+            if(a.createdAt !== undefined && b.createdAt !== undefined) return new Date(a.createdAt.split('T')[0]) - new Date(b.createdAt.split('T')[0])
         }));    
     }
 
     const dateDescending = () => {
         setCollections([...collections].sort((a,b) => {
-            if(a.createdAt !== undefined && b.createdAt !== undefined) {
-                return new Date(b.createdAt.split('T')[0]) - new Date(a.createdAt.split('T')[0])
-            }
+            if(a.createdAt !== undefined && b.createdAt !== undefined) return new Date(b.createdAt.split('T')[0]) - new Date(a.createdAt.split('T')[0])
         }));
     }   
 
@@ -94,14 +93,32 @@ const CollectionRecords = () => {
         autoTable(doc, { 
             styles: { fillColor: 'rgb(74,222,128)' },
             html: '#my-table',
-            margin: { top: 15 }, 
+            margin: { top: 18 }, 
         })
-        
+        doc.addImage('/image/Logo.png','PNG',5,3,10,10,'Logo of Report','FAST',0)
         doc.text(20,10,'Trash App Collection Report');
         doc.save("Trash Collection Report.pdf");
     }
 
-    console.log(Date.now());
+    const filterTableByDate = async () => {
+       const startDate = from;
+       const endDate = to;
+       const filteredData = [];
+
+       try {
+            const data = await axios.get(`${baseUrl()}/collections`);
+            const filteredDate = data.data?.filter(collection => collection.barangay === adminLocation);
+            
+            for(let i = 0; i < filteredDate.length; i++) {
+                if(filteredDate[i].date >= startDate && filteredDate[i].date <= endDate) {
+                    filteredData.push(filteredDate[i]);
+                }
+            }
+       } catch(err) {
+            console.log(err)
+       }
+       setCollections([...filteredData]);
+    }
 
     return (
         <div className="h-full relative bg-white w-full col-span-8">
@@ -113,7 +130,20 @@ const CollectionRecords = () => {
                 </div>
 
                 {/* Generate Report */}
-                <button onClick={exportPdf} className="mt-3 border border-gray-300 p-1 rounded-md cursor-pointer">Generate Report</button>
+                <div className="flex justify-between items-center">
+                    <button onClick={exportPdf} className="mt-3 border border-gray-300 p-1 rounded-md cursor-pointer">Generate Report</button>
+                    <div className="flex items-center justify-start gap-2 mt-3">
+                        <div className="flex items-center gap-2">
+                            <span>From:</span>
+                            <input onChange={(e) => setFrom(e.target.value)} className="border border-gray-300 p-1 rounded-md cursor-pointer" type="date" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span>To:</span>
+                            <input onChange={(e) => setTo(e.target.value)} className="border border-gray-300 p-1 rounded-md cursor-pointer" type="date" />
+                        </div>
+                        <button className="w-fit p-2 bg-green-400 text-white rounded-md" onClick={filterTableByDate}>Filter Date</button>
+                    </div>
+                </div>
                 {/* <button onClick={generateReport} className="mt-3 border border-gray-300 p-1 rounded-md cursor-pointer">Generate Report</button>
                 <CSVLink className="mt-3 ml-2 border border-gray-300 p-1 rounded-md cursor-pointer" data={reports} filename={'Trash App Collection Report'} headers={headers}>Download Report</CSVLink> */}
                 <table id='my-table' className="mt-5">
@@ -122,8 +152,24 @@ const CollectionRecords = () => {
                             <th>Name</th>
                             <th>Materials</th>
                             <th>Points Added</th>
-                            <th className="flex items-center">Quantity <button onClick={quantityAscending}><IoMdArrowDropup className="text-green-300" /></button> <button onClick={quantityDescending}><IoMdArrowDropdown className="text-red-500" /></button></th>
-                            <th>Date <button onClick={dateAscending}><IoMdArrowDropup className="text-green-300" /></button> <button onClick={dateDescending}><IoMdArrowDropdown className="text-red-500" /></button></th>
+                            <th>
+                                <div className="flex justify-between">
+                                    <p>Quantity</p>
+                                    <div className="flex items-center">
+                                        <button onClick={quantityAscending}><IoMdArrowDropup className="text-green-300" /></button> 
+                                        <button onClick={quantityDescending}><IoMdArrowDropdown className="text-red-500" /></button>
+                                    </div>
+                                </div>
+                            </th>
+                            <th> 
+                                <div className="flex justify-between">
+                                    <p>Date</p>
+                                    <div className="flex items-center">
+                                        <button onClick={dateAscending}><IoMdArrowDropup className="text-green-300" /></button> 
+                                        <button onClick={dateDescending}><IoMdArrowDropdown className="text-red-500" /></button>
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
                         
                         { collections.length < 1 ? 
@@ -131,8 +177,8 @@ const CollectionRecords = () => {
                         : 
                         collections?.filter((collection) => collection.user_id?.firstName.toLowerCase().includes(name.toLowerCase()) || collection.material?.category.toLowerCase().includes(name.toLowerCase())).map((collection,pos) => (
                             <tr key={pos}>
-                                <td>{collection.user_id === null ? 'Unknown' : collection.user_id.firstName}</td>
-                                <td>{collection.material === null ? 'Deleted Category' : collection.material.category}</td>
+                                <td>{collection.user}</td>
+                                <td>{collection.materialName}</td>
                                 <td>{collection.pointsAdded}</td>
                                 <td>{collection.quantity}</td>
                                 <td><DateFormatter date={collection.createdAt.split('T')[0]} /></td>
@@ -140,7 +186,7 @@ const CollectionRecords = () => {
                         )) 
                         }
                         <tr>
-                            <th>Total Points: {collections.filter((collection) => collection.user_id?.firstName.toLowerCase().includes(name.toLowerCase()) || collection.material?.category.toLowerCase().includes(name.toLowerCase())).reduce((num,curr) => num + Number(curr.pointsAdded),0)}</th>
+                            <th>Total Points: <NumberFormat points={collections.filter((collection) => collection.user_id?.firstName.toLowerCase().includes(name.toLowerCase()) || collection.material?.category.toLowerCase().includes(name.toLowerCase())).reduce((num,curr) => num + Number(curr.pointsAdded),0)} /></th>
                         </tr>
                         
                     </tbody>
