@@ -15,6 +15,7 @@ const DeleteUser = ({closeDelete,userId}) => {
             alert(data.data.mssg);
             closeDelete(false);
             setIsLoading(false);
+            window.location.reload();
         } catch(err) {
             console.log(err);
         }

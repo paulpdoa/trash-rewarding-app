@@ -49,6 +49,7 @@ const Accounts = () => {
             setOpenAlert(true);
             setMssg(data.data.mssg);
             setRedirect(data.data.redirect);
+            window.location.reload()
         } catch(err) {
             console.log(err);
         }

@@ -130,9 +130,9 @@ const CollectionRecords = () => {
                 </div>
 
                 {/* Generate Report */}
-                <div className="flex justify-between items-center">
+                <div className="flex md:flex-row flex-col justify-between items-start md:items-center">
                     <button onClick={exportPdf} className="mt-3 border border-gray-300 p-1 rounded-md cursor-pointer">Generate Report</button>
-                    <div className="flex items-center justify-start gap-2 mt-3">
+                    <div className="md:flex items-center justify-start gap-2 mt-3">
                         <div className="flex items-center gap-2">
                             <span>From:</span>
                             <input onChange={(e) => setFrom(e.target.value)} className="border border-gray-300 p-1 rounded-md cursor-pointer" type="date" />
@@ -141,17 +141,17 @@ const CollectionRecords = () => {
                             <span>To:</span>
                             <input onChange={(e) => setTo(e.target.value)} className="border border-gray-300 p-1 rounded-md cursor-pointer" type="date" />
                         </div>
-                        <button className="w-fit p-2 bg-green-400 text-white rounded-md" onClick={filterTableByDate}>Filter Date</button>
+                        <button className="w-fit p-2 bg-green-400 text-white rounded-md md:mt-0 mt-3" onClick={filterTableByDate}>Filter Date</button>
                     </div>
                 </div>
                 {/* <button onClick={generateReport} className="mt-3 border border-gray-300 p-1 rounded-md cursor-pointer">Generate Report</button>
                 <CSVLink className="mt-3 ml-2 border border-gray-300 p-1 rounded-md cursor-pointer" data={reports} filename={'Trash App Collection Report'} headers={headers}>Download Report</CSVLink> */}
-                <table id='my-table' className="mt-5">
+                <table id='my-table' className="mt-5 overflow-x-scroll md:w-full">
                     <tbody>
                         <tr className="text-sm font-normal text-center">
                             <th>Name</th>
                             <th>Materials</th>
-                            <th>Points Added</th>
+                            <th>Points</th>
                             <th>
                                 <div className="flex justify-between">
                                     <p>Quantity</p>

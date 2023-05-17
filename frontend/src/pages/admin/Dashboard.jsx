@@ -7,6 +7,10 @@ import BarChart from '../../components/BarChart';
 import DateFormatter from '../../components/DateFormatter';
 import { AiOutlineRollback } from 'react-icons/ai';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Thumbs } from 'swiper'; 
+import 'swiper/swiper.min.css';
+
 ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend);
 
 export const options = {
@@ -135,7 +139,10 @@ const Dashboard = () => {
                     <div key={pos} className="flex items-center h-auto gap-2 mt-5 md:mt-3">
                       <p className="font-semibold">{ pos + 1 }</p>
                       <div className="border border-gray-200 rounded-full w-full p-2 flex text-sm items-center justify-between">
-                        <p>{ leaderboard.firstName } { leaderboard.lastName }</p>
+                        <div className="flex gap-2 items-center">
+                          <img src={`${baseUrl()}/images/${leaderboard.profilePicture}`} alt="Icon" />
+                          <p>{ leaderboard.firstName } { leaderboard.lastName }</p>
+                        </div>
                         <span className="text-green-400 font-semibold"><NumberFormat points={ leaderboard.collectedPoints } /> points</span>
                       </div>
                     </div>
@@ -148,29 +155,46 @@ const Dashboard = () => {
                   { records.length < 1 ? 
                   <div className="grid md:grid-cols-4 grid-cols-2 gap-2 items-center cursor-pointer mt-2">
                     { months.map(month => (
-                      <button onClick={() => getCollectionRecord(month)} className="border rounded-md w-full hover:bg-green-300 hover:text-white transition border-gray-300 p-2">{month}</button>
+                      <button onClick={() => getCollectionRecord(month)} className="border overflow-hidden rounded-md w-full hover:bg-green-300 hover:text-white transition border-gray-300 p-2">{month}</button>
                     )) }
                   </div>
                   :
-                  <table>
-                      <tbody>
-                        <tr>
-                          <th>Name</th>
-                          <th>Material</th>
-                          <th>Quantity</th>
-                          <th>Date</th>
-                        </tr>
-                        { records.map((record,pos) => (
-                          <tr key={pos}>
-                            <td>{record.user}</td>
-                            <td>{record.materialName}</td>
-                            <td>{record.quantity}</td>
-                            <td><DateFormatter date={record.date} /></td>
+                  <Swiper 
+                    loop={true}
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    modules={[Navigation,Thumbs]}
+                    grabCursor={true}
+                    className="z-10"
+                  >
+                    <SwiperSlide>
+                      <div className="w-full p-2 rounded shadow-lg flex flex-col">
+                        {/* <h1 className="font-semibold text-xl text-center">Collection Records</h1> */}
+                        <BarChart chartData={collections} options={options} />
+                      </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                      <table className="text-xs">
+                        <tbody>
+                          <tr>
+                            <th>Name</th>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
                           </tr>
-                        )) }
-                        
-                      </tbody>
-                  </table>
+                          { records.map((record,pos) => (
+                            <tr key={pos}>
+                              <td>{record.user}</td>
+                              <td>{record.materialName}</td>
+                              <td>{record.quantity}</td>
+                              <td><DateFormatter date={record.date} /></td>
+                            </tr>
+                          )) }
+                        </tbody>
+                      </table>
+                    </SwiperSlide>
+                  </Swiper>
+                  
                   }
                 </div>
                 {/* <div className="w-full md:w-1/2 p-2 rounded mt-5">

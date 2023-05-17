@@ -26,13 +26,18 @@ const AdminNavbar = ({setShowSidebar,showSidebar}) => {
         const fetchNewUser = async () => {
             try {
                 const data = await axios.get(`${baseUrl()}/user`,{ signal });
-                setUser(data.data[data.data.length - 1]);
-
-                if(data.data[data.data.length - 1].adminApproved) {
-                    setIsApproved(false);
-                } else {
-                    setIsApproved(true);
+                // setUser(data.data[data.data.length - 1]);
+                const filteredUser = data.data.filter(val => val.barangay === localStorage.getItem('adminLocation'))
+                setUser(filteredUser[filteredUser.length - 1]);
+                
+                if(filteredUser[filteredUser.length - 1].barangay === localStorage.getItem('adminLocation')) {
+                    if(filteredUser[filteredUser.length - 1].adminApproved) {
+                        setIsApproved(false);
+                    } else {
+                        setIsApproved(true);
+                    }
                 }
+                
             } catch(err) {
                 console.log(err);
             }
@@ -71,11 +76,14 @@ const AdminNavbar = ({setShowSidebar,showSidebar}) => {
                     { isApproved && <p className="absolute text-xs right-0 w-4 h-4 p-1 rounded-full flex items-center justify-center bg-red-500 md:top-4 top-4">1</p> }
                 </button>
                 { isClick && 
-                <div className="absolute right-0 md:-mr-28 top-5 text-sm w-auto text-gray-800 z-50 bg-white border border-gray-300 shadow-sm rounded-md p-2">
-                    <h1 className="font-semibold">New Registered User:</h1>
-                    <p className="flex text-sm items-center gap-2">Email: {user?.email}</p>
-                    <Link onClick={() => setIsClick(false)} className="text-xs border-b border-gray-400 text-green-400" to='/admin/accounts'>Click here to approve/reject users</Link>
-                </div>
+                    <div className="absolute right-0 md:-mr-28 top-5 text-sm w-auto text-gray-800 z-50 bg-white border border-gray-300 shadow-sm rounded-md p-2">
+                        { !isApproved ? <p>No registered user</p> : 
+                        <>
+                            <h1 className="font-semibold">New Registered User:</h1>
+                            <p className="flex text-sm items-center gap-2">Email: {user?.email}</p>
+                            <Link onClick={() => setIsClick(false)} className="text-xs border-b border-gray-400 text-green-400" to='/admin/accounts'>Click here to approve/reject users</Link>
+                        </>}
+                    </div>
                 } 
             </div>
         </nav>
