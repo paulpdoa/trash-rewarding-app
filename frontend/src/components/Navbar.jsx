@@ -29,15 +29,22 @@ const Navbar = () => {
             const category = data.split('-')[2];
             const quantity = data.split('-')[3];
             const measure = data.split('-')[4];
+            const barangay = data.split('-')[5];
             
             if(currentPage === 'Give Points') {
-                setShowQr(false);
-                axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}-${measure}-${localStorage.getItem('userLocation')}`)
-                .then((res) => {
-                    alert(`${record.split('=')[0]} has been added to your account`);
-                    window.location.reload();
-                })
-                .catch(err => alert(err.response.data.mssg));  
+                // Check location of user upon scanning
+                if(barangay === localStorage.getItem('userLocation')) {
+                    setShowQr(false);
+                    axios.patch(`${baseUrl()}/userreceivepoint/${userId}-${record}-${category}-${quantity}-${measure}-${localStorage.getItem('userLocation')}`)
+                    .then((res) => {
+                        alert(`${record.split('=')[0]} has been added to your account`);
+                        window.location.reload();
+                    })
+                    .catch(err => alert(err.response.data.mssg));  
+                } else {
+                    setShowQr(false);
+                    alert(`You are residing in ${localStorage.getItem('userLocation')}, please scan in barangay ${barangay}.`);
+                }
             } else {
                 //If currentPage is Receive Reward
                 setShowQr(false);

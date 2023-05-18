@@ -10,6 +10,8 @@ const BarChart = ({ chartData,options }) => {
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'];
     const [collections,setCollections] = useState([]);
+    const [headers,setHeaders] = useState([]);
+    const [totalPoints,setTotalPoints] = useState([]);
 
     const filterPerMonth = () => {
         //Create array to place exact count of months, in this case this is 12 because of 12 months
@@ -30,12 +32,25 @@ const BarChart = ({ chartData,options }) => {
       const signal = abortCont.signal
 
       const fetchCollection = async () => {
+        const totals = [];
         try {
           const data = await axios.get(`${baseUrl()}/collections`,{ signal });
-          const newArr = data.data.filter((val,index,array) => val.barangay === localStorage.getItem('adminLocation') && array.indexOf(val) === index);
+          //const newArr = data.data.filter((val,index,array) => val.barangay === localStorage.getItem('adminLocation') && array.indexOf(val) === index);
+          const categs = await axios.get(`${baseUrl()}/category`, { signal });
+          setHeaders(categs.data);
 
-          setCollections(newArr);
+          const categoryNames = categs.data.map(categ => categ.category)
+
+          for(let i = 0; i < data.data.length; i++) {
+            const filterData = data.data.filter(material => material.materialName === categoryNames[i]);
+            const totalQtyMaterials = filterData.reduce((total,collection) => total + Number(collection.quantity.split(' ')[0]) ,0)
           
+            if(totalQtyMaterials > 1) {
+              totals.push(totalQtyMaterials);
+            }
+          }
+    
+          setTotalPoints(totals);
         } catch(err) {
           console.log(err);
         }
@@ -47,11 +62,11 @@ const BarChart = ({ chartData,options }) => {
     
     const data = {
         // labels:months,
-        labels: collections.map(collection => collection.materialName),
+        labels: headers.map(header => header.category),
         datasets: [{
           label: 'Collection Chart',
           // data: filterPerMonth(),
-          data: collections.map(collection => collection.quantity.split(' ')[0]),
+          data: totalPoints,
              backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',

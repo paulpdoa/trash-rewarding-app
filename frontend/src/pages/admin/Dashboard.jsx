@@ -90,7 +90,7 @@ const Dashboard = () => {
     const fetchUsers = async () => {
       try {
         const res = await axios.get(`${baseUrl()}/user`, { signal });
-        const totalActive = res.data.filter(user => user.status && user.barangay === adminLocation).length;
+        const totalActive = res.data.filter(user => user.adminApproved && user.barangay === adminLocation).length;
         setUsers(totalActive);
       } catch(err) {
         console.log(err);
@@ -140,7 +140,7 @@ const Dashboard = () => {
                       <p className="font-semibold">{ pos + 1 }</p>
                       <div className="border border-gray-200 rounded-full w-full p-2 flex text-sm items-center justify-between">
                         <div className="flex gap-2 items-center">
-                          <img src={`${baseUrl()}/images/${leaderboard.profilePicture}`} alt="Icon" />
+                          <img className="w-10 h-10 rounded-full object-fit" src={`${baseUrl()}/images/${leaderboard.profilePicture}`} alt="Icon" />
                           <p>{ leaderboard.firstName } { leaderboard.lastName }</p>
                         </div>
                         <span className="text-green-400 font-semibold"><NumberFormat points={ leaderboard.collectedPoints } /> points</span>

@@ -245,8 +245,6 @@ module.exports.user_receive_points = async (req,res) => {
     const material = id.split('-')[2];
     const quantity = id.split('-')[3] + ' ' + id.split('-')[4];
     const userLocation = id.split('-')[5];
-
-    console.log(id);
     const generatedQrCode = collectedPoints + id.split('-')[1].split('=')[1];
     
     try {
