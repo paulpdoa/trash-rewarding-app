@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.34592c9e.css",
-    "main.js": "/static/js/main.d014b329.js",
-    "static/js/498.8c7f5c60.chunk.js": "/static/js/498.8c7f5c60.chunk.js",
-    "static/js/703.674d2745.chunk.js": "/static/js/703.674d2745.chunk.js",
-    "static/js/513.b82501bd.chunk.js": "/static/js/513.b82501bd.chunk.js",
-    "static/media/community-bg.png": "/static/media/community-bg.dac2f375a8fa94fe8d10.png",
-    "static/media/3r-bg.png": "/static/media/3r-bg.380279eabeb7bd647eb7.png",
-    "static/media/Rectangle_72.png": "/static/media/Rectangle_72.784910191f267073571c.png",
-    "static/media/Rectangle_44.png": "/static/media/Rectangle_44.073d16fecba74d02d752.png",
-    "static/media/about_bg.png": "/static/media/about_bg.f8e45559be9f3b3e2e61.png",
-    "index.html": "/index.html",
-    "main.34592c9e.css.map": "/static/css/main.34592c9e.css.map",
-    "main.d014b329.js.map": "/static/js/main.d014b329.js.map",
-    "498.8c7f5c60.chunk.js.map": "/static/js/498.8c7f5c60.chunk.js.map",
-    "703.674d2745.chunk.js.map": "/static/js/703.674d2745.chunk.js.map",
-    "513.b82501bd.chunk.js.map": "/static/js/513.b82501bd.chunk.js.map"
+    "main.css": "/trash-rewarding-app/static/css/main.c24abea7.css",
+    "main.js": "/trash-rewarding-app/static/js/main.687a2da0.js",
+    "static/js/498.8c7f5c60.chunk.js": "/trash-rewarding-app/static/js/498.8c7f5c60.chunk.js",
+    "static/js/703.674d2745.chunk.js": "/trash-rewarding-app/static/js/703.674d2745.chunk.js",
+    "static/js/513.b82501bd.chunk.js": "/trash-rewarding-app/static/js/513.b82501bd.chunk.js",
+    "static/media/community-bg.png": "/trash-rewarding-app/static/media/community-bg.dac2f375a8fa94fe8d10.png",
+    "static/media/3r-bg.png": "/trash-rewarding-app/static/media/3r-bg.380279eabeb7bd647eb7.png",
+    "static/media/Rectangle_72.png": "/trash-rewarding-app/static/media/Rectangle_72.784910191f267073571c.png",
+    "static/media/Rectangle_44.png": "/trash-rewarding-app/static/media/Rectangle_44.073d16fecba74d02d752.png",
+    "static/media/about_bg.png": "/trash-rewarding-app/static/media/about_bg.f8e45559be9f3b3e2e61.png",
+    "index.html": "/trash-rewarding-app/index.html",
+    "main.c24abea7.css.map": "/trash-rewarding-app/static/css/main.c24abea7.css.map",
+    "main.687a2da0.js.map": "/trash-rewarding-app/static/js/main.687a2da0.js.map",
+    "498.8c7f5c60.chunk.js.map": "/trash-rewarding-app/static/js/498.8c7f5c60.chunk.js.map",
+    "703.674d2745.chunk.js.map": "/trash-rewarding-app/static/js/703.674d2745.chunk.js.map",
+    "513.b82501bd.chunk.js.map": "/trash-rewarding-app/static/js/513.b82501bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.34592c9e.css",
-    "static/js/main.d014b329.js"
+    "static/css/main.c24abea7.css",
+    "static/js/main.687a2da0.js"
   ]
 }
