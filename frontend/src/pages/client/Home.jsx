@@ -156,8 +156,8 @@ const Home = () => {
                     <h1 className="text-green-600 font-semibold">Learn</h1>
 
                     <div className="mt-5 flex flex-col gap-4">
-                        <Link to='/learn/3-R'><img src="/image/3rs.png" alt="3 R's" /></Link>
-                        <Link to='/learn/community'><img src="/image/community.png" alt="community" /></Link>
+                        <Link className="w-full" to='/learn/3-R'><img className="w-full" src="/image/3rs.png" alt="3 R's" /></Link>
+                        <Link className="w-full" to='/learn/community'><img className="w-full" src="/image/community.png" alt="community" /></Link>
                     </div>  
                     
                 </div>
