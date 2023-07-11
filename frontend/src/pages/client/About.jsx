@@ -1,14 +1,30 @@
 import Navigator from '../../components/Navigator';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
+import { baseUrl } from '../../baseUrl';
 
 const About = () => {
 
     const [category,setCategory] = useState('');
+    const [categories,setCategories] = useState([]);
+
+    useEffect(() => {
+        const abortCont = new AbortController();
+
+        const fetchCategories = async () => {
+            const data = await axios.get(`${baseUrl()}/category`);
+            setCategories(data.data);
+        }
+
+        fetchCategories();
+        
+        return () => abortCont.abort();       
+    },[categories])
 
     return (
         <div className="h-full relative about-bg">
             <Navigator currentPage='About' />            
-            <div className="h-full py-24 w-full">
+            <div className="h-screen py-24 w-full">
                 <h1 className="font-normal text-center text-xl px-10 py-2 rounded">About</h1>
 
                 {/*<div className="w-full border border-gray-800 p-2 rounded mt-5">
@@ -110,7 +126,7 @@ const About = () => {
             </div>
             { category === 'App' &&
                 <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-full flex items-center bg-black bg-opacity-60">
-                    <ul onClick={() => setCategory('')} className="bg-white p-3">
+                    <ul onClick={() => setCategory('')} className="bg-white w-full p-3">
                         <li>1. How to register to App?</li>        
                         <li>- Open the App and click Register</li>
                         <li>- Fill up personal details</li> 
@@ -124,7 +140,7 @@ const About = () => {
 
             { category === 'Points' &&
                 <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-full flex items-center bg-black bg-opacity-60">
-                    <ul onClick={() => setCategory('')} className="bg-white p-3">
+                    <ul onClick={() => setCategory('')} className="bg-white w-full p-3">
                         <li>2. How to earn points?</li>
                         <li>- Collect recyclable materials based on the category</li>
                         <li>- Submit the collected items to your admin</li>
@@ -137,7 +153,7 @@ const About = () => {
 
             { category === 'Rewards' &&
                 <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-full flex items-center bg-black bg-opacity-60">
-                    <ul onClick={() => setCategory('')} className="bg-white p-3">
+                    <ul onClick={() => setCategory('')} className="bg-white w-full p-3">
                         <li>3. Claim Rewards</li>        
                         <li>- Tap the Rewards on your the Dashboard</li>
                         <li>- Choose the reward that you want from the category</li>
@@ -151,18 +167,24 @@ const About = () => {
             }
 
             { category === 'Equiv' &&
-                <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-full flex items-center bg-black bg-opacity-60">
-                    <ul onClick={() => setCategory('')} className="bg-white p-3">
+                <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-screen flex items-center bg-black bg-opacity-60">
+                    <ul onClick={() => setCategory('')} className="bg-white w-full p-3">
                         <li>4. Equivalent Points</li>        
                         <li>- Depends on the kilogram multiply to 1000</li>
                         <li>- ex. 0.6kg x 1000 = 600 points</li>
+                        <li>
+                            <h2 className="font-semibold mt-4">Category List</h2>
+                            { categories?.map((category,key) => (
+                                <p key={key}>{key + 1}. {category.category} = {category.points} points</p>
+                            ))}
+                        </li>
                     </ul>
                 </div>
             }
 
             { category === 'Terms' &&
                 <div onClick={() => setCategory('')} className="top-0 absolute left-0 w-full h-full flex items-center bg-black bg-opacity-60">
-                    <ul onClick={() => setCategory('')} className="bg-white p-3">
+                    <ul onClick={() => setCategory('')} className="bg-white w-full p-3">
                         <li>5. Terms and Conditions</li>        
                         <div className="overflow-y-scroll h-52">
                             <h2>Welcome to TrashReward!</h2>
