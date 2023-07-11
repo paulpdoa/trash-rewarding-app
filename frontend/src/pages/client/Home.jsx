@@ -16,6 +16,7 @@ const Home = () => {
 
     const [points,setPoints] = useState(0);
     const [user,setUser] = useState({});
+    const [showTerms,setShowTerms] = useState(localStorage.getItem('userTerm'));
 
     const [showMenu,setShowMenu] = useState(false);
 
@@ -51,6 +52,7 @@ const Home = () => {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userAvatar');
         localStorage.removeItem('userLocation');
+        localStorage.removeItem('userTerm');
         Cookies.remove('userJwt');
 
     }
@@ -164,6 +166,24 @@ const Home = () => {
             </div>
             
             </div>
+            { localStorage.getItem('userTerm') === 'true' &&
+                <div className="top-0 absolute left-0 w-full h-screen flex px-4 justify-center items-center">
+                    <ul className="bg-white p-3 border-2 border-black rounded">      
+                        <div className="overflow-y-scroll h-52">
+                            <h2 className="font-semibold">Welcome to TrashReward!</h2>
+                            <p className="mt-3">These terms and conditions outline the rules and regulations for the use of TrashReward web-application, located at <a className="text-blue-500" href="https://trashapp-1jzh.onrender.com/">https://trashapp-1jzh.onrender.com/</a>.
+                            By accessing this website we assume you accept these terms and conditions. Do not continue to use TrashReward if you do not agree to take all of the terms and conditions stated on this page.
+                            In these terms and conditions, we are responsible for the user to be able to understand the Trash-Reward web application. As a user, we are allowed to delete your account if we saw that you are not active in the system, we will give you notice through email, once that your account already deleted. The minimum kilo that you can submit is half kilo of any product that the admin accepted, any product that will submit in less than half kilo will be not accepted. The time that you can surrender your product is depending on your respective admin. You need to submit a valid ID to be able register to the web application for the clarification of your address. The equivalent points of any product will depend on your admin, they will set the points of any product and they will set what kind of product they can only accepted. Same as the reward, admin will be responsible for setting what they can only give and what is only available. However, you access the TrashReward, you agree to be bound by these terms and conditions.</p>
+                        </div>
+                        <div className="flex justify-center mt-3">
+                            <button onClick={() => { 
+                                localStorage.setItem('userTerm',false) 
+                                window.location.reload();
+                            }} className="bg-gray-300 p-3 rounded-md w-44 self-center">Agree</button>
+                        </div>
+                    </ul>
+                </div>
+            }
         </div>
     )
 }
