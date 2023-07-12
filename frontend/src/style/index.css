@@ -102,7 +102,7 @@ tr:nth-child(even) {
 .about-bg {
   background-image: url('../assets/about_bg.png');
   background-repeat:no-repeat;
-  background-size:contain
+  background-size:cover;
 
 } 
 

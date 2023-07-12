@@ -24,7 +24,7 @@ const About = () => {
     return (
         <div className="h-full relative about-bg">
             <Navigator currentPage='About' />            
-            <div className="h-screen py-24 w-full">
+            <div className="h-full py-24 w-full">
                 <h1 className="font-normal text-center text-xl px-10 py-2 rounded">About</h1>
 
                 {/*<div className="w-full border border-gray-800 p-2 rounded mt-5">
